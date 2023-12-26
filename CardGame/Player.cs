@@ -1,26 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal abstract class Player 
     {
         private int Point ;
-        private string Name ;
+        protected string Name ;
+        private bool exchangeHand = false ;
 
-        private List<Hand> hands = new List<Hand>();
+        private Hand hand = new Hand();
 
         public abstract void NameHimself(string name);
         public abstract void makeExchangeHandsDecision();
-        public abstract Card ShowCard();
+        public Card[] ShowCards()
+        {
+            return hand.ShowCards();
+        }
+
+        public bool GetExchangeHand()
+        { 
+            return exchangeHand;
+        }
+        public void SetExchangeHand()
+        {
+            exchangeHand = true;
+        }
 
         public void AddHandCard(Card card)
         {
-            
+            hand.AddHand(card);
+        }
+
+        public Card PickupCard(int index)
+        {
+            return hand.PickupCard(index);
+        }
+
+        public string GetPlayerName()
+        {
+            return Name;
         }
 
         public void TakeTurn()

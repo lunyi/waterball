@@ -44,7 +44,7 @@ namespace CardGame
                     cardSuit = '\u2666';
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
-                case Suit.club:
+                case Suit.Club:
                     cardSuit = '\u2663';
                     Console.ForegroundColor = ConsoleColor.White;
                     break;

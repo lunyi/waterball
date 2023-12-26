@@ -8,22 +8,16 @@ namespace CardGame
 {
     internal class AIPlayer : Player
     {
-        private string? _name;
         private List<Hand> hands = new List<Hand>();
 
         public override void NameHimself(string name) 
         { 
-            _name = name;
+            Name = name;
         }
 
         public override void makeExchangeHandsDecision()
         { 
 
-        }
-
-        public override Card ShowCard()
-        {
-            throw new NotImplementedException();
         }
     }
 }

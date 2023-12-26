@@ -9,14 +9,15 @@ namespace CardGame
     internal class Deck
     {
         const int Nun_Of_Cards = 52;
-        private Card[] cards;
+        private List<Card> cards;
+        static Random r = new Random();
 
         public Deck()
         {
-            cards = new Card[Nun_Of_Cards];
+            cards = new List<Card>(Nun_Of_Cards);
         }
 
-        public Card[] getCards()
+        public List<Card> getCards()
         { 
             return cards;
         }
@@ -28,7 +29,7 @@ namespace CardGame
             {
                 foreach (var rank in Enum.GetValues(typeof(Rank)))
                 {
-                    cards[count] = new Card((Suit)suit, (Rank)rank);
+                    cards.Add(new Card((Suit)suit, (Rank)rank));
                     count++;
                 }
             }
@@ -37,7 +38,6 @@ namespace CardGame
         }
         public void Shuffle() 
         {
-            Random r = new Random();
             Card temp;
 
             for (int times = 0; times < 1000; times++) 
@@ -51,9 +51,15 @@ namespace CardGame
                 }
             }
         }
-        //public Card DrawCard() 
-        //{
-        //    return new Card();
-        //}
+        public Card DrawCard() 
+        {
+            if (cards.Count == 0)
+                return null;
+
+            var index = r.Next(0, cards.Count - 1);
+            var card = cards[index] ;
+            cards.RemoveAt(index);
+            return card;
+        }
     }
 }

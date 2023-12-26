@@ -8,20 +8,14 @@ namespace CardGame
 {
     internal class HumanPlayer : Player
     {
-        private string? _name;
         private List<Hand> hands = new List<Hand>();
 
         public override void NameHimself(string name) 
         { 
-            _name = name;
+            Name = name;
         }
 
         public override void makeExchangeHandsDecision()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Card ShowCard()
         {
             throw new NotImplementedException();
         }
