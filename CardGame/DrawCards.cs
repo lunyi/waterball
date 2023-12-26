@@ -12,26 +12,26 @@ namespace CardGame
         internal static void DrawCardOutline(int xcoor, int ycoor)
         { 
             Console.ForegroundColor = ConsoleColor.White;
-            int x = xcoor * 12;
+            int x = xcoor * 8;
             int y = ycoor;
             Console.SetCursorPosition(x, y);
-            Console.WriteLine("_______________\n");
+            Console.WriteLine("_______\n");
 
-            for (int i = 0; i < 10; i++) 
+            for (int i = 0; i < 5; i++) 
             {
                 Console.SetCursorPosition((int)x, (int)y+1+i);
 
-                if (i != 9)
-                    Console.WriteLine("|             |");
+                if (i != 4)
+                    Console.WriteLine("|      |");
                 else 
-                    Console.WriteLine("|_____________|");
+                    Console.WriteLine("|______|");
             }
         }
 
         internal static void DrawCardSuitValue(Card card, int xcoor, int ycoor) 
         {
             char cardSuit = ' ';
-            int x = xcoor = 12;
+            int x = xcoor * 8 +1 ;
             int y = ycoor;
 
             switch (card.Suits)
@@ -46,17 +46,17 @@ namespace CardGame
                     break;
                 case Suit.club:
                     cardSuit = '\u2663';
-                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 case Suit.Spade:
                     cardSuit = '\u2660';
-                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
             }
 
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y + 1);
             Console.Write(cardSuit);
-            Console.SetCursorPosition(x+4, y+7);
+            Console.SetCursorPosition(x+1, y+3);
             Console.Write(card.Ranks);
         }
     }
