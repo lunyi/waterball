@@ -2,8 +2,6 @@
 {
     internal class Card
     {
-
-
         public Suit Suits { get; set; }
         public Rank Ranks { get; set; }
 
@@ -22,11 +20,6 @@
         Spade
     }
 
-    internal class Ranks
-    {
-        public string Signal { get; set; }
-        public int Number { get; set; }
-    }
     internal enum Rank
     {
         Two = 2,

@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class HumanPlayer : Player
     {
-        private List<Hand> hands = new List<Hand>();
+        public HumanPlayer() : base() { }
 
-        public override void NameHimself(string name) 
-        { 
+        public override void NameHimself(string name)
+        {
             Name = name;
         }
 
-        public override void makeExchangeHandsDecision()
+        public override bool makeExchangeHandsDecision()
         {
-            throw new NotImplementedException();
+            var res = Console.ReadLine();
+            return res == "Y" || res == "y" ;
         }
     }
 }

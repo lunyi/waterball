@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace CardGame
 {
     internal class AIPlayer : Player
     {
-        private List<Hand> hands = new List<Hand>();
+        public AIPlayer() : base() { }
 
         public override void NameHimself(string name) 
         { 
             Name = name;
         }
 
-        public override void makeExchangeHandsDecision()
-        { 
-
+        public override bool makeExchangeHandsDecision()
+        {
+            if (exchangeHand == false)
+            { 
+                var result = new Random().Next(0, 3);
+                if (result == 0) 
+                {
+                    exchangeHand = true;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace CardGame
 {
@@ -11,16 +7,14 @@ namespace CardGame
         public void Start() 
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Random r = new Random();
             Console.SetWindowSize(130, 300);
             Console.OutputEncoding = Encoding.UTF8;
 
             var quit = false;
             var input = false;
-            string playername = "";
+            string playername = string.Empty;
             while (!quit)
             {
-                string name = string.Empty;
                 if (!input)
                 {
                     Console.WriteLine("What's your name?");
@@ -32,58 +26,67 @@ namespace CardGame
                     }
                 }
                 input = true;
-                // ClearCurrentConsoleLine();
 
                 var players = InitPlayerCards(playername);
+
                 DrawCardsOfPlayers(players);
                 Thread.Sleep(100);
-                while (players[0].ShowCards().Length > 0)
-                {
-                // label
-                repeat:
-                    Console.WriteLine("Which card do you want to pick up?");
-                    var eachRound = new List<Hand>();
-                    var t = Console.ReadLine();
 
-                    while (true)
-                    {
-                        try
-                        {
-                            var player = players[0];
-                            var index = Convert.ToInt32(t);
-                            if (index <= 0 && index > players[0].GetHand().Size())
-                            {
-                                goto repeat;
-                            }
-
-                            player.PickupCard(index);
-                            eachRound.Add(player.GetHand());
-                            break;
-                        }
-                        catch (Exception)
-                        {
-                            goto repeat;
-                        }
-                    }
-
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        players[i].PickupCard(r.Next(1, players[i].ShowCards().Length));
-                        eachRound.Add(players[i].GetHand());
-                    }
-
-                    Console.WriteLine();
-                    DrawRound(eachRound);
-                    Console.WriteLine();
-                    GetWinner(eachRound);
-                    Console.ReadKey();
-                    Console.Clear();
-                    DrawCardsOfPlayers(players);
-                }
+                var makeChangeHand = new ExchangeHands(players);
+                RunRound(players, makeChangeHand);
+               
             }
             Console.ReadKey();
         }
 
+        private void RunRound(List<Player> players, ExchangeHands makeChangeHand)
+        {
+            while (players.SingleOrDefault(p=>p is HumanPlayer).GetHand().Size() > 0)
+            {
+            // label
+            repeat:
+                makeChangeHand.Run();
+
+                Console.WriteLine("Which card do you want to pick up?");
+                var eachRound = new List<Hand>();
+                var t = Console.ReadLine();
+
+                while (true)
+                {
+                    try
+                    {
+                        var player = players[0];
+                        var index = Convert.ToInt32(t);
+                        if (index <= 0 && index > players[0].GetHand().Size())
+                        {
+                            goto repeat;
+                        }
+
+                        player.TakeTurn();
+                        eachRound.Add(player.GetHand());
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        goto repeat;
+                    }
+                }
+
+                for (int i = 1; i <= 3; i++)
+                {
+                    players[i].TakeTurn();
+                    eachRound.Add(players[i].GetHand());
+                }
+
+                Console.WriteLine();
+                DrawRound(eachRound);
+                Console.WriteLine();
+                GetWinner(eachRound);
+                Console.ReadKey();
+                Console.Clear();
+                DrawCardsOfPlayers(players);
+            }
+        }
         private void GetWinner(List<Hand> hands)
         {
             var tmpHands = new List<Hand>();
@@ -133,7 +136,6 @@ namespace CardGame
             }
             Console.WriteLine(result);
         }
-
         private void DrawRound(List<Hand> hands)
         {
             Console.WriteLine();
@@ -155,7 +157,6 @@ namespace CardGame
                 Console.Write(" " + hands[i].Player.GetPlayerName() + "  ");
             }
         }
-       
         static void ClearCurrentConsoleLine()
         {
             for (int i = 0; i < Console.WindowHeight; i++)
@@ -163,8 +164,7 @@ namespace CardGame
                 Console.WriteLine();
             }
         }
-
-        private Player[] GetPlayers(string name)
+        private List<Player> GetPlayers(string name)
         {
             var players = new List<Player>();
             var p = new HumanPlayer();
@@ -178,7 +178,7 @@ namespace CardGame
                 aip.NameHimself(names[i]);
                 players.Add(aip);
             }
-            return players.ToArray();
+            return players;
         }
         private string[] GetAIPlayerNames()
         {
@@ -202,11 +202,10 @@ namespace CardGame
             }
             return names.ToArray();
         }
-        private Player[] InitPlayerCards(string playername)
+        private List<Player> InitPlayerCards(string playername)
         {
             var players = GetPlayers(playername);
             var deck = new Deck();
-            deck.SetUpDeck();
 
             foreach (var player in players)
             {
@@ -217,14 +216,14 @@ namespace CardGame
             }
             return players;
         }
-        private void DrawCardsOfPlayers(Player[] players)
+        private void DrawCardsOfPlayers(List<Player> players)
         {
             ClearCurrentConsoleLine();
             Console.SetCursorPosition(0, 0);
 
             Console.ForegroundColor = ConsoleColor.White;
             var y = 2;
-            for (int i = players.Length - 1; i >= 0; i--)
+            for (int i = players.Count - 1; i >= 0; i--)
             {
                 var cards = players[i].ShowCards();
 
@@ -257,5 +256,10 @@ namespace CardGame
             Thread.Sleep(500);
             Console.WriteLine();
         }
+    }
+
+    static class Extension
+    { 
+        
     }
 }

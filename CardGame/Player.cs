@@ -1,14 +1,17 @@
-﻿namespace CardGame
+﻿using System;
+
+namespace CardGame
 {
     internal abstract class Player 
     {
+        Random r = new Random();
         private int Point ;
         protected string Name ;
-        private bool exchangeHand = false ;
+        protected bool exchangeHand = false ;
         private Hand hand ;
 
         public abstract void NameHimself(string name);
-        public abstract void makeExchangeHandsDecision();
+        public abstract bool makeExchangeHandsDecision();
 
         public Player()
         {
@@ -39,10 +42,6 @@
         {
             hand.AddHand(card);
         }
-        public void PickupCard(int index)
-        {
-            hand.PickupCard(index);
-        }
 
         public string GetPlayerName()
         {
@@ -50,8 +49,8 @@
         }
 
         public void TakeTurn()
-        { 
-        
+        {
+            hand.PickupCard(r.Next(1, hand.Size()));
         }
 
         public int AddPoint()
@@ -67,6 +66,21 @@
         public void ExchangeHands(Player exchangee)
         { 
 
+        }
+    }
+
+    internal static class PlayerExtensions
+    {
+        public static List<Hand> GetHands(this List<Player> players)
+        {
+            List<Hand> hands = new List<Hand>();
+
+            foreach (Player player in players)
+            {
+                hands.Add(player.GetHand());
+            }
+
+            return hands;
         }
     }
 }

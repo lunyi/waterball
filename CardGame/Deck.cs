@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class Deck
     {
@@ -15,15 +9,6 @@ namespace CardGame
         public Deck()
         {
             cards = new List<Card>(Nun_Of_Cards);
-        }
-
-        public List<Card> getCards()
-        { 
-            return cards;
-        }
-
-        public void SetUpDeck()
-        {
             int count = 0;
             foreach (var suit in Enum.GetValues(typeof(Suit)))
             {
@@ -36,6 +21,7 @@ namespace CardGame
 
             Shuffle();
         }
+
         public void Shuffle() 
         {
             Card temp;
