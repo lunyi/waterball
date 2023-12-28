@@ -5,11 +5,22 @@
         private int Point ;
         protected string Name ;
         private bool exchangeHand = false ;
-
-        private Hand hand = new Hand();
+        private Hand hand ;
 
         public abstract void NameHimself(string name);
         public abstract void makeExchangeHandsDecision();
+
+        public Player()
+        {
+            hand = new Hand();
+            hand.Player = this;
+        }
+
+        public Hand GetHand()
+        {
+            return hand;
+        }
+
         public Card[] ShowCards()
         {
             return hand.ShowCards();
@@ -28,10 +39,9 @@
         {
             hand.AddHand(card);
         }
-
-        public Card PickupCard(int index)
+        public void PickupCard(int index)
         {
-            return hand.PickupCard(index);
+            hand.PickupCard(index);
         }
 
         public string GetPlayerName()
@@ -44,9 +54,14 @@
         
         }
 
-        public void GainPoint()
-        { 
+        public int AddPoint()
+        {
+            return Point++;
+        }
 
+        public int GainPoint()
+        {
+            return Point;
         }
 
         public void ExchangeHands(Player exchangee)
