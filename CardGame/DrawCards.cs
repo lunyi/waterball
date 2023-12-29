@@ -12,12 +12,8 @@
 
             for (int i = 0; i < 5; i++) 
             {
-                Console.SetCursorPosition((int)x, (int)y+1+i);
-
-                if (i != 4)
-                    Console.WriteLine("|      |");
-                else 
-                    Console.WriteLine("|______|");
+                Console.SetCursorPosition(x, y+1+i);
+                Console.Write($"{(i != 4 ? "|      |" : "|______|")}");
             }
         }
 

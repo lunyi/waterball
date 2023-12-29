@@ -6,21 +6,53 @@
         private int Point ;
         public int _index { get; set; }
         protected string Name ;
+        public delegate void OnDrawPlayerCardsDelegate(IList<Player> players);
+        public OnDrawPlayerCardsDelegate OnDrawPlayerCards = null;
 
-        protected ExchangeHands ExchangeHands { get; set; }
+        protected ExchangeHands _exchangeHands { get; set; }
         public Hand Hand { get; set; }
         public abstract void TakeTurns();
         public abstract void NameHimself(string name);
-        public abstract void makeExchangeHandsDecision(IList<Player> players);
 
         public Player(int index)
         {
             Hand = new Hand();
             Hand.Player = this;
             _index = index;
-            ExchangeHands = new ExchangeHands();
+            _exchangeHands = new ExchangeHands();
         }
+        public bool MakeExchangeHandsDecision(IList<Player> players)
+        {
+            if (_exchangeHands.GetCountDown() == 3)
+            {
+                Console.WriteLine($"Hi {Name}, which player do you choose to exchange hand?");
+                try
+                {
+                    var playerIndex = Convert.ToInt32(Console.ReadLine());
+                    if (playerIndex != _index)
+                    {
+                        _exchangeHands.ExchangeHand(this, players.FirstOrDefault(p => p._index == playerIndex));
+                        return true;
+                    }
+                }
+                catch
+                {
+                }
 
+                Console.WriteLine($"Ok, {Name} doesn't want to change.");
+                return false;
+            }
+            else
+            {
+                _exchangeHands.CountDown();
+
+                if (_exchangeHands.GetCountDown() == 0)
+                {
+                    OnDrawPlayerCards(players);
+                }
+            }
+            return false;
+        }
         public Card ShowCard()
         {
             return Hand.CurrentCard;

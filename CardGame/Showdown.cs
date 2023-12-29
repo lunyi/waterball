@@ -8,16 +8,18 @@ namespace CardGame
         private int RountCount = 13;
         private IDeck _deck;
         private IList<Player> _players;
+
         public Showdown(IDeck deck, IList<Player> players)
         {
             _deck = deck;
             _players = players;
         }
+
         public void Start() 
         {
             InitPlayerCards();
             Console.ForegroundColor = ConsoleColor.White;
-            //Console.SetWindowSize(130, 300);
+            Console.SetWindowSize(130, 300);
             Console.OutputEncoding = Encoding.UTF8;
 
             var quit = false;
@@ -35,12 +37,21 @@ namespace CardGame
         {
             while (RountCount <= Num_Of_Ranks)
             {
-                for (int i = 0; i <= players.Count; i++)
+                for (int i = 0; i < players.Count; i++)
                 {
-                    players[i].makeExchangeHandsDecision(players);
+                    var descision = players[i].MakeExchangeHandsDecision(players);
+                    if (descision) 
+                    {
+                        if (players[i].OnDrawPlayerCards == null)
+                        {
+                            players[i].OnDrawPlayerCards += DrawCardsOfPlayers;
+                        }
+
+                        DrawCardsOfPlayers(players);
+                    }
                 }
 
-                for (int i = 0; i <= players.Count; i++)
+                for (int i = 0; i < players.Count; i++)
                 {
                     players[i].TakeTurn();
                 }
@@ -128,24 +139,24 @@ namespace CardGame
             Console.SetCursorPosition(0, 0);
 
             Console.ForegroundColor = ConsoleColor.White;
-            var y = 2;
-            for (int i = players.Count - 1; i >= 0; i--)
+            var topPosition = 2;
+            for (int i = 0;i< players.Count;  i++)
             {
                 var cards = players[i].ShowCards();
 
-                Console.SetCursorPosition(0, y);
+                Console.SetCursorPosition(0, topPosition);
                 Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
 
-                Console.WriteLine(players[i].GetPlayerName());
+                Console.WriteLine($"{players[i]._index}: {players[i].GetPlayerName()}");
 
                 for (int j = 0; j < cards.Length; j++)
                 {
                     Thread.Sleep(100);
                     var c = new Card(cards[j].Suit, cards[j].Rank);
-                    DrawCards.DrawCardOutline(j, y + 1);
-                    DrawCards.DrawCardSuitValue(c, j, y + 1);
+                    DrawCards.DrawCardOutline(j, topPosition + 1);
+                    DrawCards.DrawCardSuitValue(c, j, topPosition + 1);
                 }
-                y = y + 7;
+                topPosition = topPosition + 7;
             }
             Console.WriteLine();
             Console.WriteLine();
