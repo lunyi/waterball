@@ -42,11 +42,7 @@ namespace CardGame
                     var descision = players[i].MakeExchangeHandsDecision(players);
                     if (descision) 
                     {
-                        if (players[i].OnDrawPlayerCards == null)
-                        {
-                            players[i].OnDrawPlayerCards += DrawCardsOfPlayers;
-                        }
-
+                        players[i].OnDrawPlayerCards += OnDrawPlayerCards;
                         DrawCardsOfPlayers(players);
                     }
                 }
@@ -82,7 +78,13 @@ namespace CardGame
                 RountCount--;
             }
         }
-   
+
+        private void OnDrawPlayerCards(object? sender, EventArgs e)
+        {
+            var players = sender as IList<Player>;
+            DrawCardsOfPlayers(players);
+        }
+
         private (Player Winner, List<Hand> SortedHands) GetWinner(List<Hand> hands)
         {
             List<Hand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
@@ -91,7 +93,7 @@ namespace CardGame
             {
                 for (int j = 0; j < sortedHands.Count - 1; j++)
                 {
-                    if (sortedHands[j + 1].CurrentCard.Showdown(sortedHands[j].CurrentCard) > 0)
+                    if (sortedHands[j + 1].CurrentCard.CompareTo(sortedHands[j].CurrentCard) > 0)
                     {
                         (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
                     }
@@ -101,7 +103,7 @@ namespace CardGame
             return (sortedHands[0].Player, sortedHands);
         }
 
-        private void DrawRound(List<Hand> hands)
+        private void DrawRound(IList<Hand> hands)
         {
             Console.WriteLine();
             Console.WriteLine();

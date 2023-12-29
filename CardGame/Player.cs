@@ -6,11 +6,10 @@
         private int Point ;
         public int _index { get; set; }
         protected string Name ;
-        public delegate void OnDrawPlayerCardsDelegate(IList<Player> players);
-        public OnDrawPlayerCardsDelegate OnDrawPlayerCards = null;
+        public event EventHandler OnDrawPlayerCards = null;
 
-        protected ExchangeHands _exchangeHands { get; set; }
-        public Hand Hand { get; set; }
+        protected IExchangeHands _exchangeHands { get; set; }
+        public IHand Hand { get; set; }
         public abstract void TakeTurns();
         public abstract void NameHimself(string name);
 
@@ -48,14 +47,10 @@
 
                 if (_exchangeHands.GetCountDown() == 0)
                 {
-                    OnDrawPlayerCards(players);
+                    OnDrawPlayerCards(players, EventArgs.Empty);
                 }
             }
             return false;
-        }
-        public Card ShowCard()
-        {
-            return Hand.CurrentCard;
         }
 
         public Card[] ShowCards()

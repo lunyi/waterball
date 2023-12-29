@@ -1,6 +1,6 @@
 ﻿namespace CardGame
 {
-    interface IDeck
+    internal interface IDeck
     {
         void Shuffle();
         Card DrawCard();

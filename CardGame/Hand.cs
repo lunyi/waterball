@@ -1,10 +1,20 @@
 ﻿namespace CardGame
 {
-    internal class Hand 
+    internal interface IHand
     {
-        public Card CurrentCard { get; set; }
-        private List<Card> Cards = new List<Card>();
-        private List<Card> OrderedCards;
+        void AddHand(Card card);
+        int Size();
+        Card PickupCard(int index);
+        Card[] ShowCards();
+        void SetPlayer(Player player);
+        Player GetPlayer();
+
+    }
+    internal class Hand : IHand
+    {
+        public ICard CurrentCard { get; set; }
+        private IList<Card> Cards = new List<Card>();
+        private IList<Card> OrderedCards;
 
         public Player? Player { get; set; }
         public void AddHand(Card card)
@@ -28,6 +38,15 @@
         public Card[] ShowCards()
         {  
             return OrderedCards.ToArray();
+        }
+
+        public void SetPlayer(Player player)
+        {
+            Player = player;
+        }
+        public Player GetPlayer()
+        {
+            return Player;
         }
     }
 }

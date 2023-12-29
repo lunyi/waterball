@@ -1,6 +1,12 @@
 ﻿namespace CardGame
 {
-    internal class ExchangeHands
+    internal interface IExchangeHands
+    {
+        void ExchangeHand(Player exchanger, Player exchangee);
+        void CountDown();
+        int GetCountDown();
+    }
+    internal class ExchangeHands : IExchangeHands
     {     
         private int countDown = 3;
         private Player? _exchanger = null;

@@ -1,7 +1,11 @@
 ﻿namespace CardGame
 {
+    internal interface ICard
+    {
+        int CompareTo(Card card);
+    }
 
-    internal class Card 
+    internal class Card : ICard
     {
         public Suit Suit { get; set; }
         public Rank Rank { get; set; }
@@ -12,7 +16,7 @@
             Suit = suit;
         }
 
-        public int Showdown(Card card)
+        public int CompareTo(Card card)
         {
             int rankComparison = Rank.CompareTo(card.Rank);
             if (rankComparison != 0)

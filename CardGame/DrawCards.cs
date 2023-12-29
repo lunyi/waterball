@@ -17,7 +17,7 @@
             }
         }
 
-        internal static void DrawCardSuitValue(Card card, int xcoor, int ycoor) 
+        internal static void DrawCardSuitValue(ICard card, int xcoor, int ycoor) 
         {
             char cardSuit = ' ';
             int x = xcoor * 8 +1 ;
