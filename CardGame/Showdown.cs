@@ -36,45 +36,51 @@ namespace CardGame
         {
             while (RountCount <= Num_Of_Ranks)
             {
-                for (int i = 0; i < players.Count; i++)
-                {
-                    var descision = players[i].MakeExchangeHandsDecision(players);
-                    if (descision) 
-                    {
-                        players[i].OnDrawPlayerCards += OnDrawPlayerCards;
-                        DrawCards.DisplayCardsOfPlayers(players);
-                    }
-                }
-
-                for (int i = 0; i < players.Count; i++)
-                {
-                    players[i].TakeTurn();
-                }
+                PlayerMakeExchangeHandsDecision(players);
+                PlayerTakeTurn(players);
 
                 Console.WriteLine();
                 var handsInThisRound = players.Select(p => p._hand).ToList();
                 DrawCards.DisplayRound(handsInThisRound);
                 (Player winner, IList<IHand> rounds) = GetWinner(handsInThisRound);
-
                 winner.AddPoint();
-                Console.WriteLine();
-                Thread.Sleep(200);
-                Console.WriteLine();
-
-                var result = $"(The Winner of this round is {winner.GetPlayerName()})\n";
-
-                for (int j = 0; j < rounds.Count; j++)
-                {
-                    var player = rounds[j].GetPlayer();
-                    result += $"{player.GetPlayerName()}: {player.GainPoint()} points\n";
-                }
-
-                Console.WriteLine(result);
-
+                DrawCards.DisplayRoundWinnner(winner, rounds);
                 Console.ReadKey();
                 Console.Clear();
+
+                PlayerChangeHandBack(players);
                 DrawCards.DisplayCardsOfPlayers(players);
                 RountCount--;
+            }
+        }
+
+        private void PlayerMakeExchangeHandsDecision(IList<Player> players)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                var descision = players[i].MakeExchangeHandsDecision(players);
+                if (descision)
+                {
+                    DrawCards.DisplayCardsOfPlayers(players);
+                }
+            }
+        }
+        private void PlayerTakeTurn(IList<Player> players)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                players[i].TakeTurn();
+            }
+        }
+
+        private void PlayerChangeHandBack(IList<Player> players)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].IsChangeBack())
+                {
+                    players[i].ChangeHandBack();
+                }
             }
         }
 
@@ -94,12 +100,6 @@ namespace CardGame
             }
 
             return (sortedHands[0].GetPlayer(), sortedHands);
-        }
-
-        private void OnDrawPlayerCards(object? sender, EventArgs e)
-        {
-            var players = sender as IList<Player>;
-            DrawCards.DisplayCardsOfPlayers(players);
         }
 
         private void InitPlayerCards()

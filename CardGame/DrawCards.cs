@@ -1,20 +1,23 @@
-﻿namespace CardGame
+﻿using System.Numerics;
+using System.Reflection;
+
+namespace CardGame
 {
     internal class DrawCards
     {
         internal static void DisplayRound(List<IHand> hands)
         {
-            Console.WriteLine();
-            Console.WriteLine();
             var initialCursorTop = Console.CursorTop;
 
             for (int i = 0; i < hands.Count; i++)
             {
                 Console.Write("  ");
-                DrawCards.DrawCardOutline(i, initialCursorTop + 1);
-                DrawCards.DrawCardSuitValue(hands[i].ShowCard(), i, initialCursorTop + 1);
+                DrawCardOutline(i, initialCursorTop + 1);
+                DrawCardSuitValue(hands[i].ShowCard(), i, initialCursorTop + 1);
             }
             Thread.Sleep(500);
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine();
 
             for (int i = 0; i < hands.Count; i++)
@@ -23,15 +26,29 @@
                 Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
                 Console.Write(" " + player.GetPlayerName() + "  ");
             }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        internal static void DisplayRoundWinnner(Player winner, IList<IHand> rounds)
+        {
+            Console.WriteLine();
+            var result = $"(The Winner of this round is {winner.GetPlayerName()})\n";
+
+            Console.WriteLine();
+            for (int j = 0; j < rounds.Count; j++)
+            {
+                var player = rounds[j].GetPlayer();
+                result += $"{player.GetPlayerName()}: {player.GainPoint()} points\n";
+            }
+
+            Console.WriteLine(result);
         }
 
         internal static void DisplayCardsOfPlayers(IList<Player> players) 
         {
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-
             Console.ForegroundColor = ConsoleColor.White;
-
             Console.WriteLine($"Round:{14 - players[0].ShowCards().Length} / 13");
 
             var topPosition = 2;
