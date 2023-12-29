@@ -1,46 +1,39 @@
-﻿using System;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal abstract class Player 
     {
-        Random r = new Random();
+        static protected Random r = new Random();
         private int Point ;
+        public int _index { get; set; }
         protected string Name ;
-        protected bool exchangeHand = false ;
-        private Hand hand ;
 
+        protected ExchangeHands ExchangeHands { get; set; }
+        public Hand Hand { get; set; }
+        public abstract void TakeTurns();
         public abstract void NameHimself(string name);
-        public abstract bool makeExchangeHandsDecision();
+        public abstract void makeExchangeHandsDecision(IList<Player> players);
 
-        public Player()
+        public Player(int index)
         {
-            hand = new Hand();
-            hand.Player = this;
+            Hand = new Hand();
+            Hand.Player = this;
+            _index = index;
+            ExchangeHands = new ExchangeHands();
         }
 
-        public Hand GetHand()
+        public Card ShowCard()
         {
-            return hand;
+            return Hand.CurrentCard;
         }
 
         public Card[] ShowCards()
         {
-            return hand.ShowCards();
-        }
-
-        public bool GetExchangeHand()
-        { 
-            return exchangeHand;
-        }
-        public void SetExchangeHand()
-        {
-            exchangeHand = true;
+            return Hand.ShowCards();
         }
 
         public void AddHandCard(Card card)
         {
-            hand.AddHand(card);
+            Hand.AddHand(card);
         }
 
         public string GetPlayerName()
@@ -50,7 +43,7 @@ namespace CardGame
 
         public void TakeTurn()
         {
-            hand.PickupCard(r.Next(1, hand.Size()));
+            Hand.PickupCard(r.Next(1, Hand.Size()));
         }
 
         public int AddPoint()
@@ -61,26 +54,6 @@ namespace CardGame
         public int GainPoint()
         {
             return Point;
-        }
-
-        public void ExchangeHands(Player exchangee)
-        { 
-
-        }
-    }
-
-    internal static class PlayerExtensions
-    {
-        public static List<Hand> GetHands(this List<Player> players)
-        {
-            List<Hand> hands = new List<Hand>();
-
-            foreach (Player player in players)
-            {
-                hands.Add(player.GetHand());
-            }
-
-            return hands;
         }
     }
 }

@@ -1,28 +1,35 @@
-﻿using System.Runtime.InteropServices;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class AIPlayer : Player
     {
-        public AIPlayer() : base() { }
+        public AIPlayer(int index) : base(index) { }
+
+        public override void TakeTurns()
+        {
+            Hand.PickupCard(r.Next(1, Hand.Size()));
+        }
 
         public override void NameHimself(string name) 
         { 
             Name = name;
         }
 
-        public override bool makeExchangeHandsDecision()
+        public override void makeExchangeHandsDecision(IList<Player> players)
         {
-            if (exchangeHand == false)
-            { 
-                var result = new Random().Next(0, 3);
-                if (result == 0) 
+            if (ExchangeHands.GetCountDown() == 3)
+            {
+                Console.WriteLine($"Hi {Name}, do you want to change hand?");
+                string userInput = Console.ReadLine()?.ToLower();
+                if (userInput == "y")
                 {
-                    exchangeHand = true;
-                    return true;
+                    Console.WriteLine($"Hi {Name}, which player do you choose to exchange?");
+                    var playerIndex = Convert.ToInt32(Console.ReadLine());
+                    if (playerIndex != _index)
+                    {
+                        ExchangeHands.ExchangeHand(this, players[_index]);
+                    }
                 }
             }
-            return false;
         }
     }
 }

@@ -2,47 +2,27 @@
 {
     internal class ExchangeHands
     {     
-        private int roundCountDown = 3;
-        private Player? humanPlayer;
-        private List<Player> _players;
-        private List<Player> _aiplayers;
-        public ExchangeHands(List<Player> players)
-        {
-            _players = players;
-            humanPlayer = _players.FirstOrDefault(p => p is HumanPlayer);
-            _aiplayers = _players.Where(p => p is AIPlayer).ToList();
-        }
+        private int countDown = 3;
+        private Player? _exchanger = null;
+        private Player? _exchangee = null;
 
-        public void Run()
+        public void ExchangeHand(Player exchanger, Player exchangee)
         {
-            if (roundCountDown != 0)
+            (_exchanger, _exchangee) = (_exchangee, exchangee);
+            (exchanger.Hand, exchangee.Hand) = (exchangee.Hand, exchanger.Hand);
+        }
+        public void CountDown()
+        {
+            countDown--;
+            if (countDown == 0)
             {
-                Console.WriteLine("Does any one want to change hand? Y or N");
-                var res = Console.ReadLine();
-                
-                var changeHandPlayers = new List<Player>();
-                changeHandPlayers.CopyTo(_players.ToArray());
-                for (int i = 0; i < changeHandPlayers.Count; i++)
-                {
-                    if (changeHandPlayers[i].makeExchangeHandsDecision())
-                    {
-                        var exchanger = changeHandPlayers[i];
-                        changeHandPlayers.RemoveAt(i);
-                        ExchangeBack(exchanger, changeHandPlayers);
-                    }
-                }
+                (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
             }
-
-        }
-        public void ExchangeBack(Player exchange, List<Player> exchangees)
-        {
-
-            roundCountDown--;
         }
 
-        public int GetRoundCountDown() 
+        public int GetCountDown() 
         {
-            return roundCountDown;
+            return countDown;
         }
     }
 }

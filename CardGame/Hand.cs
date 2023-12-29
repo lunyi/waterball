@@ -6,11 +6,11 @@
         private List<Card> Cards = new List<Card>();
         private List<Card> OrderedCards;
 
-        public Player Player { get; set; }
+        public Player? Player { get; set; }
         public void AddHand(Card card)
         {
             Cards.Add(card);
-            OrderedCards = Cards.OrderBy(p => p.Ranks).ThenBy(p => p.Suits).ToList();
+            OrderedCards = Cards.OrderBy(p => p.Rank).ThenBy(p => p.Suit).ToList();
         }
         public int Size() 
         {

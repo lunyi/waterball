@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class DrawCards
     {
@@ -34,7 +27,7 @@ namespace CardGame
             int x = xcoor * 8 +1 ;
             int y = ycoor;
 
-            switch (card.Suits)
+            switch (card.Suit)
             {
                 case Suit.Heart:
                     cardSuit = '\u2665';
@@ -57,7 +50,7 @@ namespace CardGame
             Console.SetCursorPosition(x, y + 1);
             Console.Write(cardSuit);
             Console.SetCursorPosition(x+1, y+3);
-            Console.Write(card.Ranks);
+            Console.Write(card.Rank);
         }
     }
 }
