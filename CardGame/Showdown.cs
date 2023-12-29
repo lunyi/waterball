@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata;
+using System.Text;
 
 namespace CardGame
 {
@@ -18,22 +19,20 @@ namespace CardGame
         public void Start() 
         {
             InitPlayerCards();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.SetWindowSize(130, 300);
-            Console.OutputEncoding = Encoding.UTF8;
 
             var quit = false;
             while (!quit)
             {
-                DrawCardsOfPlayers(_players);
+                DrawCards.DisplayCardsOfPlayers(_players);
                 Thread.Sleep(100);
-                RunRound(_players);
+                RunEachRound(_players);
             }
             RountCount = 13;
             Console.ReadKey();
         }
 
-        private void RunRound(IList<Player> players)
+
+        private void RunEachRound(IList<Player> players)
         {
             while (RountCount <= Num_Of_Ranks)
             {
@@ -43,7 +42,7 @@ namespace CardGame
                     if (descision) 
                     {
                         players[i].OnDrawPlayerCards += OnDrawPlayerCards;
-                        DrawCardsOfPlayers(players);
+                        DrawCards.DisplayCardsOfPlayers(players);
                     }
                 }
 
@@ -53,9 +52,9 @@ namespace CardGame
                 }
 
                 Console.WriteLine();
-                var handsInThisRound = players.Select(p => p.Hand).ToList();
-                DrawRound(handsInThisRound);
-                (Player winner, List<Hand> rounds) = GetWinner(handsInThisRound);
+                var handsInThisRound = players.Select(p => p._hand).ToList();
+                DrawCards.DisplayRound(handsInThisRound);
+                (Player winner, IList<IHand> rounds) = GetWinner(handsInThisRound);
 
                 winner.AddPoint();
                 Console.WriteLine();
@@ -66,7 +65,7 @@ namespace CardGame
 
                 for (int j = 0; j < rounds.Count; j++)
                 {
-                    var player = rounds[j].Player;
+                    var player = rounds[j].GetPlayer();
                     result += $"{player.GetPlayerName()}: {player.GainPoint()} points\n";
                 }
 
@@ -74,103 +73,44 @@ namespace CardGame
 
                 Console.ReadKey();
                 Console.Clear();
-                DrawCardsOfPlayers(players);
+                DrawCards.DisplayCardsOfPlayers(players);
                 RountCount--;
             }
         }
 
-        private void OnDrawPlayerCards(object? sender, EventArgs e)
+        private (Player winner, IList<IHand> rounds) GetWinner(List<IHand> hands)
         {
-            var players = sender as IList<Player>;
-            DrawCardsOfPlayers(players);
-        }
-
-        private (Player Winner, List<Hand> SortedHands) GetWinner(List<Hand> hands)
-        {
-            List<Hand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
+            IList<IHand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
 
             for (int i = 0; i < sortedHands.Count; i++)
             {
                 for (int j = 0; j < sortedHands.Count - 1; j++)
                 {
-                    if (sortedHands[j + 1].CurrentCard.CompareTo(sortedHands[j].CurrentCard) > 0)
+                    if (sortedHands[j + 1].ShowCard().CompareTo(sortedHands[j].ShowCard()) > 0)
                     {
                         (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
                     }
                 }
             }
 
-            return (sortedHands[0].Player, sortedHands);
+            return (sortedHands[0].GetPlayer(), sortedHands);
         }
 
-        private void DrawRound(IList<Hand> hands)
+        private void OnDrawPlayerCards(object? sender, EventArgs e)
         {
-            Console.WriteLine();
-            Console.WriteLine();
-            var initialCursorTop = Console.CursorTop;
-
-            for (int i = 0; i < hands.Count; i++)
-            {
-                Console.Write("  ");
-                DrawCards.DrawCardOutline(i, initialCursorTop + 1);
-                DrawCards.DrawCardSuitValue(hands[i].CurrentCard, i, initialCursorTop + 1);
-            }
-            Thread.Sleep(500);
-            Console.WriteLine();
-
-            for (int i = 0; i < hands.Count; i++)
-            {
-                Console.ForegroundColor = hands[i].Player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
-                Console.Write(" " + hands[i].Player.GetPlayerName() + "  ");
-            }
+            var players = sender as IList<Player>;
+            DrawCards.DisplayCardsOfPlayers(players);
         }
 
         private void InitPlayerCards()
         {
             foreach (var player in _players)
             {
-                for (int i = 0; i < 13; i++)
+                for (int i = 0; i < Num_Of_Ranks; i++)
                 {
                     player.AddHandCard(_deck.DrawCard());
                 }
             }
-        }
-        private void DrawCardsOfPlayers(IList<Player> players)
-        {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-
-            Console.ForegroundColor = ConsoleColor.White;
-            var topPosition = 2;
-            for (int i = 0;i< players.Count;  i++)
-            {
-                var cards = players[i].ShowCards();
-
-                Console.SetCursorPosition(0, topPosition);
-                Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
-
-                Console.WriteLine($"{players[i]._index}: {players[i].GetPlayerName()}");
-
-                for (int j = 0; j < cards.Length; j++)
-                {
-                    Thread.Sleep(100);
-                    var c = new Card(cards[j].Suit, cards[j].Rank);
-                    DrawCards.DrawCardOutline(j, topPosition + 1);
-                    DrawCards.DrawCardSuitValue(c, j, topPosition + 1);
-                }
-                topPosition = topPosition + 7;
-            }
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.White;
-            for (int j = 0; j < RountCount; j++)
-            {
-                Console.Write($"{(j < 10 ? "   " : "  ")}{j + 1}{(j < 10 ? "    " : "   ")}");
-            }
-            Console.WriteLine();
-            Thread.Sleep(500);
-            Console.WriteLine();
-        }
+        }       
     }
 }

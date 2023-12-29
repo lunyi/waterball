@@ -6,13 +6,14 @@
         int Size();
         Card PickupCard(int index);
         Card[] ShowCards();
+        Card ShowCard();
         void SetPlayer(Player player);
         Player GetPlayer();
 
     }
     internal class Hand : IHand
     {
-        public ICard CurrentCard { get; set; }
+        public Card CurrentCard { get; set; }
         private IList<Card> Cards = new List<Card>();
         private IList<Card> OrderedCards;
 
@@ -27,6 +28,15 @@
             return OrderedCards.Count;
         }
 
+        public void SetPlayer(Player player)
+        {
+            Player = player;
+        }
+
+        public Card ShowCard()
+        {
+            return CurrentCard;
+        }
         public Card PickupCard(int index)
         {
             var card =  OrderedCards[index-1];
@@ -38,11 +48,6 @@
         public Card[] ShowCards()
         {  
             return OrderedCards.ToArray();
-        }
-
-        public void SetPlayer(Player player)
-        {
-            Player = player;
         }
         public Player GetPlayer()
         {

@@ -6,7 +6,7 @@
 
         public override void TakeTurns()
         {
-            Hand.PickupCard(Hand.Size());
+            _hand.PickupCard(_hand.Size());
         }
 
         public override void NameHimself(string name)

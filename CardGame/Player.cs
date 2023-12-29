@@ -7,16 +7,15 @@
         public int _index { get; set; }
         protected string Name ;
         public event EventHandler OnDrawPlayerCards = null;
-
         protected IExchangeHands _exchangeHands { get; set; }
-        public IHand Hand { get; set; }
+        public IHand _hand { get; set; }
         public abstract void TakeTurns();
         public abstract void NameHimself(string name);
 
         public Player(int index)
         {
-            Hand = new Hand();
-            Hand.Player = this;
+            _hand = new Hand();
+            _hand.SetPlayer(this);
             _index = index;
             _exchangeHands = new ExchangeHands();
         }
@@ -30,7 +29,8 @@
                     var playerIndex = Convert.ToInt32(Console.ReadLine());
                     if (playerIndex != _index)
                     {
-                        _exchangeHands.ExchangeHand(this, players.FirstOrDefault(p => p._index == playerIndex));
+                        var exchangee = players.FirstOrDefault(p => p._index == playerIndex);
+                        _exchangeHands.ExchangeHand(this, exchangee);
                         return true;
                     }
                 }
@@ -39,6 +39,7 @@
                 }
 
                 Console.WriteLine($"Ok, {Name} doesn't want to change.");
+                Console.WriteLine();
                 return false;
             }
             else
@@ -55,12 +56,12 @@
 
         public Card[] ShowCards()
         {
-            return Hand.ShowCards();
+            return _hand.ShowCards();
         }
 
         public void AddHandCard(Card card)
         {
-            Hand.AddHand(card);
+            _hand.AddHand(card);
         }
 
         public string GetPlayerName()
@@ -70,7 +71,7 @@
 
         public void TakeTurn()
         {
-            Hand.PickupCard(r.Next(1, Hand.Size()));
+            _hand.PickupCard(r.Next(1, _hand.Size()));
         }
 
         public int AddPoint()

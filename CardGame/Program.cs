@@ -1,10 +1,13 @@
-﻿namespace CardGame
+﻿using System.Text;
+
+namespace CardGame
 {
     internal class Program
     {
         private const int playerCount = 4 ;
         static void Main(string[] args)
         {
+            InitConsoleSetting();
             IDeck deck = new Deck();
             IList<Player> players = GetPlayers("lester");
 
@@ -12,6 +15,12 @@
             showdown.Start();
         }
 
+        private static void InitConsoleSetting()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            //Console.SetWindowSize(130, 100);
+            Console.OutputEncoding = Encoding.UTF8;
+        }
         private static IList<Player> GetPlayers(string playername)
         {
             var players = new List<Player>();

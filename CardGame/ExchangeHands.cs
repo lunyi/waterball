@@ -20,7 +20,7 @@
         public void ExchangeHand(Player exchanger, Player exchangee)
         {
             (_exchanger, _exchangee) = (exchanger, exchangee);
-            (_exchanger.Hand, _exchangee.Hand) = (exchangee.Hand, exchanger.Hand);
+            (_exchanger._hand, _exchangee._hand) = (exchangee._hand, exchanger._hand);
             countDown--;
         }
         public void CountDown()
@@ -28,7 +28,7 @@
             countDown--;
             if (countDown == 0)
             {
-                (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
+                (_exchanger._hand, _exchangee._hand) = (_exchangee._hand, _exchanger._hand);
                 Console.WriteLine($"{_exchanger.GetPlayerName()} and {_exchangee.GetPlayerName()} are changed back");
             }
         }
