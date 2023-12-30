@@ -18,31 +18,32 @@ namespace CardGame
 
         public void Start() 
         {
-            InitPlayerCards();
-
             var quit = false;
             while (!quit)
             {
+                InitPlayerCards();
                 DrawCards.DisplayCardsOfPlayers(_players);
                 Thread.Sleep(100);
                 RunEachRound(_players);
             }
-            RountCount = 13;
+           
             Console.ReadKey();
         }
 
 
         private void RunEachRound(IList<Player> players)
         {
-            while (RountCount <= Num_Of_Ranks)
+            while (RountCount >= 1 && RountCount <= Num_Of_Ranks)
             {
                 PlayerMakeExchangeHandsDecision(players);
                 PlayerTakeTurn(players);
 
-                Console.WriteLine();
-                var handsInThisRound = players.Select(p => p._hand).ToList();
+                var handsInThisRound = GetHandsInThisRound(players);
+
                 DrawCards.DisplayRound(handsInThisRound);
+
                 (Player winner, IList<IHand> rounds) = GetWinner(handsInThisRound);
+
                 winner.AddPoint();
                 DrawCards.DisplayRoundWinnner(winner, rounds);
                 Console.ReadKey();
@@ -54,6 +55,11 @@ namespace CardGame
             }
         }
 
+
+        private List<IHand> GetHandsInThisRound(IList<Player> players)
+        { 
+            return players.Select(p => p._hand).ToList();
+        }
         private void PlayerMakeExchangeHandsDecision(IList<Player> players)
         {
             for (int i = 0; i < players.Count; i++)
@@ -104,6 +110,14 @@ namespace CardGame
 
         private void InitPlayerCards()
         {
+            RountCount = Num_Of_Ranks;
+            foreach (var player in _players)
+            {
+                player.Clear();
+            }
+
+            _deck.Shuffle();
+
             foreach (var player in _players)
             {
                 for (int i = 0; i < Num_Of_Ranks; i++)

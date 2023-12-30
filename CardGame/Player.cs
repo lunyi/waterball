@@ -64,6 +64,13 @@
             return _hand.ShowCards();
         }
 
+        public void Clear()
+        {
+            _hand.ClearCards();
+            _exchangeHands.Clear();
+            Point = 0;
+        }
+
         public void AddHandCard(Card card)
         {
             _hand.AddHand(card);

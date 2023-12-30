@@ -1,4 +1,6 @@
-﻿namespace CardGame
+﻿using System.Security.Cryptography;
+
+namespace CardGame
 {
     internal interface IHand
     {
@@ -9,6 +11,7 @@
         Card ShowCard();
         void SetPlayer(Player player);
         Player GetPlayer();
+        void ClearCards();
 
     }
     internal class Hand : IHand
@@ -26,6 +29,11 @@
         public int Size() 
         {
             return OrderedCards.Count;
+        }
+
+        public void ClearCards()
+        {
+            Cards.Clear();
         }
 
         public void SetPlayer(Player player)

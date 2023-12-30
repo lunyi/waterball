@@ -16,7 +16,6 @@
 
         public Deck()
         {
-            cards = GenerateDeck();
             Shuffle();
         }
 
@@ -36,6 +35,7 @@
 
         public void Shuffle() 
         {
+            cards = GenerateDeck();
             for (int times = 0; times < ShuffleIterations; times++) 
             {
                 for (int i = 0; i < Num_Of_Cards; i++)
