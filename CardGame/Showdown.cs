@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace CardGame
@@ -21,7 +22,7 @@ namespace CardGame
             var quit = false;
             while (!quit)
             {
-                InitPlayerCards();
+                initPlayerCards();
                 DrawCards.DisplayCardsOfPlayers(_players);
                 Thread.Sleep(100);
                 RunEachRound(_players);
@@ -35,32 +36,50 @@ namespace CardGame
         {
             while (RountCount >= 1 && RountCount <= Num_Of_Ranks)
             {
-                PlayerMakeExchangeHandsDecision(players);
-                PlayerTakeTurn(players);
+                playerMakeExchangeHandsDecision(players);
+                playerTakeTurn(players);
 
-                var handsInThisRound = GetHandsInThisRound(players);
+
+                var handsInThisRound = getHandsInThisRound(players);
 
                 DrawCards.DisplayRound(handsInThisRound);
 
-                (Player winner, IList<IHand> rounds) = GetWinner(handsInThisRound);
+                (Player winner, IList<IHand> rounds) = getWinner(handsInThisRound);
 
                 winner.AddPoint();
                 DrawCards.DisplayRoundWinnner(winner, rounds);
                 Console.ReadKey();
                 Console.Clear();
 
-                PlayerChangeHandBack(players);
-                DrawCards.DisplayCardsOfPlayers(players);
-                RountCount--;
+                playerChangeHandBack(players);
+                finadResult(players);
             }
         }
 
+        private void finadResult(IList<Player> players)
+        {
+            if (RountCount >= 2)
+            {
+                DrawCards.DisplayCardsOfPlayers(players);
+            }
+            else
+            {
+                Console.WriteLine();
+                var (winners, point) = players.GetFinalWinner();
 
-        private List<IHand> GetHandsInThisRound(IList<Player> players)
+                var winnerString = string.Join(", ", winners);
+                var result = $"(The Winner is {winnerString} and the point is {point})\n";
+                Console.WriteLine(result);
+                Console.ReadKey();
+            }
+            RountCount--;
+        }
+
+        private List<IHand> getHandsInThisRound(IList<Player> players)
         { 
             return players.Select(p => p._hand).ToList();
         }
-        private void PlayerMakeExchangeHandsDecision(IList<Player> players)
+        private void playerMakeExchangeHandsDecision(IList<Player> players)
         {
             for (int i = 0; i < players.Count; i++)
             {
@@ -71,7 +90,7 @@ namespace CardGame
                 }
             }
         }
-        private void PlayerTakeTurn(IList<Player> players)
+        private void playerTakeTurn(IList<Player> players)
         {
             for (int i = 0; i < players.Count; i++)
             {
@@ -79,7 +98,7 @@ namespace CardGame
             }
         }
 
-        private void PlayerChangeHandBack(IList<Player> players)
+        private void playerChangeHandBack(IList<Player> players)
         {
             for (int i = 0; i < players.Count; i++)
             {
@@ -90,7 +109,7 @@ namespace CardGame
             }
         }
 
-        private (Player winner, IList<IHand> rounds) GetWinner(List<IHand> hands)
+        private (Player winner, IList<IHand> rounds) getWinner(List<IHand> hands)
         {
             IList<IHand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
 
@@ -108,7 +127,7 @@ namespace CardGame
             return (sortedHands[0].GetPlayer(), sortedHands);
         }
 
-        private void InitPlayerCards()
+        private void initPlayerCards()
         {
             RountCount = Num_Of_Ranks;
             foreach (var player in _players)

@@ -96,4 +96,16 @@
             return Point;
         }
     }
+
+    internal static class PlayerExtensions
+    {
+        public static (string[], int) GetFinalWinner(this IList<Player> players)
+        {
+            var point = players.Max(player => player.GainPoint());
+            var playerNames = players.Where(p => p.GainPoint() == point)
+                .Select(p=>p.GetPlayerName())
+                .ToArray();
+            return (playerNames, point);
+        }
+    }
 }
