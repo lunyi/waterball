@@ -77,7 +77,7 @@ namespace CardGame
 
         private List<IHand> getHandsInThisRound(IList<Player> players)
         { 
-            return players.Select(p => p._hand).ToList();
+            return players.Select(p => p.Hand).ToList();
         }
         private void playerMakeExchangeHandsDecision(IList<Player> players)
         {

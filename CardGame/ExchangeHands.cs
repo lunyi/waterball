@@ -24,11 +24,11 @@
         public void ExchangeHand(Player exchanger, Player exchangee)
         {
             (_exchanger, _exchangee) = (exchanger, exchangee);
-            (_exchanger._hand, _exchangee._hand) = (exchangee._hand, exchanger._hand);
+            (_exchanger.Hand, _exchangee.Hand) = (exchangee.Hand, exchanger.Hand);
             
-            var tmpPayer = _exchanger._hand.GetPlayer();
-            _exchanger._hand.SetPlayer(_exchangee._hand.GetPlayer());
-            _exchangee._hand.SetPlayer(tmpPayer);
+            var tmpPayer = _exchanger.Hand.GetPlayer();
+            _exchanger.Hand.SetPlayer(_exchangee.Hand.GetPlayer());
+            _exchangee.Hand.SetPlayer(tmpPayer);
 
             countDown--;
         }
@@ -48,11 +48,11 @@
         public void ChangeHandBack()
         {
             //TODO:　add a flag to change hand back
-            (_exchanger._hand, _exchangee._hand) = (_exchangee._hand, _exchanger._hand);
+            (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
 
-            var tmpPayer = _exchanger._hand.GetPlayer();
-            _exchanger._hand.SetPlayer(_exchangee._hand.GetPlayer());
-            _exchangee._hand.SetPlayer(tmpPayer);
+            var tmpPayer = _exchanger.Hand.GetPlayer();
+            _exchanger.Hand.SetPlayer(_exchangee.Hand.GetPlayer());
+            _exchangee.Hand.SetPlayer(tmpPayer);
 
             Console.WriteLine($"{_exchanger.GetPlayerName()} and {_exchangee.GetPlayerName()} are changed back");
             _isChangeBack = false;

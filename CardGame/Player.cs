@@ -7,15 +7,15 @@
         public int _index { get; set; }
         protected string Name ;
         protected IExchangeHands _exchangeHands { get; set; }
-        public IHand _hand { get; set; }
+        public IHand Hand { get; set; }
         public abstract void TakeTurns();
         public abstract void NameHimself(string name);
 
 
         public Player(int index)
         {
-            _hand = new Hand();
-            _hand.SetPlayer(this);
+            Hand = new Hand();
+            Hand.SetPlayer(this);
             _index = index;
             _exchangeHands = new ExchangeHands();
         }
@@ -61,19 +61,19 @@
 
         public Card[] ShowCards()
         {
-            return _hand.ShowCards();
+            return Hand.ShowCards();
         }
 
         public void Clear()
         {
-            _hand.ClearCards();
+            Hand.ClearCards();
             _exchangeHands.Clear();
             Point = 0;
         }
 
         public void AddHandCard(Card card)
         {
-            _hand.AddHand(card);
+            Hand.AddHand(card);
         }
 
         public string GetPlayerName()
@@ -83,7 +83,7 @@
 
         public void TakeTurn()
         {
-            _hand.PickupCard(r.Next(1, _hand.Size()));
+            Hand.PickupCard(r.Next(1, Hand.Size()));
         }
 
         public int AddPoint()
