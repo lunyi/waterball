@@ -56,7 +56,7 @@
 
             Console.WriteLine($"{_exchanger.GetPlayerName()} and {_exchangee.GetPlayerName()} are changed back");
             _isChangeBack = false;
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
         }
         public int GetCountDown() 
         {

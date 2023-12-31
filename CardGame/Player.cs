@@ -11,7 +11,6 @@
         public abstract void TakeTurns();
         public abstract void NameHimself(string name);
 
-
         public Player(int index)
         {
             Hand = new Hand();
@@ -24,12 +23,13 @@
         {
             _exchangeHands.ChangeHandBack();
         }
+        
         public bool IsChangeBack()
         { 
             return _exchangeHands.IsChangeBack();
         }
 
-        public bool MakeExchangeHandsDecision(IList<Player> players)
+        public bool CheckIfPlayerWantToExchangeCard(IList<Player> players)
         {
             if (_exchangeHands.GetCountDown() == 3)
             {
@@ -73,7 +73,7 @@
 
         public void AddHandCard(Card card)
         {
-            Hand.AddHand(card);
+            Hand.AddHandCard(card);
         }
 
         public string GetPlayerName()
@@ -81,7 +81,7 @@
             return Name;
         }
 
-        public void TakeTurn()
+        public void DrawCard()
         {
             Hand.PickupCard(r.Next(1, Hand.Size()));
         }

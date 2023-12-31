@@ -2,7 +2,7 @@
 {
     internal interface ICard
     {
-        int CompareTo(Card card);
+        bool GreatThen(Card card);
     }
 
     internal class Card : ICard
@@ -16,14 +16,14 @@
             Suit = suit;
         }
 
-        public int CompareTo(Card card)
+        public bool GreatThen(Card card)
         {
             int rankComparison = Rank.CompareTo(card.Rank);
             if (rankComparison != 0)
             {
-                return rankComparison;
+                return rankComparison == 1;
             }
-            return Suit.CompareTo(card.Suit);
+            return Suit.CompareTo(card.Suit) == 1;
         }
     }
 

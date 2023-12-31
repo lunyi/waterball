@@ -19,7 +19,7 @@
             Shuffle();
         }
 
-        private List<Card> GenerateDeck()
+        private List<Card> GenerateCards()
         {
             var generatedCards = new List<Card>(Num_Of_Cards);
 
@@ -35,7 +35,7 @@
 
         public void Shuffle() 
         {
-            cards = GenerateDeck();
+            cards = GenerateCards();
             for (int times = 0; times < ShuffleIterations; times++) 
             {
                 for (int i = 0; i < Num_Of_Cards; i++)

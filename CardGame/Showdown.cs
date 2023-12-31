@@ -23,93 +23,90 @@ namespace CardGame
             while (!quit)
             {
                 initPlayerCards();
-                DrawCards.DisplayCardsOfPlayers(_players);
+                DisplayCards.DisplayCardsOfPlayers(_players);
                 Thread.Sleep(100);
-                RunEachRound(_players);
+                RunEachRound();
             }
            
             Console.ReadKey();
         }
 
-
-        private void RunEachRound(IList<Player> players)
+        private void RunEachRound()
         {
             while (RountCount >= 1 && RountCount <= Num_Of_Ranks)
             {
-                playerMakeExchangeHandsDecision(players);
-                playerTakeTurn(players);
+                checkIfPlayerWantToExchangeCard();
 
+                var handsInThisRound = playersDrawCard();
 
-                var handsInThisRound = getHandsInThisRound(players);
+                DisplayCards.DisplayRound(handsInThisRound);
 
-                DrawCards.DisplayRound(handsInThisRound);
-
-                (Player winner, IList<IHand> rounds) = getWinner(handsInThisRound);
+                (Player winner, IList<IHand> rounds) = getRoundWinner(handsInThisRound);
 
                 winner.AddPoint();
-                DrawCards.DisplayRoundWinnner(winner, rounds);
+                DisplayCards.DisplayRoundWinnner(winner, rounds);
                 Console.ReadKey();
                 Console.Clear();
 
-                playerChangeHandBack(players);
-                finadResult(players);
+                checkPlayerChangeHandBack();
+                displayCardsOfPlayers();
             }
+            displayWinner();
         }
 
-        private void finadResult(IList<Player> players)
+        private void displayWinner()
+        {
+            Console.WriteLine();
+            var (winners, point) = _players.GetFinalWinner();
+
+            var winnerString = string.Join(", ", winners);
+            var result = $"(The Winner is {winnerString} and the point is {point})\n";
+            Console.WriteLine(result);
+            Console.ReadKey();
+        }
+        private void displayCardsOfPlayers()
         {
             if (RountCount >= 2)
             {
-                DrawCards.DisplayCardsOfPlayers(players);
-            }
-            else
-            {
-                Console.WriteLine();
-                var (winners, point) = players.GetFinalWinner();
-
-                var winnerString = string.Join(", ", winners);
-                var result = $"(The Winner is {winnerString} and the point is {point})\n";
-                Console.WriteLine(result);
-                Console.ReadKey();
+                DisplayCards.DisplayCardsOfPlayers(_players);
             }
             RountCount--;
         }
 
-        private List<IHand> getHandsInThisRound(IList<Player> players)
-        { 
-            return players.Select(p => p.Hand).ToList();
-        }
-        private void playerMakeExchangeHandsDecision(IList<Player> players)
+
+        private void checkIfPlayerWantToExchangeCard()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < _players.Count; i++)
             {
-                var descision = players[i].MakeExchangeHandsDecision(players);
+                var descision = _players[i].CheckIfPlayerWantToExchangeCard(_players);
                 if (descision)
                 {
-                    DrawCards.DisplayCardsOfPlayers(players);
+                    DisplayCards.DisplayCardsOfPlayers(_players);
                 }
             }
         }
-        private void playerTakeTurn(IList<Player> players)
+
+        private List<IHand> playersDrawCard()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < _players.Count; i++)
             {
-                players[i].TakeTurn();
+                _players[i].DrawCard();
             }
+            return _players.Select(p => p.Hand).ToList();
         }
 
-        private void playerChangeHandBack(IList<Player> players)
+        private void checkPlayerChangeHandBack()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < _players.Count; i++)
             {
-                if (players[i].IsChangeBack())
+                if (_players[i].IsChangeBack())
                 {
-                    players[i].ChangeHandBack();
+                    _players[i].ChangeHandBack();
                 }
             }
         }
 
-        private (Player winner, IList<IHand> rounds) getWinner(List<IHand> hands)
+        private (Player winner, IList<IHand> rounds) getRoundWinner(List<IHand> hands)
         {
             IList<IHand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
 
@@ -117,7 +114,7 @@ namespace CardGame
             {
                 for (int j = 0; j < sortedHands.Count - 1; j++)
                 {
-                    if (sortedHands[j + 1].ShowCard().CompareTo(sortedHands[j].ShowCard()) > 0)
+                    if (sortedHands[j + 1].ShowCard().GreatThen(sortedHands[j].ShowCard()))
                     {
                         (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
                     }

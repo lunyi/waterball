@@ -4,7 +4,7 @@ namespace CardGame
 {
     internal interface IHand
     {
-        void AddHand(Card card);
+        void AddHandCard(Card card);
         int Size();
         Card PickupCard(int index);
         Card[] ShowCards();
@@ -16,12 +16,12 @@ namespace CardGame
     }
     internal class Hand : IHand
     {
-        public Card CurrentCard { get; set; }
+        private Card CurrentCard { get; set; }
         private IList<Card> Cards = new List<Card>();
         private IList<Card> OrderedCards;
 
-        public Player? Player { get; set; }
-        public void AddHand(Card card)
+        private Player? Player { get; set; }
+        public void AddHandCard(Card card)
         {
             Cards.Add(card);
             OrderedCards = Cards.OrderBy(p => p.Rank).ThenBy(p => p.Suit).ToList();
