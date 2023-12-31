@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardGame", "CardGame\CardGame.csproj", "{E575AC3C-6700-487D-9782-9B2FC8BE164D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.CardGame", "CardGame\1.CardGame.csproj", "{E575AC3C-6700-487D-9782-9B2FC8BE164D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.MatchMaking", "matchmaking\2.MatchMaking.csproj", "{28AA9D66-F16A-492A-A0B3-F50222D22590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E575AC3C-6700-487D-9782-9B2FC8BE164D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E575AC3C-6700-487D-9782-9B2FC8BE164D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E575AC3C-6700-487D-9782-9B2FC8BE164D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
