@@ -4,7 +4,7 @@
     {
         void ExchangeHand(Player exchanger, Player exchangee);
         void CountDown();
-        int GetCountDown();
+        int GetCount();
         void ChangeHandBack();
         bool IsChangeBack();
         void Clear();
@@ -14,12 +14,11 @@
         private int countDown = 3;
         private Player? _exchanger = null;
         private Player? _exchangee = null;
-        public bool _isChangeBack = false;
+        private bool _isChangeBack = false;
 
         public ExchangeHands()
         { 
         }
-
 
         public void ExchangeHand(Player exchanger, Player exchangee)
         {
@@ -58,7 +57,7 @@
             _isChangeBack = false;
             Thread.Sleep(2000);
         }
-        public int GetCountDown() 
+        public int GetCount() 
         {
             return countDown;
         }

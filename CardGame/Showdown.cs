@@ -38,7 +38,6 @@ namespace CardGame
                 checkIfPlayerWantToExchangeCard();
 
                 var handsInThisRound = playersDrawCard();
-
                 DisplayCards.DisplayRound(handsInThisRound);
 
                 (Player winner, IList<IHand> rounds) = getRoundWinner(handsInThisRound);
@@ -99,10 +98,7 @@ namespace CardGame
         {
             for (int i = 0; i < _players.Count; i++)
             {
-                if (_players[i].IsChangeBack())
-                {
-                    _players[i].ChangeHandBack();
-                }
+                _players[i].ChangeHandBack();
             }
         }
 

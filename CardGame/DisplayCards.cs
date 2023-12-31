@@ -38,7 +38,7 @@ namespace CardGame
             for (int j = 0; j < rounds.Count; j++)
             {
                 var player = rounds[j].GetPlayer();
-                result += $"{player.GetPlayerName()}: {player.GainPoint()} points\n";
+                result += $"{player.GetPlayerName()}: {player.GetPoint()} points\n";
             }
 
             Console.WriteLine(result);

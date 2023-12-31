@@ -4,12 +4,12 @@
     {
         public AIPlayer(int index) : base(index) { }
 
-        public override void TakeTurns()
+        public override void SelectCard()
         {
-            Hand.PickupCard(r.Next(1, Hand.Size()));
+            Hand.SelectCard(r.Next(1, Hand.Size()));
         }
 
-        public override void NameHimself(string name) 
+        public override void Naming(string name) 
         { 
             Name = name;
         }

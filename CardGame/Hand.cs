@@ -6,7 +6,7 @@ namespace CardGame
     {
         void AddHandCard(Card card);
         int Size();
-        Card PickupCard(int index);
+        Card SelectCard(int index);
         Card[] ShowCards();
         Card ShowCard();
         void SetPlayer(Player player);
@@ -26,6 +26,7 @@ namespace CardGame
             Cards.Add(card);
             OrderedCards = Cards.OrderBy(p => p.Rank).ThenBy(p => p.Suit).ToList();
         }
+
         public int Size() 
         {
             return OrderedCards.Count;
@@ -45,7 +46,8 @@ namespace CardGame
         {
             return CurrentCard;
         }
-        public Card PickupCard(int index)
+
+        public Card SelectCard(int index)
         {
             var card =  OrderedCards[index-1];
             OrderedCards.RemoveAt(index-1);
@@ -57,6 +59,7 @@ namespace CardGame
         {  
             return OrderedCards.ToArray();
         }
+
         public Player GetPlayer()
         {
             return Player;

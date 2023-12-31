@@ -29,12 +29,12 @@ namespace CardGame
             for (int i = 1; i < playerCount; i++)
             {
                 var aip = new AIPlayer(i);
-                aip.NameHimself(aiPlayerNames[i]);
+                aip.Naming(aiPlayerNames[i]);
                 players.Add(aip);
             }
    
             var p = new HumanPlayer(4);
-            p.NameHimself(playername);
+            p.Naming(playername);
             players.Add(p);
             return players;
         }
