@@ -1,8 +1,8 @@
-﻿namespace MatchMaking
+﻿
+namespace MatchMaking
 {
     internal interface IMatchMethod
     {
-        public Individual[] Match(Individual ind, Individual[] others);
-
+        Individual[] Match<T>(Individual ind, Individual[] others, Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T : struct;
     }
 }

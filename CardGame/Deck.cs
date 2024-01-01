@@ -3,7 +3,7 @@
     internal interface IDeck
     {
         void Shuffle();
-        Card DrawCard();
+        Card? DrawCard();
 
     }
     internal class Deck : IDeck
