@@ -1,4 +1,6 @@
-﻿namespace CardGame
+﻿using System.Xml.Linq;
+
+namespace CardGame
 {
     internal interface IExchangeHands
     {
@@ -6,8 +8,8 @@
         void CountDown();
         int GetCount();
         void ChangeHandBack();
-        bool IsChangeBack();
         void Clear();
+        bool CheckIfPlayerWantToExchangeCard(Player player, IList<Player> players);
     }
     internal class ExchangeHands : IExchangeHands
     {     
@@ -31,6 +33,7 @@
 
             countDown--;
         }
+
         public void CountDown()
         {
             countDown--;
@@ -39,24 +42,54 @@
                 _isChangeBack = true;
             }
         }
-        public bool IsChangeBack()
-        {
-            return _isChangeBack;
-        }
 
         public void ChangeHandBack()
         {
-            //TODO:　add a flag to change hand back
+            if (!_isChangeBack)
+            {
+                return;
+            }
             (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
 
             var tmpPayer = _exchanger.Hand.GetPlayer();
             _exchanger.Hand.SetPlayer(_exchangee.Hand.GetPlayer());
             _exchangee.Hand.SetPlayer(tmpPayer);
 
-            Console.WriteLine($"{_exchanger.GetPlayerName()} and {_exchangee.GetPlayerName()} are changed back");
+            Console.WriteLine($"{_exchanger.Name} and {_exchangee.Name} are changed back");
             _isChangeBack = false;
             Thread.Sleep(2000);
         }
+
+        public bool CheckIfPlayerWantToExchangeCard(Player player, IList<Player> players)
+        {
+            if (GetCount() == 3)
+            {
+                Console.WriteLine($"Hi {player.Name}, which player do you choose to exchange hand?");
+                try
+                {
+                    var playerIndex = Convert.ToInt32(Console.ReadLine());
+                    if (playerIndex != player.Index && playerIndex >= 1 && playerIndex <= 4)
+                    {
+                        var exchangee = players.FirstOrDefault(p => p.Index == playerIndex);
+                        ExchangeHand(player, exchangee);
+                        return true;
+                    }
+                }
+                catch
+                {
+                }
+
+                Console.WriteLine($"Ok, {player.Name} doesn't want to change.");
+                Console.WriteLine();
+                return false;
+            }
+            else
+            {
+                CountDown();
+            }
+            return false;
+        }
+
         public int GetCount() 
         {
             return countDown;

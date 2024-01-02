@@ -32,19 +32,19 @@
             {
                 Console.Write("  ");
 
-                DrawCard(i, initialCursorTop + 1);
+                //DrawCard(i, initialCursorTop + 1);
             }
             Thread.Sleep(500);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
 
-            for (int i = 0; i < hands.Count; i++)
-            {
-                var player = hands[i].GetPlayer();
-                Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
-                Console.Write(" " + player.Name + "  ");
-            }
+            //for (int i = 0; i < hands.Count; i++)
+            //{
+            //    var player = hands[i].GetPlayer();
+            //    Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
+            //    Console.Write(" " + player.Name + "  ");
+            //}
             Console.ForegroundColor = ConsoleColor.White;
         }
 

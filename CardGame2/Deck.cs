@@ -70,14 +70,14 @@ namespace Game
 
         public T? DrawCard() 
         {
-            if (cards.Count == 0)
+            if (_cards.Count == 0)
             {
                 return null;
             }
 
-            var index = r.Next(0, cards.Count - 1);
-            var card = cards[index] ;
-            cards.RemoveAt(index);
+            var index = r.Next(0, _cards.Count - 1);
+            var card = _cards[index] ;
+            _cards.RemoveAt(index);
             return card;
         }
     }

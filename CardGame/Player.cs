@@ -4,8 +4,8 @@
     {
         static protected Random r = new Random();
         private int Point ;
-        public int _index { get; set; }
-        protected string Name ;
+        public int Index { get; protected set; }
+        public string Name { get; protected set; }
         protected IExchangeHands _exchangeHands { get; set; }
         public IHand Hand { get; set; }
         public abstract void SelectCard();
@@ -15,13 +15,8 @@
         {
             Hand = new Hand();
             Hand.SetPlayer(this);
-            _index = index;
+            Index = index;
             _exchangeHands = new ExchangeHands();
-        }
-
-        public string GetPlayerName()
-        {
-            return Name;
         }
 
         public Card[] ShowCards()
@@ -51,40 +46,12 @@
 
         public void ChangeHandBack()
         {
-            if (_exchangeHands.IsChangeBack())
-            {
-                _exchangeHands.ChangeHandBack();
-            }
+            _exchangeHands.ChangeHandBack();
         }
 
         public bool CheckIfPlayerWantToExchangeCard(IList<Player> players)
         {
-            if (_exchangeHands.GetCount() == 3)
-            {
-                Console.WriteLine($"Hi {Name}, which player do you choose to exchange hand?");
-                try
-                {
-                    var playerIndex = Convert.ToInt32(Console.ReadLine());
-                    if (playerIndex != _index && playerIndex >= 1 && playerIndex <= 4)
-                    {
-                        var exchangee = players.FirstOrDefault(p => p._index == playerIndex);
-                        _exchangeHands.ExchangeHand(this, exchangee);
-                        return true;
-                    }
-                }
-                catch
-                {
-                }
-
-                Console.WriteLine($"Ok, {Name} doesn't want to change.");
-                Console.WriteLine();
-                return false;
-            }
-            else
-            {
-                _exchangeHands.CountDown();
-            }
-            return false;
+            return _exchangeHands.CheckIfPlayerWantToExchangeCard(this, players);
         }
 
         public void Clear()
@@ -101,7 +68,7 @@
         {
             var point = players.Max(player => player.GetPoint());
             var playerNames = players.Where(p => p.GetPoint() == point)
-                .Select(p=>p.GetPlayerName())
+                .Select(p=>p.Name)
                 .ToArray();
             return (playerNames, point);
         }

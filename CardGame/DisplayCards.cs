@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using System.Reflection;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class DisplayCards
     {
@@ -15,7 +12,6 @@ namespace CardGame
                 DrawCardOutline(i, initialCursorTop + 1);
                 DrawCardSuitValue(hands[i].ShowCard(), i, initialCursorTop + 1);
             }
-            Thread.Sleep(500);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
@@ -24,7 +20,7 @@ namespace CardGame
             {
                 var player = hands[i].GetPlayer();
                 Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
-                Console.Write(" " + player.GetPlayerName() + "  ");
+                Console.Write(" " + player.Name + "  ");
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -32,13 +28,13 @@ namespace CardGame
         internal static void DisplayRoundWinnner(Player winner, IList<IHand> rounds)
         {
             Console.WriteLine();
-            var result = $"(The Winner of this round is {winner.GetPlayerName()})\n";
+            var result = $"(The Winner of this round is {winner.Name})\n";
 
             Console.WriteLine();
             for (int j = 0; j < rounds.Count; j++)
             {
                 var player = rounds[j].GetPlayer();
-                result += $"{player.GetPlayerName()}: {player.GetPoint()} points\n";
+                result += $"{player.Name}: {player.GetPoint()} points\n";
             }
 
             Console.WriteLine(result);
@@ -58,7 +54,7 @@ namespace CardGame
 
                 Console.SetCursorPosition(0, topPosition);
                 Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
-                Console.WriteLine($"{players[i]._index}: {players[i].GetPlayerName()}");
+                Console.WriteLine($"{players[i].Index}: {players[i].Name}");
 
                 for (int j = 0; j < cards.Length; j++)
                 {
@@ -77,7 +73,6 @@ namespace CardGame
                 Console.Write($"{(j < 10 ? "   " : "  ")}{j + 1}{(j < 10 ? "    " : "   ")}");
             }
             Console.WriteLine();
-            Thread.Sleep(500);
             Console.WriteLine();
         }
 

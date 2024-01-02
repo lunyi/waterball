@@ -7,7 +7,7 @@
 
         void AddHandCard(Card<RankUno, SuitUno> card)
         {
-            Hand.
+            //Hand.
         }
 
     }

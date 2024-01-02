@@ -9,12 +9,12 @@ namespace Game
         {
             InitConsoleSetting();
             var cardDeck = new Deck<Card<Rank, Suit>, Rank, Suit>();
-            var unoDeck = new Deck<UnoCard, RankUno, SuitUno>();
+            //var unoDeck = new Deck<UnoCard, RankUno, SuitUno>();
 
-            IList<Player> players = PlayerGenerator.GetPlayers("lester", playerCount);
+            var players = PlayerGenerator.GetPlayers("lester", 4);
 
-            var nno = new UnoGame(unoDeck, players);
-            nno.Start();
+            var game = new Showdown(cardDeck, players);
+            game.Start();
         }
 
         private static void InitConsoleSetting()

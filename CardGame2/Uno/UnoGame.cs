@@ -28,7 +28,7 @@ namespace Game.Uno
                 
                 for (int i = 0; i < _players.Count; i++) 
                 { 
-                    if (_players[i])
+                    //if (_players[i])
                 }
             }
 
