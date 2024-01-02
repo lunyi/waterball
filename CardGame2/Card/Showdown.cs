@@ -5,10 +5,10 @@ namespace Game
     {
         private const int Num_Of_Ranks = 13;
         private int RountCount = 13;
-        private IDeck _deck;
+        private IDeck<Card<Rank,Suit>, Rank, Suit> _deck;
         private IList<Player> _players;
 
-        public Showdown(IDeck deck, IList<Player> players)
+        public Showdown(IDeck<Card<Rank, Suit>, Rank, Suit> deck, IList<Player> players)
         {
             _deck = deck;
             _players = players;
@@ -37,7 +37,7 @@ namespace Game
                 var handsInThisRound = playersDrawCard();
                 DisplayCards.DisplayRound(handsInThisRound);
 
-                (Player winner, IList<IHand> rounds) = getRoundWinner(handsInThisRound);
+                (Player winner, IList<IHandCard> rounds) = getRoundWinner(handsInThisRound);
 
                 winner.AddPoint();
                 DisplayCards.DisplayRoundWinnner(winner, rounds);
@@ -53,7 +53,7 @@ namespace Game
         private void displayWinner()
         {
             Console.WriteLine();
-            var (winners, point) = _players.GetFinalWinner();
+            var (winners, point) = _players.GetCardWinner();
 
             var winnerString = string.Join(", ", winners);
             var result = $"(The Winner is {winnerString} and the point is {point})\n";
@@ -82,7 +82,7 @@ namespace Game
             }
         }
 
-        private List<IHand> playersDrawCard()
+        private List<IHandCard> playersDrawCard()
         {
             for (int i = 0; i < _players.Count; i++)
             {
@@ -99,9 +99,9 @@ namespace Game
             }
         }
 
-        private (Player winner, IList<IHand> rounds) getRoundWinner(List<IHand> hands)
+        private (Player winner, IList<IHandCard> rounds) getRoundWinner(List<IHandCard> hands)
         {
-            IList<IHand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
+            IList<IHandCard> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
 
             for (int i = 0; i < sortedHands.Count; i++)
             {

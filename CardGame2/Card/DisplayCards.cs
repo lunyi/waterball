@@ -2,7 +2,7 @@
 {
     internal class DisplayCards
     {
-        internal static void DisplayRound(List<IHand> hands)
+        internal static void DisplayRound(List<IHandCard> hands)
         {
             var initialCursorTop = Console.CursorTop;
 
@@ -21,21 +21,21 @@
             {
                 var player = hands[i].GetPlayer();
                 Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
-                Console.Write(" " + player.GetPlayerName() + "  ");
+                Console.Write(" " + player.Name + "  ");
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        internal static void DisplayRoundWinnner(Player winner, IList<IHand> rounds)
+        internal static void DisplayRoundWinnner(Player winner, IList<IHandCard> rounds)
         {
             Console.WriteLine();
-            var result = $"(The Winner of this round is {winner.GetPlayerName()})\n";
+            var result = $"(The Winner of this round is {winner.Name})\n";
 
             Console.WriteLine();
             for (int j = 0; j < rounds.Count; j++)
             {
                 var player = rounds[j].GetPlayer();
-                result += $"{player.GetPlayerName()}: {player.GetPoint()} points\n";
+                result += $"{player.Name}: {player.GetPoint()} points\n";
             }
 
             Console.WriteLine(result);
@@ -55,11 +55,11 @@
 
                 Console.SetCursorPosition(0, topPosition);
                 Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
-                Console.WriteLine($"{players[i]._index}: {players[i].GetPlayerName()}");
+                Console.WriteLine($"{players[i]._index}: {players[i].Name}");
 
                 for (int j = 0; j < cards.Length; j++)
                 {
-                    var c = new Card(cards[j].Suit, cards[j].Rank);
+                    var c = new Card<Rank, Suit>(cards[j].Suits, cards[j].Ranks);
                     DrawCardOutline(j, topPosition + 1);
                     DrawCardSuitValue(c, j, topPosition + 1);
                 }
@@ -93,13 +93,13 @@
             }
         }
 
-        internal static void DrawCardSuitValue(Card card, int xcoor, int ycoor) 
+        internal static void DrawCardSuitValue(Card<Rank,Suit> card, int xcoor, int ycoor) 
         {
             char cardSuit = ' ';
             int x = xcoor * 8 +1 ;
             int y = ycoor;
 
-            switch (card.Suit)
+            switch (card.Suits)
             {
                 case Suit.Heart:
                     cardSuit = '\u2665';
@@ -122,7 +122,7 @@
             Console.SetCursorPosition(x, y + 1);
             Console.Write(cardSuit);
             Console.SetCursorPosition(x+1, y+3);
-            Console.Write(card.Rank);
+            Console.Write(card.Ranks);
         }
     }
 }

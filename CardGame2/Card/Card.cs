@@ -1,30 +1,41 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Game
+﻿namespace Game
 {
 
-    internal class Card
+    internal class Card<TRank, TSuit>
     {
-        public Suit Suit { get; set; }
-        public Rank Rank { get; set; }
+        public TSuit Suits { get; set; }
+        public TRank Ranks { get; set; }
 
-        public Card(Suit suit, Rank rank)
+        public Card(TSuit suit, TRank rank)
         {
-            Rank = rank;
-            Suit = suit;
+            Suits = suit;
+            Ranks = rank;
         }
     }
 
+
+    //internal class Card
+    //{
+    //    public Suit Suit { get; set; }
+    //    public Rank Rank { get; set; }
+
+    //    public Card(Suit suit, Rank rank)
+    //    {
+    //        Rank = rank;
+    //        Suit = suit;
+    //    }
+    //}
+
     internal static class CardExtensions
     {
-        internal static bool GreatThen(this Card card, Card anotherCard)
+        internal static bool GreatThen(this Card<Rank,Suit> card, Card<Rank,Suit> anotherCard)
         {
-            int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
+            int rankComparison = card.Ranks.CompareTo(anotherCard.Ranks);
             if (rankComparison != 0)
             {
                 return rankComparison == 1;
             }
-            return card.Suit.CompareTo(anotherCard.Suit) == 1;
+            return card.Suits.CompareTo(anotherCard.Suits) == 1;
         }
     }
     internal enum Suit

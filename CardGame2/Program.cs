@@ -8,10 +8,12 @@ namespace Game
         static void Main(string[] args)
         {
             InitConsoleSetting();
-            IDeck deck = new Deck();
+            var cardDeck = new Deck<Card<Rank, Suit>, Rank, Suit>();
+            var unoDeck = new Deck<UnoCard, RankUno, SuitUno>();
+
             IList<Player> players = PlayerGenerator.GetPlayers("lester", playerCount);
 
-            var nno = new UnoGame(deck, players);
+            var nno = new UnoGame(unoDeck, players);
             nno.Start();
         }
 

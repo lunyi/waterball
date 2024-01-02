@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Game
+namespace Game.Uno
 {
     internal class UnoCard
     {
