@@ -2,18 +2,19 @@
 
 namespace Game.Uno
 {
-    internal class UnoCard
+    internal class Card<TRank, TSuit> 
+        where TRank: Enum
+        where TSuit : Enum
     {
-        public SuitUno Suit { get; set; }
-        public RankUno Rank { get; set; }
+        public TSuit Suits { get; set; }
+        public TRank Ranks { get; set; }
 
-        public UnoCard(SuitUno suit, RankUno rank)
+        public Card(TSuit suit, TRank rank)
         {
-            Rank = rank;
-            Suit = suit;
+            Suits = suit;
+            Ranks = rank;
         }
     }
-
 
     internal enum RankUno
     {

@@ -73,9 +73,9 @@ namespace Game
                 try
                 {
                     var playerIndex = Convert.ToInt32(Console.ReadLine());
-                    if (playerIndex != player._index && playerIndex >= 1 && playerIndex <= 4)
+                    if (playerIndex != player.Index && playerIndex >= 1 && playerIndex <= 4)
                     {
-                        var exchangee = players.FirstOrDefault(p => p._index == playerIndex);
+                        var exchangee = players.FirstOrDefault(p => p.Index == playerIndex);
                         ExchangeHand(player, exchangee);
                         return true;
                     }

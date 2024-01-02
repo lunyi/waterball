@@ -8,14 +8,13 @@ namespace Game.Uno
         private int CardCount = 5;
         private Card<RankUno,SuitUno> _tmpCards;
 
-        private IDeck<UnoCard, RankUno, SuitUno> _deck;
+        private IDeck<Card<RankUno, SuitUno>, RankUno, SuitUno> _deck;
         private IList<Player> _players;
 
-        public UnoGame(IDeck<UnoCard, RankUno, SuitUno> deck, IList<Player> players)
+        public UnoGame(IDeck<Card<RankUno, SuitUno>, RankUno, SuitUno> deck, IList<Player> players)
         {
             _deck = deck;
             _players = players;
-            //RountCount = Num_Of_Ranks = Enum.GetValues(typeof(RankUno)).Length;
         }
 
         public void Start()
@@ -25,10 +24,23 @@ namespace Game.Uno
             {
                 initPlayerCards();
                 var card = _deck.DrawCard();
-                
-                for (int i = 0; i < _players.Count; i++) 
-                { 
-                    //if (_players[i])
+
+                var topPosition = 2;
+
+                for (int i = 0; i < _players.Count; i++)
+                {
+                    var cards = _players[i].UnoHand.GetCards();
+
+                    Console.SetCursorPosition(0, topPosition);
+                    Console.ForegroundColor = _players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
+                    Console.WriteLine($"{_players[i].Index}: {_players[i].Name}");
+
+                    for (int j = 0; j < cards.Length; j++)
+                    {
+                        var c = new Card<RankUno, SuitUno>(cards[j].Suits, cards[j].Ranks);
+                        DisplayUno.DrawCard(c, j, topPosition + 1);
+                    }
+                    topPosition = topPosition + 7;
                 }
             }
 
@@ -37,7 +49,6 @@ namespace Game.Uno
 
         private void initPlayerCards()
         {
-            
             foreach (var player in _players)
             {
                 player.Clear();
@@ -47,9 +58,12 @@ namespace Game.Uno
 
             foreach (var player in _players)
             {
+                var unoPlayer = player as IUnoOperation;
+                unoPlayer.SetUnoHand(new UnoHand());
+
                 for (int i = 0; i < CardCount; i++)
                 {
-                    player.AddHandCard(_deck.DrawCard());
+                    unoPlayer.AddUnoCard(_deck.DrawCard());
                 }
             }
         }

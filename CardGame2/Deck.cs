@@ -32,9 +32,9 @@ namespace Game
         {
             var generatedCards = new List<T>(Num_Of_Cards);
 
-            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+            foreach (var suit in Enum.GetValues(typeof(TSuit)))
             {
-                foreach (Rank rank in Enum.GetValues(typeof(Rank)))
+                foreach (var rank in Enum.GetValues(typeof(TRank)))
                 {
                     generatedCards.Add((T)Activator.CreateInstance(typeof(T), suit, rank));
                 }

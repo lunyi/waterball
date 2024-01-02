@@ -2,16 +2,27 @@
 {
     internal interface IUnoHand
     {
+        void AddUnoCard(Card<RankUno, SuitUno> card);
         Card<RankUno, SuitUno>[] GetCards();
         Card<RankUno, SuitUno> GetCurrentCard();
         Card<RankUno, SuitUno>[] FindCardsBySuit(SuitUno suit);
 
-        int Size();
+        int GetCardSize();
     }
     internal class UnoHand : IUnoHand
     {
-        public List<Card<RankUno, SuitUno>> Cards;
+        public List<Card<RankUno, SuitUno>> Cards ;
         public Card<RankUno, SuitUno> CurrentCard;
+
+        public UnoHand()
+        {
+            Cards = new List<Card<RankUno, SuitUno>>();
+            CurrentCard = null;
+        }
+        public void AddUnoCard(Card<RankUno, SuitUno> card)
+        {
+            Cards.Add(card);
+        }
 
         public Card<RankUno, SuitUno>[] FindCardsBySuit(SuitUno suit)
         {
@@ -33,7 +44,7 @@
             Cards.Add(card);
         }
 
-        public int Size()
+        public int GetCardSize()
         {
             return Cards.Count;
         }

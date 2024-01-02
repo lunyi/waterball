@@ -13,19 +13,6 @@
         }
     }
 
-
-    //internal class Card
-    //{
-    //    public Suit Suit { get; set; }
-    //    public Rank Rank { get; set; }
-
-    //    public Card(Suit suit, Rank rank)
-    //    {
-    //        Rank = rank;
-    //        Suit = suit;
-    //    }
-    //}
-
     internal static class CardExtensions
     {
         internal static bool GreatThen(this Card<Rank,Suit> card, Card<Rank,Suit> anotherCard)

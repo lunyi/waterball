@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Game.Uno;
+using System.Text;
 
 namespace Game
 {
@@ -8,12 +9,14 @@ namespace Game
         static void Main(string[] args)
         {
             InitConsoleSetting();
-            var cardDeck = new Deck<Card<Rank, Suit>, Rank, Suit>();
-            //var unoDeck = new Deck<UnoCard, RankUno, SuitUno>();
-
             var players = PlayerGenerator.GetPlayers("lester", 4);
 
-            var game = new Showdown(cardDeck, players);
+            //var cardDeck = new Deck<Card<Rank, Suit>, Rank, Suit>();
+            //var game = new Showdown(cardDeck, players);
+            //game.Start();
+
+            var unoDeck = new Deck<Uno.Card<RankUno, SuitUno>, RankUno, SuitUno>();
+            var game = new UnoGame(unoDeck, players);
             game.Start();
         }
 
