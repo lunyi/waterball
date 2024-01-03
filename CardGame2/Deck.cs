@@ -9,6 +9,7 @@ namespace Game
         void Shuffle();
         T? DrawCard();
         void Shuffle(T[] cards);
+        int GetCardSize();
     }
     internal class Deck<T, TRank, TSuit> : IDeck<T, TRank, TSuit>
         where T : class
@@ -21,12 +22,10 @@ namespace Game
         const int ShuffleIterations = 1000;
         private List<T> _cards;
 
-
         public Deck()
         {
             Shuffle();
         }
-
 
         private List<T> GenerateCards()
         {
@@ -59,13 +58,18 @@ namespace Game
         {
             for (int times = 0; times < ShuffleIterations; times++)
             {
-                for (int i = 0; i < Num_Of_Cards; i++)
+                for (int i = 0; i < cards.Length; i++)
                 {
-                    int secondCardIndex = r.Next(Num_Of_Ranks);
+                    int secondCardIndex = r.Next(cards.Length-1);
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
             _cards = cards.ToList();
+        }
+
+        public int GetCardSize()
+        {
+            return _cards.Count;
         }
 
         public T? DrawCard() 

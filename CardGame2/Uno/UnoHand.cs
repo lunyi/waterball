@@ -5,12 +5,11 @@
         void AddUnoCard(Card<RankUno, SuitUno> card);
         Card<RankUno, SuitUno>[] GetCards();
         Card<RankUno, SuitUno>? GetCardBySuit(SuitUno suit);
-
         int GetCardSize();
     }
     internal class UnoHand : IUnoHand
     {
-        public List<Card<RankUno, SuitUno>> Cards ;
+        public List<Card<RankUno, SuitUno>> Cards;
 
         public UnoHand()
         {
@@ -29,8 +28,10 @@
                 return null;
             }
             else 
-            { 
-                return cards[0];
+            {
+                var card = cards[0];
+                Cards.Remove(card);
+                return card;
             }
         }
 

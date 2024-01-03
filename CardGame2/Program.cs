@@ -11,7 +11,7 @@ namespace Game
         static void Main(string[] args)
         {
             InitConsoleSetting();
-            var players = PlayerGenerator.GetPlayers("lester", 4);
+            var players = PlayerGenerator.GetPlayers("lester", playerCount);
 
             //var cardDeck = new Deck<Card.Card<Rank, Suit>, Rank, Suit>();
             //var game = new Showdown(cardDeck, players);
@@ -25,7 +25,7 @@ namespace Game
         private static void InitConsoleSetting()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            //Console.SetWindowSize(130, 100);
+            Console.SetWindowSize(130, 600);
             Console.OutputEncoding = Encoding.UTF8;
         }
     }

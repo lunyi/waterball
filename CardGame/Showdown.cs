@@ -1,8 +1,4 @@
-﻿using System.Reflection;
-using System.Reflection.Metadata;
-using System.Text;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal class Showdown
     {
@@ -71,7 +67,6 @@ namespace CardGame
             }
             RountCount--;
         }
-
 
         private void checkIfPlayerWantToExchangeCard()
         {
