@@ -68,12 +68,11 @@ namespace Game.Uno
 
         internal static void DrawCard(Card<RankUno, SuitUno> card, int xcoor, int ycoor)
         {
-            Console.BackgroundColor = MapSuit[card.Suits];
-            Console.ForegroundColor = ConsoleColor.White;
             int x = xcoor * 8;
             int y = ycoor;
             Console.SetCursorPosition(x, y);
             Console.WriteLine("_______\n");
+            Console.BackgroundColor = MapSuit[card.Suits];
 
             for (int i = 0; i < 5; i++) 
             {
@@ -81,8 +80,10 @@ namespace Game.Uno
                 Console.Write($"{(i != 4 ? "|      |" : "|______|")}");
                 if (i == 2)
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
                     Console.Write($"|  {MapRank[card.Ranks]}  |");
                 }
+                else if 
             }
         }
     }

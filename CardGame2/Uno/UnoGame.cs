@@ -34,13 +34,19 @@ namespace Game.Uno
                     Console.ForegroundColor = _players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
                     Console.WriteLine($"{_players[i].Index}: {_players[i].Name}");
 
+
                     for (int j = 0; j < cards.Length; j++)
                     {
                         var c = new Card<RankUno, SuitUno>(cards[j].Suits, cards[j].Ranks);
-                        DisplayUno.DrawCard(c, j, topPosition + 1);
+                        DisplayUno.DrawCard(c, 2 * j , topPosition + 1);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     topPosition = topPosition + 7;
+
+
                 }
+                Console.ReadKey();
             }
 
             Console.ReadKey();
