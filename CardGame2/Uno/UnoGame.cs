@@ -25,8 +25,8 @@ namespace Game.Uno
             while (!quit)
             {
                 Console.Clear();
-                var topPosition = 2;
                 Console.ResetColor();
+                var topPosition = 2;
                 topPosition = DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
 
                 var targetCard = GetTargetCard(topPosition);
@@ -113,6 +113,7 @@ namespace Game.Uno
             Card<RankUno, SuitUno> card = _deck.DrawCard();
             if (card == null)
             {
+                Console.WriteLine();
                 Console.WriteLine("卡片沒了，重新換卡");
                 Thread.Sleep(2000);
                 _deck.Shuffle(_tmpCards.ToArray());
@@ -122,6 +123,7 @@ namespace Game.Uno
 
             if (_deck.GetCardSize() == 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("遊戲結束，沒牌了");
 
                 var maxCardSize = _players.Max(p => p.UnoHand.GetCardSize());
@@ -129,7 +131,7 @@ namespace Game.Uno
                     .Select(p=>p.Name)
                     .ToArray();
                 var loser = string.Join(',', losePlayers);
-                Console.WriteLine($"Loser: {losePlayers}");
+                Console.WriteLine($"Loser: {loser}");
                 Environment.Exit(0);
             }
             return card;
