@@ -5,7 +5,7 @@ namespace Game.Uno
     internal class UnoGame
     {
         private int CardCount = 5;
-        private Card<RankUno,SuitUno> _tmpCards;
+        private IList<Card<RankUno,SuitUno>> _tmpCards = new List<Card<RankUno, SuitUno>>();
 
         private IDeck<Card<RankUno, SuitUno>, RankUno, SuitUno> _deck;
         private IList<Player> _players;
@@ -22,36 +22,69 @@ namespace Game.Uno
             while (!quit)
             {
                 initPlayerCards();
-                var card = _deck.DrawCard();
-
                 var topPosition = 2;
+                DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
+                var card = DrawCard();
+                DisplayUno.DrawCard(card, 4 , topPosition + 1);
 
                 for (int i = 0; i < _players.Count; i++)
                 {
-                    var cards = _players[i].UnoHand.GetCards();
+                    var _card = _players[i].UnoHand.GetCardBySuit(card.Suits);
 
-                    Console.SetCursorPosition(0, topPosition);
-                    Console.ForegroundColor = _players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
-                    Console.WriteLine($"{_players[i].Index}: {_players[i].Name}");
-
-
-                    for (int j = 0; j < cards.Length; j++)
+                    if (_card==null)
                     {
-                        var c = new Card<RankUno, SuitUno>(cards[j].Suits, cards[j].Ranks);
-                        DisplayUno.DrawCard(c, 2 * j , topPosition + 1);
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.White;
+                        var tmpCard = DrawCard();
+                       
+                        while (tmpCard.Suits != card.Suits)
+                        {
+                            Console.WriteLine("卡片不對");
+                            _players[i].UnoHand.AddUnoCard(tmpCard);
+                            tmpCard = DrawCard();
+                        }
                     }
-                    topPosition = topPosition + 7;
-
-
+                    else
+                    {
+                        _tmpCards.Add(_card);
+                    }
                 }
                 Console.ReadKey();
+                checkIfFinal();
             }
 
             Console.ReadKey();
         }
 
+        private Card<RankUno, SuitUno> DrawCard()
+        {
+            Card<RankUno, SuitUno> card = _deck.DrawCard();
+            if (card == null)
+            {
+                Console.WriteLine("卡片沒了，重新換卡");
+                Thread.Sleep(2000);
+                _deck.Shuffle(_tmpCards.ToArray());
+                _tmpCards.Clear();
+                card = _deck.DrawCard();
+            }
+            return card;
+        }
+        private void checkIfFinal()
+        {
+            if (_players.Any(p => p.UnoHand.GetCardSize() > 0))
+            {
+                return;
+            }
+            Console.WriteLine("Game Over");
+            var players = _players
+                .Where(p=>p.UnoHand.GetCardSize()== 0)
+                .Select(p=>p.Name).ToArray();
+
+            Console.WriteLine("The winners is ");
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                Console.WriteLine($" {players[i]} ");
+            }  
+        }
         private void initPlayerCards()
         {
             foreach (var player in _players)
@@ -63,12 +96,11 @@ namespace Game.Uno
 
             foreach (var player in _players)
             {
-                var unoPlayer = player as IUnoOperation;
-                unoPlayer.SetUnoHand(new UnoHand());
+                player.SetUnoHand(new UnoHand());
 
                 for (int i = 0; i < CardCount; i++)
                 {
-                    unoPlayer.AddUnoCard(_deck.DrawCard());
+                    player.UnoHand.AddUnoCard(_deck.DrawCard());
                 }
             }
         }

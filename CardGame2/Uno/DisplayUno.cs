@@ -27,6 +27,25 @@ namespace Game.Uno
                 { RankUno.Nine, "9" }
             };
 
+        internal static void DisplayCardsOfPlayers(IList<Player> players, int topPosition)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                var cards = players[i].UnoHand.GetCards();
+                Console.SetCursorPosition(0, topPosition);
+                Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
+                Console.WriteLine($"{players[i].Index}: {players[i].Name}");
+
+                for (int j = 0; j < cards.Length; j++)
+                {
+                    var c = new Card<RankUno, SuitUno>(cards[j].Suits, cards[j].Ranks);
+                    DisplayUno.DrawCard(c, 2 * j, topPosition + 1);
+                    Console.ResetColor();
+                }
+                topPosition = topPosition + 7;
+            }
+
+        }
         internal static void DisplayRound(List<IUnoHand> hands)
         {
             var initialCursorTop = Console.CursorTop;
@@ -51,20 +70,6 @@ namespace Game.Uno
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        internal static void DisplayRoundWinnner(Player winner, IList<IHandCard> rounds)
-        {
-            Console.WriteLine();
-            var result = $"(The Winner of this round is {winner.Name})\n";
-
-            Console.WriteLine();
-            for (int j = 0; j < rounds.Count; j++)
-            {
-                var player = rounds[j].GetPlayer();
-                result += $"{player.Name}: {player.GetPoint()} points\n";
-            }
-
-            Console.WriteLine(result);
-        }
 
         internal static void DrawCard(Card<RankUno, SuitUno> card, int xcoor, int ycoor)
         {
@@ -94,8 +99,7 @@ namespace Game.Uno
         private static void DrawMiddleRow(Card<RankUno, SuitUno> card)
         {
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write($"|  {MapRank[card.Ranks]}  |");
-            Console.ResetColor();
+            Console.Write($"|  {MapRank[card.Ranks]}   |");
         }
     }
 }

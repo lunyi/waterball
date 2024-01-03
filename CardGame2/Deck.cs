@@ -8,18 +8,19 @@ namespace Game
     {
         void Shuffle();
         T? DrawCard();
-        T[] Shuffle(T[] cards);
+        void Shuffle(T[] cards);
     }
     internal class Deck<T, TRank, TSuit> : IDeck<T, TRank, TSuit>
         where T : class
         where TRank : Enum
         where TSuit : Enum
     {
+        static Random r = new Random();
         int Num_Of_Cards = Enum.GetValues(typeof(TRank)).Length * Enum.GetValues(typeof(TSuit)).Length;
         int Num_Of_Ranks = Enum.GetValues(typeof(TRank)).Length;
         const int ShuffleIterations = 1000;
         private List<T> _cards;
-        static Random r = new Random();
+
 
         public Deck()
         {
@@ -54,7 +55,7 @@ namespace Game
             }
         }
 
-        public T[] Shuffle(T[] cards)
+        public void Shuffle(T[] cards)
         {
             for (int times = 0; times < ShuffleIterations; times++)
             {
@@ -64,7 +65,7 @@ namespace Game
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
-            return cards;
+            _cards = cards.ToList();
         }
 
         public T? DrawCard() 

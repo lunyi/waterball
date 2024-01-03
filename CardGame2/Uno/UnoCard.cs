@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Game.Uno
+﻿namespace Game.Uno
 {
     internal class Card<TRank, TSuit> 
         where TRank: Enum
