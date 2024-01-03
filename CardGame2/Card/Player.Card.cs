@@ -19,7 +19,7 @@ namespace Game.Players
     {
         private int Point;
         public IExchangeHands ExchangeHands { get; protected set; }
-        public IHandCard Hand { get; protected set; }
+        public IHandCard Hand { get; internal set; }
 
         public Card<Rank, Suit>[] ShowCards()
         {
@@ -58,8 +58,8 @@ namespace Game.Players
 
         public void Clear()
         {
-            Hand.ClearCards();
-            ExchangeHands.Clear();
+            Hand?.ClearCards();
+            ExchangeHands?.Clear();
             Point = 0;
         }
 

@@ -9,7 +9,6 @@ namespace Game
         void Shuffle();
         T? DrawCard();
         T[] Shuffle(T[] cards);
-
     }
     internal class Deck<T, TRank, TSuit> : IDeck<T, TRank, TSuit>
         where T : class

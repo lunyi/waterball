@@ -15,7 +15,7 @@ namespace Game.Card
     internal class ExchangeHands : IExchangeHands
     {
         private int countDown = 3;
-        private Player? _exchanger = null;
+        public Player? _exchanger { protected set; get; }
         private Player? _exchangee = null;
         private bool _isChangeBack = false;
 
