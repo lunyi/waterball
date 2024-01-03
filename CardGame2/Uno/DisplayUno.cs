@@ -27,7 +27,7 @@ namespace Game.Uno
                 { RankUno.Nine, "9" }
             };
 
-        internal static void DisplayCardsOfPlayers(IList<Player> players, int topPosition)
+        internal static int DisplayCardsOfPlayers(IList<Player> players, int topPosition)
         {
             for (int i = 0; i < players.Count; i++)
             {
@@ -44,7 +44,7 @@ namespace Game.Uno
                 }
                 topPosition = topPosition + 7;
             }
-
+            return topPosition;
         }
         internal static void DisplayRound(List<IUnoHand> hands)
         {

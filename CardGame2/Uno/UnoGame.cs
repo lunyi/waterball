@@ -23,7 +23,9 @@ namespace Game.Uno
             {
                 initPlayerCards();
                 var topPosition = 2;
-                DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
+                Console.ResetColor();
+
+                topPosition = DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
                 var card = DrawCard();
                 DisplayUno.DrawCard(card, 4 , topPosition + 1);
 
@@ -46,6 +48,7 @@ namespace Game.Uno
                     {
                         _tmpCards.Add(_card);
                     }
+                    Console.WriteLine(_players[i].Name)
                 }
                 Console.ReadKey();
                 checkIfFinal();
