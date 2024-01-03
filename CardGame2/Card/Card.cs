@@ -1,4 +1,4 @@
-﻿namespace Game
+﻿namespace Game.Card
 {
 
     internal class Card<TRank, TSuit>

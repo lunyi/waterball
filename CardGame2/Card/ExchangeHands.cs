@@ -1,6 +1,6 @@
-﻿using System.Xml.Linq;
+﻿using Game.Players;
 
-namespace Game
+namespace Game.Card
 {
     internal interface IExchangeHands
     {

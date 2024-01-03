@@ -1,6 +1,6 @@
 ﻿using Game.Uno;
 
-namespace Game
+namespace Game.Players
 {
     internal interface IUnoOperation
     {

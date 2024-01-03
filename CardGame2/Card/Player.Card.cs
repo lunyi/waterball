@@ -1,7 +1,6 @@
-﻿using Game;
-using System.Drawing;
+﻿using Game.Card;
 
-namespace Game
+namespace Game.Players
 {
     internal interface ICardOperation
     {

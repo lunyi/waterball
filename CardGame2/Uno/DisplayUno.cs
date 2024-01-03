@@ -1,4 +1,7 @@
-﻿namespace Game.Uno
+﻿using Game.Card;
+using Game.Players;
+
+namespace Game.Uno
 {
     internal class DisplayUno
     {

@@ -1,5 +1,6 @@
-﻿
-namespace Game
+﻿using Game.Players;
+
+namespace Game.Card
 {
     internal class Showdown
     {

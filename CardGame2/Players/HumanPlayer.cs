@@ -1,4 +1,4 @@
-﻿namespace Game
+﻿namespace Game.Players
 {
     internal class HumanPlayer : Player
     {
