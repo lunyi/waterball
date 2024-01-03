@@ -77,14 +77,25 @@ namespace Game.Uno
             for (int i = 0; i < 5; i++) 
             {
                 Console.SetCursorPosition(x, y+1+i);
-                Console.Write($"{(i != 4 ? "|      |" : "|______|")}");
                 if (i == 2)
                 {
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write($"|  {MapRank[card.Ranks]}  |");
+                    DrawMiddleRow(card);
                 }
-                else if 
+                else if (i == 4)
+                {
+                    Console.Write($"|______|");
+                }
+                else {
+                    Console.Write($"|      |");
+                }
             }
+        }
+
+        private static void DrawMiddleRow(Card<RankUno, SuitUno> card)
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write($"|  {MapRank[card.Ranks]}  |");
+            Console.ResetColor();
         }
     }
 }
