@@ -1,4 +1,5 @@
-﻿using Game.Players;
+﻿using Game.Card;
+using Game.Players;
 using System.Numerics;
 
 namespace Game.Uno
@@ -6,7 +7,7 @@ namespace Game.Uno
     internal class UnoGame
     {
         private int CardCount = 5;
-        private IList<Card<RankUno,SuitUno>> _tmpCards = new List<Card<RankUno, SuitUno>>();
+        private IList<Card<RankUno, SuitUno>> _tmpCards = new List<Card<RankUno, SuitUno>>();
 
         private IDeck<Card<RankUno, SuitUno>, RankUno, SuitUno> _deck;
         private IList<Player> _players;
@@ -26,48 +27,7 @@ namespace Game.Uno
             {
                 Console.Clear();
                 Console.ResetColor();
-                var topPosition = 2;
-                topPosition = DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
-
-                var targetCard = GetTargetCard(topPosition);
-                topPosition++;
-
-                for (int i = 0; i < _players.Count; i++)
-                {
-                    Console.Write($"    {_players[i].Name}      ");
-                }
-
-                topPosition += 8;
-                for (int i = 0; i < _players.Count; i++)
-                {
-                    var _card = _players[i].UnoHand.GetCardBySuit(targetCard.Suits);
-                    var count = 0;
-                    if (_card == null)
-                    {
-                        _card = DrawCard();
-                        count++;
-                        while (_card.Suits != targetCard.Suits)
-                        {
-                            count++;
-                            _players[i].UnoHand.AddUnoCard(_card);
-                            _card = DrawCard();
-                        }
-                        _card = _players[i].UnoHand.GetCardBySuit(targetCard.Suits);
-                    }
-
-                    _tmpCards.Add(_card);
-
-                    if (count > 0)
-                    {
-                        countCalculate.Add(_players[i].Name, count);
-                    }
-                    
-                    DisplayUno.DrawCard(_card, i*2, topPosition);
-                    Console.ResetColor();
-                }
-
-                CalculateCardCount(countCalculate);
-
+                RunEachRound(countCalculate);
                 Console.ReadKey();
                 countCalculate.Clear();
                 checkIfFinal();
@@ -76,6 +36,54 @@ namespace Game.Uno
             Console.ReadKey();
         }
 
+        private void RunEachRound(Dictionary<string, int> countCalculate)
+        {
+            var topPosition = 2;
+            topPosition = DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
+            var targetCard = GetTargetCard(topPosition);
+            topPosition++;
+
+            for (int i = 0; i < _players.Count; i++)
+            {
+                Console.Write($"    {_players[i].Name}      ");
+            }
+            topPosition += 8;
+            for (int i = 0; i < _players.Count; i++)
+            {
+                var _card = _players[i].UnoHand.GetCardBySuit(targetCard.Suits);
+                var count = 0;
+                if (_card == null)
+                {
+                    (_card, count) = duplicateDrawCard(targetCard, _players[i]);
+                }
+                _tmpCards.Add(_card);
+
+                if (count > 0)
+                {
+                    countCalculate.Add(_players[i].Name, count);
+                }
+
+                DisplayUno.DrawCard(_card, i * 2, topPosition);
+                Console.ResetColor();
+            }
+
+            CalculateCardCount(countCalculate);
+        }
+
+        private (Card<RankUno, SuitUno>, int) duplicateDrawCard(Card<RankUno, SuitUno> targetCard, Player player)
+        {
+            var repeatedCount = 0;
+            var _card = DrawCard();
+            repeatedCount++;
+            while (_card.Suits != targetCard.Suits)
+            {
+                repeatedCount++;
+                player.UnoHand.AddUnoCard(_card);
+                _card = DrawCard();
+            }
+            _card = player.UnoHand.GetCardBySuit(targetCard.Suits);
+            return (_card, repeatedCount);
+        }
         private Card<RankUno, SuitUno> GetTargetCard(int topPosition)
         {
             var targetCard = DrawCard();
@@ -111,30 +119,36 @@ namespace Game.Uno
         private Card<RankUno, SuitUno> DrawCard()
         {
             Card<RankUno, SuitUno> card = _deck.DrawCard();
-            if (card == null)
+            CheckIfDeckHasCard();
+            return card;
+        }
+
+        private void CheckIfDeckHasCard()
+        {
+            if (_deck.GetCardSize() > 0)
             {
-                Console.WriteLine();
-                Console.WriteLine("卡片沒了，重新換卡");
-                Thread.Sleep(2000);
+                return;
+            }
+            if (_tmpCards.Count > 0)
+            {
                 _deck.Shuffle(_tmpCards.ToArray());
                 _tmpCards.Clear();
-                card = _deck.DrawCard();
+                Console.WriteLine();
+                Console.WriteLine("卡片沒了，重新換卡");
             }
-
-            if (_deck.GetCardSize() == 0)
+            else
             {
                 Console.WriteLine();
                 Console.WriteLine("遊戲結束，沒牌了");
 
                 var maxCardSize = _players.Max(p => p.UnoHand.GetCardSize());
                 var losePlayers = _players.Where(p => p.UnoHand.GetCardSize() == maxCardSize)
-                    .Select(p=>p.Name)
+                    .Select(p => p.Name)
                     .ToArray();
                 var loser = string.Join(',', losePlayers);
                 Console.WriteLine($"Loser: {loser}");
                 Environment.Exit(0);
             }
-            return card;
         }
         private void checkIfFinal()
         {
