@@ -19,10 +19,7 @@ namespace Game.Players
 
         public Player(int index)
         {
-            Hand = new HandCard();
-            Hand.SetPlayer(this);
             Index = index;
-            _exchangeHands = new ExchangeHands();
         }
     }
 }

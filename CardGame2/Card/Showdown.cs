@@ -130,6 +130,7 @@ namespace Game.Card
 
             foreach (var player in _players)
             {
+                player.InitCard();
                 for (int i = 0; i < Num_Of_Ranks; i++)
                 {
                     player.AddHandCard(_deck.DrawCard());

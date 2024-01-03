@@ -1,4 +1,5 @@
 ﻿using Game.Card;
+using System;
 
 namespace Game.Players
 {
@@ -12,12 +13,13 @@ namespace Game.Players
         void ChangeHandBack();
         bool CheckIfPlayerWantToExchangeCard(IList<Player> players);
         void Clear();
+        void InitCard();
     }
     internal partial class Player : ICardOperation
     {
         private int Point;
-        protected IExchangeHands _exchangeHands { get; }
-        public IHandCard Hand { get; set; }
+        public IExchangeHands ExchangeHands { get; protected set; }
+        public IHandCard Hand { get; protected set; }
 
         public Card<Rank, Suit>[] ShowCards()
         {
@@ -46,19 +48,26 @@ namespace Game.Players
 
         public void ChangeHandBack()
         {
-            _exchangeHands.ChangeHandBack();
+            ExchangeHands.ChangeHandBack();
         }
 
         public bool CheckIfPlayerWantToExchangeCard(IList<Player> players)
         {
-            return _exchangeHands.CheckIfPlayerWantToExchangeCard(this, players);
+            return ExchangeHands.CheckIfPlayerWantToExchangeCard(this, players);
         }
 
         public void Clear()
         {
             Hand.ClearCards();
-            _exchangeHands.Clear();
+            ExchangeHands.Clear();
             Point = 0;
+        }
+
+        public void InitCard()
+        {
+            Hand = new HandCard();
+            Hand.SetPlayer(this);
+            ExchangeHands = new ExchangeHands();
         }
     }
 
