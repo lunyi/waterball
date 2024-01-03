@@ -1,6 +1,4 @@
-﻿using Game.Card;
-
-namespace Game.Players
+﻿namespace Game.Players
 {
     internal partial class Player
     {
