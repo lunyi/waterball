@@ -1,4 +1,6 @@
-﻿namespace _4.Collision
+﻿using System;
+
+namespace _4.Collision
 {
     internal class Game
     {
@@ -17,7 +19,7 @@
 
         internal Game()
         {
-            Lifes = GenerateLifes();
+            Lifes = generateLifes();
         }
 
         internal void Init()
@@ -39,18 +41,10 @@
                         continue;
                     }
 
-                    var start = Lifes.First(p=>p.Index == source);
-                    var end = getTarget(target);
-
-                    if (end == null)
-                    {
-                        Lifes.Add(map[start.Key](target));
-                        Lifes.Remove(start);
-                    }
-                    else 
-                    {
-                        collision(start, end);
-                    }
+                    var start = getStarter(source);
+                    var end = getEnder(target);
+                    end ??= new Empty(target);
+                    collisions(start, end);
                 }
                 catch (Exception ex)
                 {
@@ -60,54 +54,17 @@
             }
         }
 
-        private void collision(Base start, Base end)
+        private void collisions(Base start, Base end)
         {
-            if (start.Key == end.Key)
-            {
-                Console.WriteLine("移動失敗");
-                Thread.Sleep(1000);
-            }
-            else if (start.Key == 'W' && end.Key == 'F')
-            {
-                Lifes.Remove(start);
-                Lifes.Remove(end);
-            }
-            else if (start.Key == 'F' && end.Key == 'W')
-            {
-                Lifes.Remove(start);
-                Lifes.Remove(end);
-            }
-            else if (start.Key == 'H' && end.Key == 'F')
-            {
-                var hero = start as Hero;
-                hero.Deduct_HP();
-                hero.Index = end.Index;
-                Lifes.Remove(end);
-            }
-            else if (start.Key == 'F' && end.Key == 'H')
-            {
-                var hero = end as Hero;
-                hero.Deduct_HP();
-                hero.Index = start.Index;
-                Lifes.Remove(start);
-            }
-            else if (start.Key == 'W' && end.Key == 'H')
-            {
-                var hero = end as Hero;
-                hero.Add_HP();
-                hero.Index = start.Index;
-                Lifes.Remove(start);
-            } 
-            else if (start.Key == 'H' && end.Key == 'W')
-            {
-                var hero = start as Hero;
-                hero.Add_HP();
-                hero.Index = end.Index;
-                Lifes.Remove(end);
-            }
+            var hander =  new SameLifeHandler(Lifes, new WaterFireHandler(Lifes, new HeroFireHandler(Lifes, new HeroWaterHandler(Lifes, new EndIsNullHandler(Lifes, null)))));
+            hander.Handle(start, end);
         }
 
-        private Base? getTarget(int target)
+        private Base? getStarter(int index)
+        {
+            return Lifes.First(p => p.Index == index);
+        }
+        private Base? getEnder(int target)
         {
             if (!Lifes.Any(p => p.Index == target))
             {
@@ -159,9 +116,21 @@
                 Console.SetCursorPosition(i * interval, 1);
                 Console.Write(i);
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            List<Hero?> heros = Lifes.Where(p=>p is Hero)
+                .Select(p=>p as Hero).ToList();
+
+            for (int i = 0;i < heros.Count;i++) 
+            {
+                Console.WriteLine($"hero: {heros[i].Index}, HP:{heros[i].Get_HP()}");
+            }
+
             Console.WriteLine();
         }
-        private List<int> GenerateRandomNumbers(int minValue, int maxValue, int count)
+        private List<int> generateRandomNumbers(int minValue, int maxValue, int count)
         {
             if (count > maxValue - minValue + 1 || count < 0)
             {
@@ -179,13 +148,11 @@
             return numbers.ToList();
         }
 
-        private List<Base> GenerateLifes()
+        private List<Base> generateLifes()
         {
-            var numberList = GenerateRandomNumbers(0, total_count-1, life_count)
+            var numberList = generateRandomNumbers(0, total_count-1, life_count)
                 .OrderBy(p => p).ToList();
             var targetLife = new char[] { 'W', 'F', 'H' };
-
-
 
             var lifes = new List<Base>();
             foreach (var item in numberList)

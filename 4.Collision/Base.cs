@@ -10,4 +10,11 @@
             Index = index;
         }
     }
+
+    internal class Empty : Base
+    {
+        public Empty(int index) : base(index)
+        {
+        }
+    }
 }

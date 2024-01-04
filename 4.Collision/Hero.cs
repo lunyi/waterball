@@ -18,5 +18,10 @@
         {
             HP = HP - 10;
         }
+
+        public int Get_HP()
+        {
+            return HP;
+        }
     }
 }
