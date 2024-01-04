@@ -1,11 +1,11 @@
 ﻿namespace _4.Collision
 {
-    internal abstract class LifeToLifeHandler
+    internal abstract class CollisionHandler
     {
 
         protected List<Base> Lifes;
-        protected LifeToLifeHandler Next;
-        public LifeToLifeHandler(List<Base> lifes, LifeToLifeHandler next) 
+        protected CollisionHandler Next;
+        public CollisionHandler(List<Base> lifes, CollisionHandler next) 
         {
             Next = next;
             Lifes = lifes;
@@ -14,7 +14,7 @@
         public abstract void Handle(Base source, Base target);
     }
 
-    internal class EndIsNullHandler : LifeToLifeHandler
+    internal class EndIsNullHandler : CollisionHandler
     {
         private static Dictionary<char, Func<int, Base>> map = new Dictionary<char, Func<int, Base>>()
             {
@@ -22,7 +22,7 @@
                 { 'W',  i => new Water(i) },
                 { 'H',  i => new Hero(i) }
             };
-        public EndIsNullHandler(List<Base> lifes, LifeToLifeHandler next) : base(lifes, next)
+        public EndIsNullHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
         {
 
         }
@@ -41,9 +41,9 @@
         }
     }
 
-    internal class SameLifeHandler : LifeToLifeHandler
+    internal class SameLifeHandler : CollisionHandler
     {
-        public SameLifeHandler(List<Base> lifes, LifeToLifeHandler next) : base(lifes, next)
+        public SameLifeHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
         {
 
         }
@@ -61,9 +61,9 @@
             }
         }
     }
-    internal class WaterFireHandler : LifeToLifeHandler
+    internal class WaterFireHandler : CollisionHandler
     {
-        public WaterFireHandler(List<Base> lifes, LifeToLifeHandler next) : base(lifes, next)
+        public WaterFireHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 
@@ -86,9 +86,9 @@
         }
     }
 
-    internal class HeroFireHandler : LifeToLifeHandler
+    internal class HeroFireHandler : CollisionHandler
     {
-        public HeroFireHandler(List<Base> lifes, LifeToLifeHandler next) : base(lifes, next)
+        public HeroFireHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 
@@ -123,9 +123,9 @@
             }
         }
     }
-    internal class HeroWaterHandler : LifeToLifeHandler
+    internal class HeroWaterHandler : CollisionHandler
     {
-        public HeroWaterHandler(List<Base> lifes, LifeToLifeHandler next) : base(lifes, next)
+        public HeroWaterHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 

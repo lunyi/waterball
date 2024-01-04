@@ -44,7 +44,7 @@ namespace _4.Collision
                     var start = getStarter(source);
                     var end = getEnder(target);
                     end ??= new Empty(target);
-                    collisions(start, end);
+                    move(start, end);
                 }
                 catch (Exception ex)
                 {
@@ -54,7 +54,7 @@ namespace _4.Collision
             }
         }
 
-        private void collisions(Base start, Base end)
+        private void move(Base start, Base end)
         {
             var hander =  new SameLifeHandler(Lifes, new WaterFireHandler(Lifes, new HeroFireHandler(Lifes, new HeroWaterHandler(Lifes, new EndIsNullHandler(Lifes, null)))));
             hander.Handle(start, end);
