@@ -7,11 +7,16 @@
         public Hero(int index) : base(index)
         {
             HP = default_hp;
+            Key = 'H'; 
+        }
+        public void Add_HP()
+        {
+            HP = HP + 10;
         }
 
-        public override Char GetKey()
+        public void Deduct_HP()
         {
-            return 'H';
+            HP = HP - 10;
         }
     }
 }

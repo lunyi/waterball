@@ -4,12 +4,7 @@
     {
         public Water(int index) : base(index)
         {
-
-        }
-
-        public override Char GetKey()
-        {
-            return 'W';
+            Key = 'W';
         }
     }
 }

@@ -4,12 +4,7 @@
     {
         public Fire(int index) : base(index)
         {
-
-        }
-
-        public override Char GetKey()
-        {
-            return 'F';
+            Key = 'F';
         }
     }
 }
