@@ -1,11 +1,6 @@
 ﻿namespace CardGame
 {
-    internal interface ICard
-    {
-        bool GreatThen(Card card);
-    }
-
-    internal class Card : ICard
+    internal class Card 
     {
         public Suit Suit { get; set; }
         public Rank Rank { get; set; }
@@ -15,15 +10,18 @@
             Rank = rank;
             Suit = suit;
         }
+    }
 
-        public bool GreatThen(Card card)
+    internal static class CardExtension
+    {
+        internal static bool GreatThen(this Card card, Card anotherCard)
         {
-            int rankComparison = Rank.CompareTo(card.Rank);
+            int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
             if (rankComparison != 0)
             {
                 return rankComparison == 1;
             }
-            return Suit.CompareTo(card.Suit) == 1;
+            return card.Suit.CompareTo(anotherCard.Suit) == 1;
         }
     }
 

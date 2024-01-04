@@ -2,7 +2,7 @@
 {
     internal class DisplayCards
     {
-        internal static void DisplayRound(List<IHand> hands)
+        internal static void DisplayRound(List<Hand> hands)
         {
             var initialCursorTop = Console.CursorTop;
 
@@ -18,14 +18,14 @@
 
             for (int i = 0; i < hands.Count; i++)
             {
-                var player = hands[i].GetPlayer();
+                var player = hands[i].Player;
                 Console.ForegroundColor = player is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.White;
                 Console.Write(" " + player.Name + "  ");
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        internal static void DisplayRoundWinnner(Player winner, IList<IHand> rounds)
+        internal static void DisplayRoundWinnner(Player winner, List<Hand> rounds)
         {
             Console.WriteLine();
             var result = $"(The Winner of this round is {winner.Name})\n";
@@ -33,7 +33,7 @@
             Console.WriteLine();
             for (int j = 0; j < rounds.Count; j++)
             {
-                var player = rounds[j].GetPlayer();
+                var player = rounds[j].Player;
                 result += $"{player.Name}: {player.GetPoint()} points\n";
             }
 

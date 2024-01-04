@@ -82,6 +82,7 @@ namespace Game.Uno
             _card = player.UnoHand.GetCardBySuit(targetCard.Suits);
             return (_card, repeatedCount);
         }
+
         private Card<RankUno, SuitUno> GetTargetCard(int topPosition)
         {
             var targetCard = DrawCard();

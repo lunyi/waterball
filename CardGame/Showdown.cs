@@ -36,7 +36,7 @@
                 var handsInThisRound = playersDrawCard();
                 DisplayCards.DisplayRound(handsInThisRound);
 
-                (Player winner, IList<IHand> rounds) = getRoundWinner(handsInThisRound);
+                (Player winner, List<Hand> rounds) = getRoundWinner(handsInThisRound);
 
                 winner.AddPoint();
                 DisplayCards.DisplayRoundWinnner(winner, rounds);
@@ -72,7 +72,7 @@
         {
             for (int i = 0; i < _players.Count; i++)
             {
-                var descision = _players[i].CheckIfPlayerWantToExchangeCard(_players);
+                var descision = _players[i].ExchangeHands.CheckIfPlayerWantToExchangeCard(_players[i], _players);
                 if (descision)
                 {
                     DisplayCards.DisplayCardsOfPlayers(_players);
@@ -80,7 +80,7 @@
             }
         }
 
-        private List<IHand> playersDrawCard()
+        private List<Hand> playersDrawCard()
         {
             for (int i = 0; i < _players.Count; i++)
             {
@@ -93,13 +93,13 @@
         {
             for (int i = 0; i < _players.Count; i++)
             {
-                _players[i].ChangeHandBack();
+                _players[i].ExchangeHands.ChangeHandBack();
             }
         }
 
-        private (Player winner, IList<IHand> rounds) getRoundWinner(List<IHand> hands)
+        private (Player winner, List<Hand> rounds) getRoundWinner(List<Hand> hands)
         {
-            IList<IHand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
+            List<Hand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
 
             for (int i = 0; i < sortedHands.Count; i++)
             {
@@ -112,7 +112,7 @@
                 }
             }
 
-            return (sortedHands[0].GetPlayer(), sortedHands);
+            return (sortedHands[0].Player, sortedHands);
         }
 
         private void initPlayerCards()

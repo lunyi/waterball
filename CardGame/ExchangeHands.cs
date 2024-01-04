@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace CardGame
+﻿namespace CardGame
 {
     internal interface IExchangeHands
     {
@@ -26,12 +24,42 @@ namespace CardGame
         {
             (_exchanger, _exchangee) = (exchanger, exchangee);
             (_exchanger.Hand, _exchangee.Hand) = (exchangee.Hand, exchanger.Hand);
-            
-            var tmpPayer = _exchanger.Hand.GetPlayer();
-            _exchanger.Hand.SetPlayer(_exchangee.Hand.GetPlayer());
-            _exchangee.Hand.SetPlayer(tmpPayer);
+
+            SwapPlayers(_exchanger.Hand.Player, _exchangee.Hand.Player);
+            //var tmpPayer = _exchanger.Hand.Player;
+            //_exchanger.Hand.Player = _exchangee.Hand.Player;
+            //_exchangee.Hand.Player = tmpPayer;
 
             countDown--;
+        }
+
+        public void ChangeHandBack()
+        {
+            if (!_isChangeBack)
+            {
+                return;
+            }
+            (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
+
+            SwapPlayers(_exchanger.Hand.Player, _exchangee.Hand.Player);
+
+            //var tmpPayer = _exchanger.Hand.Player;
+            //_exchanger.Hand.Player = _exchangee.Hand.Player;
+            //_exchangee.Hand.Player = tmpPayer;
+
+            Console.WriteLine($"{_exchanger.Name} and {_exchangee.Name} are changed back");
+            _isChangeBack = false;
+            Thread.Sleep(2000);
+        }
+
+        private void SwapPlayers(Player firstPlayer, Player secondPlayer)
+        {
+            Swap(ref firstPlayer, ref secondPlayer);
+        }
+
+        private static void Swap<T>(ref T first, ref T second)
+        {
+            (first, second) = (second, first);
         }
 
         public void CountDown()
@@ -43,50 +71,30 @@ namespace CardGame
             }
         }
 
-        public void ChangeHandBack()
-        {
-            if (!_isChangeBack)
-            {
-                return;
-            }
-            (_exchanger.Hand, _exchangee.Hand) = (_exchangee.Hand, _exchanger.Hand);
-
-            var tmpPayer = _exchanger.Hand.GetPlayer();
-            _exchanger.Hand.SetPlayer(_exchangee.Hand.GetPlayer());
-            _exchangee.Hand.SetPlayer(tmpPayer);
-
-            Console.WriteLine($"{_exchanger.Name} and {_exchangee.Name} are changed back");
-            _isChangeBack = false;
-            Thread.Sleep(2000);
-        }
-
         public bool CheckIfPlayerWantToExchangeCard(Player player, IList<Player> players)
         {
-            if (GetCount() == 3)
-            {
-                Console.WriteLine($"Hi {player.Name}, which player do you choose to exchange hand?");
-                try
-                {
-                    var playerIndex = Convert.ToInt32(Console.ReadLine());
-                    if (playerIndex != player.Index && playerIndex >= 1 && playerIndex <= 4)
-                    {
-                        var exchangee = players.FirstOrDefault(p => p.Index == playerIndex);
-                        ExchangeHand(player, exchangee);
-                        return true;
-                    }
-                }
-                catch
-                {
-                }
-
-                Console.WriteLine($"Ok, {player.Name} doesn't want to change.");
-                Console.WriteLine();
-                return false;
-            }
-            else
+            if (GetCount() != 3)
             {
                 CountDown();
             }
+
+            Console.WriteLine($"Hi {player.Name}, which player do you choose to exchange hand?");
+            try
+            {
+                var playerIndex = Convert.ToInt32(Console.ReadLine());
+                if (playerIndex != player.Index && playerIndex >= 1 && playerIndex <= 4)
+                {
+                    var exchangee = players.FirstOrDefault(p => p.Index == playerIndex);
+                    ExchangeHand(player, exchangee);
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+
+            Console.WriteLine($"Ok, {player.Name} doesn't want to change.");
+            Console.WriteLine();
             return false;
         }
 

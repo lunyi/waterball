@@ -6,17 +6,17 @@
         private int Point ;
         public int Index { get; protected set; }
         public string Name { get; protected set; }
-        protected IExchangeHands _exchangeHands { get; set; }
-        public IHand Hand { get; set; }
+        public IExchangeHands ExchangeHands { get; protected set; }
+        public Hand Hand { get; internal set; }
         public abstract void SelectCard();
         public abstract void Naming(string name);
 
         public Player(int index)
         {
             Hand = new Hand();
-            Hand.SetPlayer(this);
+            Hand.Player = this;
             Index = index;
-            _exchangeHands = new ExchangeHands();
+            ExchangeHands = new ExchangeHands();
         }
 
         public Card[] ShowCards()
@@ -44,20 +44,10 @@
             return Point;
         }
 
-        public void ChangeHandBack()
-        {
-            _exchangeHands.ChangeHandBack();
-        }
-
-        public bool CheckIfPlayerWantToExchangeCard(IList<Player> players)
-        {
-            return _exchangeHands.CheckIfPlayerWantToExchangeCard(this, players);
-        }
-
         public void Clear()
         {
             Hand.ClearCards();
-            _exchangeHands.Clear();
+            ExchangeHands.Clear();
             Point = 0;
         }
     }

@@ -1,26 +1,11 @@
-﻿using System.Security.Cryptography;
-
-namespace CardGame
+﻿namespace CardGame
 {
-    internal interface IHand
-    {
-        void AddHandCard(Card card);
-        int Size();
-        Card SelectCard(int index);
-        Card[] ShowCards();
-        Card ShowCard();
-        void SetPlayer(Player player);
-        Player GetPlayer();
-        void ClearCards();
-
-    }
-    internal class Hand : IHand
+    internal class Hand
     {
         private Card CurrentCard { get; set; }
         private IList<Card> Cards = new List<Card>();
         private IList<Card> OrderedCards;
-
-        private Player? Player { get; set; }
+        internal Player? Player { get; set; }
         public void AddHandCard(Card card)
         {
             Cards.Add(card);
@@ -35,11 +20,6 @@ namespace CardGame
         public void ClearCards()
         {
             Cards.Clear();
-        }
-
-        public void SetPlayer(Player player)
-        {
-            Player = player;
         }
 
         public Card ShowCard()
@@ -58,11 +38,6 @@ namespace CardGame
         public Card[] ShowCards()
         {  
             return OrderedCards.ToArray();
-        }
-
-        public Player GetPlayer()
-        {
-            return Player;
         }
     }
 }

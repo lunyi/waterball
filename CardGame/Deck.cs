@@ -4,7 +4,6 @@
     {
         void Shuffle();
         Card? DrawCard();
-
     }
     internal class Deck : IDeck
     {
