@@ -24,8 +24,7 @@ namespace CardGame
             while (!quit)
             {
                 initPlayerCards();
-                Console.WriteLine("新的回合開始了。");
-                Thread.Sleep(100);
+                decidePlayersOrder();
                 RunEachRound();
             }
            
@@ -35,44 +34,35 @@ namespace CardGame
         private void RunEachRound()
         {
             List<Card> showcards = null;
-            List<Card> cardOfThisRounds = null;
             var isReShowCard = false;
+            var passCount = 0;
 
             while (true)
             {
-                if (Round == 0)
-                {
-                    decidePlayersOrder();
-                }
-                var passCount = 0;
-
-
                 for (int i = 0; i < _orderedPlayers.Count; i++) 
                 {
                     Console.WriteLine();
-                    displayCards(_orderedPlayers[i]);
                    
-                    if (Round == 0)
+                    if (isReShowCard || Round == 0)
                     {
                         showcards = showFirstCards(_orderedPlayers[i]);
-                        Round++;
-                        continue;
-                    }
-                    else if (isReShowCard)
-                    {
-                        Console.WriteLine($"玩家 {_orderedPlayers[i].Name } 重新發牌.");
-                        Console.ReadKey();
                         isReShowCard = false;
+                        passCount = 0;
+                        Round++;
                     }
                     else
                     {
-                        cardOfThisRounds = showcards;
-                        showcards = showCards(_orderedPlayers[i], showcards, ref passCount);
-
-                        if (showcards == null)
+                        var tmp = showCards(_orderedPlayers[i], showcards, ref passCount);
+                        if (tmp != null && tmp.Count > 0)
                         {
-                            showcards = cardOfThisRounds;
+                            showcards = tmp;
                         }
+                    }
+
+                    if (_orderedPlayers[i].ShowCards().Count == 0)
+                    {
+                        Console.WriteLine($"遊戲結束，遊戲的勝利者為 {_orderedPlayers[i].Name}");
+                        Environment.Exit(0);
                     }
 
                     if (passCount == 3)
@@ -88,6 +78,7 @@ namespace CardGame
 
         private List<Card> showCards(Player player, List<Card> cards, ref int pass)
         {
+            displayCards(player);
             var showcards = player.ShowCards(cards);
             if (showcards == null || showcards.Count == 0)
             {
@@ -104,7 +95,10 @@ namespace CardGame
 
         private List<Card> showFirstCards(Player player) 
         {
+            Console.WriteLine($"新的回合開始了。");
+            displayCards(player);
             var showcards = player.ShowFirstCards();
+
             if (showcards == null)
             {
                 Console.WriteLine($"玩家 {player.Name} PASS.");
@@ -119,7 +113,7 @@ namespace CardGame
         {
             var cards = player.ShowCards();
             player.DisplayTurn();
-            cards.Display();
+            cards.Display(true);
         }
         private void decidePlayersOrder()
         {

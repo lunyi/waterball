@@ -45,18 +45,20 @@
         public List<Card> ShowFirstCards()
         {
             var cards = Hand.ShowCards();
-            var showCards = cards.GetStraight(cards[0], (_this, _that) => _this.Equals(cards[0]));
+            var beginCard = cards[0];
+
+            var showCards = cards.GetStraight(beginCard, (_this, _that) => _this.Equals(beginCard));
             if (showCards == null)
             {
-                showCards = cards.GetFullHouse(cards[0], (_this, _that) => _this.Equals(cards[0]));
+                showCards = cards.GetFullHouse(beginCard, (_this, _that) => _this.Equals(beginCard));
             }
             if (showCards == null)
             {
-                showCards = cards.GetPair(cards[0], (_this, _that ) => _this.Equals(cards[0]));
+                showCards = cards.GetPair(beginCard, (_this, _that ) => _this.Equals(beginCard));
             }
             if (showCards == null)
             {
-                showCards = new List<Card> { cards[0] };
+                showCards = new List<Card> { beginCard };
             }
 
             RemoveCards(showCards);

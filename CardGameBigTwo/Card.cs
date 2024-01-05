@@ -89,12 +89,16 @@
             return groupedByRank.Any(group => group.Count() == 3) &&
                    groupedByRank.Any(group => group.Count() == 2);
         }
-        internal static void Display(this List<Card> cards)
+        internal static void Display(this List<Card> cards, bool showOrder = false)
         {
-            for (int i = 0; i < cards.Count; i++)
+            if (showOrder)
             {
-                Console.Write(cards[i].Rank == Rank.Ten ? $"{i}     " : $"{i}    ");
+                for (int i = 0; i < cards.Count; i++)
+                {
+                    Console.Write(cards[i].Rank == Rank.Ten ? $"{i}     " : $"{i}    ");
+                }
             }
+
             Console.WriteLine();
             for (int i = 0; i < cards.Count; i++)
             {
@@ -106,6 +110,10 @@
         internal static List<Card> GetSingle(this List<Card> cards, Card specificCard)
         {
             var temps = cards.Where(p => p.GreatThan(specificCard)).ToList();
+            if (temps == null || temps.Count == 0)
+            {
+                return null;
+            }
             var target = temps.SortCards()[0];
             return new List<Card> { target };
         }
