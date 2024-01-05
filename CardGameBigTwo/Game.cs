@@ -1,13 +1,15 @@
 ﻿namespace CardGame
 {
-    internal class Showdown
+    internal class Game
     {
         private const int Num_Of_Ranks = 13;
         private int RountCount = 13;
         private IDeck _deck;
         private IList<Player> _players;
+        private List<Player> _orderedPlayers;
+        private int Round = 0;
 
-        public Showdown(IDeck deck, IList<Player> players)
+        public Game(IDeck deck, IList<Player> players)
         {
             _deck = deck;
             _players = players;
@@ -19,7 +21,7 @@
             while (!quit)
             {
                 initPlayerCards();
-                DisplayCards.DisplayCardsOfPlayers(_players);
+                Console.WriteLine("新的回合開始了。");
                 Thread.Sleep(100);
                 RunEachRound();
             }
@@ -29,55 +31,43 @@
 
         private void RunEachRound()
         {
-            while (RountCount >= 1 && RountCount <= Num_Of_Ranks)
+            while (true)
             {
-                checkIfPlayerWantToExchangeCard();
+                if (Round == 0)
+                {
+                    decidePlayersOrder();
+                }
+                
+                for (int i = 0; i < _orderedPlayers.Count; i++) 
+                {
+                    var cards = _orderedPlayers[i].ShowCards();
+                    _orderedPlayers[i].DisplayTurn();
+                    cards.Display();
+                    Console.ReadLine();
+                }
 
-                var handsInThisRound = playersDrawCard();
-                DisplayCards.DisplayRound(handsInThisRound);
 
-                (Player winner, List<Hand> rounds) = getRoundWinner(handsInThisRound);
-
-                winner.AddPoint();
-                DisplayCards.DisplayRoundWinnner(winner, rounds);
                 Console.ReadKey();
                 Console.Clear();
-
-                checkPlayerChangeHandBack();
-                displayCardsOfPlayers();
             }
             displayWinner();
         }
 
+        private void decidePlayersOrder()
+        {
+            var player = _players.First(p => p.ShowCards().ContainClub3());
+            _players.SetPlayersOrder(player.Index);
+            _orderedPlayers = _players.OrderBy(p => p.OrderIndex).ToList();
+        }
         private void displayWinner()
         {
             Console.WriteLine();
-            var (winners, point) = _players.GetFinalWinner();
+            //var (winners, point) = _players.GetFinalWinner();
 
-            var winnerString = string.Join(", ", winners);
-            var result = $"(The Winner is {winnerString} and the point is {point})\n";
-            Console.WriteLine(result);
+            //var winnerString = string.Join(", ", winners);
+            //var result = $"(The Winner is {winnerString} and the point is {point})\n";
+            //Console.WriteLine(result);
             Console.ReadKey();
-        }
-        private void displayCardsOfPlayers()
-        {
-            if (RountCount >= 2)
-            {
-                DisplayCards.DisplayCardsOfPlayers(_players);
-            }
-            RountCount--;
-        }
-
-        private void checkIfPlayerWantToExchangeCard()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                var descision = _players[i].ExchangeHands.CheckIfPlayerWantToExchangeCard(_players[i], _players);
-                if (descision)
-                {
-                    DisplayCards.DisplayCardsOfPlayers(_players);
-                }
-            }
         }
 
         private List<Hand> playersDrawCard()
@@ -87,14 +77,6 @@
                 _players[i].DrawCard();
             }
             return _players.Select(p => p.Hand).ToList();
-        }
-
-        private void checkPlayerChangeHandBack()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                _players[i].ExchangeHands.ChangeHandBack();
-            }
         }
 
         private (Player winner, List<Hand> rounds) getRoundWinner(List<Hand> hands)

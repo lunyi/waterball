@@ -11,7 +11,7 @@ namespace CardGame
             IDeck deck = new Deck();
             IList<Player> players = GetPlayers("lester");
 
-            var showdown = new Showdown(deck, players);
+            var showdown = new Game(deck, players);
             showdown.Start();
         }
 
@@ -26,16 +26,12 @@ namespace CardGame
             var players = new List<Player>();
             var aiPlayerNames = GetAIPlayerNames();
 
-            for (int i = 1; i < playerCount; i++)
+            for (int i = 1; i <= playerCount; i++)
             {
                 var aip = new AIPlayer(i);
                 aip.Naming(aiPlayerNames[i]);
                 players.Add(aip);
             }
-   
-            var p = new HumanPlayer(4);
-            p.Naming(playername);
-            players.Add(p);
             return players;
         }
         private static string[] GetAIPlayerNames()
