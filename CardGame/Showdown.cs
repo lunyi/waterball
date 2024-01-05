@@ -105,7 +105,7 @@
             {
                 for (int j = 0; j < sortedHands.Count - 1; j++)
                 {
-                    if (sortedHands[j + 1].ShowCard().GreatThen(sortedHands[j].ShowCard()))
+                    if (sortedHands[j + 1].ShowCard().GreatThan(sortedHands[j].ShowCard()))
                     {
                         (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
                     }

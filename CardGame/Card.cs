@@ -14,7 +14,7 @@
 
     internal static class CardExtension
     {
-        internal static bool GreatThen(this Card card, Card anotherCard)
+        internal static bool GreatThan(this Card card, Card anotherCard)
         {
             int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
             if (rankComparison != 0)

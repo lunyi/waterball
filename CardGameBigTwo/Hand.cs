@@ -3,13 +3,13 @@
     internal class Hand
     {
         private Card CurrentCard { get; set; }
-        private IList<Card> Cards = new List<Card>();
-        private IList<Card> OrderedCards;
+        private List<Card> Cards = new List<Card>();
+        private List<Card> OrderedCards;
         internal Player? Player { get; set; }
         public void AddHandCard(Card card)
         {
             Cards.Add(card);
-            OrderedCards = Cards.OrderBy(p => p.Rank).ThenBy(p => p.Suit).ToList();
+            OrderedCards = Cards.SortCards();
         }
 
         public int Size() 
@@ -35,9 +35,16 @@
             return card;
         }
 
-        public Card[] ShowCards()
+        public void RemoveCard(Card card)
+        {
+            var cardToRemove = Cards.FirstOrDefault(p => p.Rank == card.Rank && p.Suit == card.Suit);
+            Cards.Remove(cardToRemove);
+            OrderedCards = Cards.SortCards();
+        }
+
+        public List<Card> ShowCards()
         {  
-            return OrderedCards.ToArray();
+            return OrderedCards.ToList();
         }
     }
 }

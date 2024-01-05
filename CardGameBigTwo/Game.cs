@@ -1,4 +1,7 @@
-﻿namespace CardGame
+﻿using System.Numerics;
+using System.Xml.Serialization;
+
+namespace CardGame
 {
     internal class Game
     {
@@ -31,28 +34,93 @@
 
         private void RunEachRound()
         {
+            List<Card> showcards = null;
+            List<Card> cardOfThisRounds = null;
+            var isReShowCard = false;
+
             while (true)
             {
                 if (Round == 0)
                 {
                     decidePlayersOrder();
                 }
-                
+                var passCount = 0;
+
+
                 for (int i = 0; i < _orderedPlayers.Count; i++) 
                 {
-                    var cards = _orderedPlayers[i].ShowCards();
-                    _orderedPlayers[i].DisplayTurn();
-                    cards.Display();
-                    Console.ReadLine();
+                    Console.WriteLine();
+                    displayCards(_orderedPlayers[i]);
+                   
+                    if (Round == 0)
+                    {
+                        showcards = showFirstCards(_orderedPlayers[i]);
+                        Round++;
+                        continue;
+                    }
+                    else if (isReShowCard)
+                    {
+                        Console.WriteLine($"玩家 {_orderedPlayers[i].Name } 重新發牌.");
+                        Console.ReadKey();
+                        isReShowCard = false;
+                    }
+                    else
+                    {
+                        cardOfThisRounds = showcards;
+                        showcards = showCards(_orderedPlayers[i], showcards, ref passCount);
+
+                        if (showcards == null)
+                        {
+                            showcards = cardOfThisRounds;
+                        }
+                    }
+
+                    if (passCount == 3)
+                    {
+                        isReShowCard = true;
+                    }
                 }
 
-
                 Console.ReadKey();
-                Console.Clear();
+                Round++;
             }
-            displayWinner();
         }
 
+        private List<Card> showCards(Player player, List<Card> cards, ref int pass)
+        {
+            var showcards = player.ShowCards(cards);
+            if (showcards == null || showcards.Count == 0)
+            {
+                Console.WriteLine($"玩家 {player.Name} PASS.");
+                pass++;
+            }
+            else
+            {
+                showcards.Display();
+                pass = 0;
+            }
+            return showcards;
+        }
+
+        private List<Card> showFirstCards(Player player) 
+        {
+            var showcards = player.ShowFirstCards();
+            if (showcards == null)
+            {
+                Console.WriteLine($"玩家 {player.Name} PASS.");
+            }
+            else
+            {
+                showcards.Display();
+            }
+            return showcards;
+        }
+        private void displayCards(Player player)
+        {
+            var cards = player.ShowCards();
+            player.DisplayTurn();
+            cards.Display();
+        }
         private void decidePlayersOrder()
         {
             var player = _players.First(p => p.ShowCards().ContainClub3());
@@ -87,7 +155,7 @@
             {
                 for (int j = 0; j < sortedHands.Count - 1; j++)
                 {
-                    if (sortedHands[j + 1].ShowCard().GreatThen(sortedHands[j].ShowCard()))
+                    if (sortedHands[j + 1].ShowCard().GreatThan(sortedHands[j].ShowCard()))
                     {
                         (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
                     }
