@@ -63,6 +63,98 @@
             return cards.OrderBy(p => p.Rank).ThenBy(p => p.Suit).ToList();
         }
 
+        internal static bool IsStraightFlush(this List<Card> hand)
+        {
+            // Group cards by suit
+            var groupedBySuit = hand.GroupBy(c => c.Suit);
+
+            // Check if any suit has a straight
+            foreach (var group in groupedBySuit)
+            {
+                var sortedCards = group.OrderBy(c => (int)c.Rank).ToList();
+
+                // Check for a sequence of consecutive ranks
+                for (int i = 0; i < sortedCards.Count - 1; i++)
+                {
+                    if ((int)sortedCards[i + 1].Rank - (int)sortedCards[i].Rank != 1)
+                    {
+                        break; // Not a straight
+                    }
+
+                    if (i == sortedCards.Count - 2)
+                    {
+                        return true; // Found a straight in this suit
+                    }
+                }
+            }
+
+            return false; // No straight found in any suit
+        }
+
+        internal static List<Card> GetStraightFlush(this List<Card> hand)
+        {
+            // Group cards by suit
+            var groupedBySuit = hand.GroupBy(c => c.Suit);
+
+            // Check if any suit has a straight
+            foreach (var group in groupedBySuit)
+            {
+                var sortedCards = group.OrderBy(c => (int)c.Rank).ToList();
+
+                // Check for a sequence of consecutive ranks
+                for (int i = 0; i < sortedCards.Count - 1; i++)
+                {
+                    if ((int)sortedCards[i + 1].Rank - (int)sortedCards[i].Rank != 1)
+                    {
+                        break; // Not a straight
+                    }
+
+                    if (i == sortedCards.Count - 2)
+                    {
+                        return sortedCards; // Found a straight in this suit
+                    }
+                }
+            }
+
+            return null; // No straight found in any suit
+        }
+
+        internal static bool IsFourOfAKind(this List<Card> hand)
+        {
+            // Group cards by rank
+            var groupedByRank = hand.GroupBy(c => c.Rank);
+
+            // Check if any group has four cards (four of a kind)
+            return groupedByRank.Any(group => group.Count() == 4);
+        }
+
+        internal static List<Card> GetFourOfAKind(this List<Card> hand)
+        {
+            // Group cards by rank
+            var groupedByRank = hand.GroupBy(c => c.Rank);
+
+            // Find a group with four cards (four of a kind)
+            var fourOfAKindGroup = groupedByRank.FirstOrDefault(group => group.Count() == 4);
+
+            if (fourOfAKindGroup != null)
+            {
+                // Get the four cards of the same rank
+                var fourOfAKind = fourOfAKindGroup.ToList();
+
+                // Find the fifth card
+                var fifthCard = hand.FirstOrDefault(card => card.Rank != fourOfAKind[0].Rank);
+
+                if (fifthCard != null)
+                {
+                    // Add the fifth card to the four of a kind
+                    fourOfAKind.Add(fifthCard);
+                    return fourOfAKind;
+                }
+            }
+
+            return null; // No four of a kind found
+        }
+
         internal static bool IsStraight(this List<Card> cards)
         {
             // Sort the cards based on ranks

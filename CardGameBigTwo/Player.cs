@@ -79,7 +79,15 @@
             var biggestCard = keyCards[keyCards.Count - 1];
             if (keyCards.Count == 5)
             {
-                if (keyCards.IsStraight())
+                if (keyCards.IsStraightFlush())
+                {
+                    showCards = cards.GetStraightFlush(biggestCard, (_this, _that) => _this.GreatThan(biggestCard));
+                }
+                else if (keyCards.IsFourOfAKind())
+                {
+                    showCards = cards.GetFourOfAKind(biggestCard, (_this, _that) => _this.GreatThan(biggestCard));
+                }
+                else if (keyCards.IsStraight())
                 {
                     showCards = cards.GetStraight(biggestCard, (_this, _that) => _this.GreatThan(biggestCard));
                 }
