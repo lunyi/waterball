@@ -47,7 +47,16 @@
             var cards = Hand.ShowCards();
             var beginCard = cards[0];
 
-            var showCards = cards.GetStraight(beginCard, (_this, _that) => _this.Equals(beginCard));
+
+            var showCards = cards.GetStraightFlush(beginCard) ;
+            if (showCards == null)
+            {
+                showCards = cards.GetFourOfAKind(beginCard);
+            }
+            if (showCards == null)
+            {
+                showCards = cards.GetStraight(beginCard, (_this, _that) => _this.Equals(beginCard));
+            }
             if (showCards == null)
             {
                 showCards = cards.GetFullHouse(beginCard, (_this, _that) => _this.Equals(beginCard));

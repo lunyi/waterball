@@ -7,6 +7,26 @@ namespace CardGame
         private const int playerCount = 4 ;
         static void Main(string[] args)
         {
+
+            var cards = new List<Card>
+            { 
+                new Card(Suit.Club, Rank.Three),
+                new Card(Suit.Club, Rank.Four),
+                new Card(Suit.Club, Rank.Five),
+                new Card(Suit.Club, Rank.King),
+                new Card(Suit.Club, Rank.Six),
+                new Card(Suit.Diamond, Rank.Three),
+                new Card(Suit.Diamond, Rank.Four),
+                new Card(Suit.Diamond, Rank.Five),
+                new Card(Suit.Diamond, Rank.King),
+                new Card(Suit.Diamond, Rank.Six),
+                new Card(Suit.Spade, Rank.Three),
+                new Card(Suit.Spade, Rank.Seven),
+                new Card(Suit.Spade, Rank.Ten)
+            };
+
+            var tmp = cards.GetSingle(new Card(Suit.Club, Rank.Four));
+
             InitConsoleSetting();
             IDeck deck = new Deck();
             IList<Player> players = GetPlayers("lester");
@@ -21,6 +41,7 @@ namespace CardGame
             //Console.SetWindowSize(130, 100);
             Console.OutputEncoding = Encoding.UTF8;
         }
+
         private static IList<Player> GetPlayers(string playername)
         {
             var players = new List<Player>();
