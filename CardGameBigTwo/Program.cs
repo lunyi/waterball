@@ -25,7 +25,8 @@ namespace CardGame
                 new Card(Suit.Spade, Rank.Ten)
             };
 
-            var tmp = cards.GetSingle(new Card(Suit.Club, Rank.Four));
+            var tmp = cards.GroupBy(c => c.Suit).ToList();
+            //var tmp = cards.GetSingle(new Card(Suit.Club, Rank.Four));
 
             InitConsoleSetting();
             IDeck deck = new Deck();
