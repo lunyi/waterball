@@ -8,13 +8,13 @@ namespace ConsoleApp1
         {
             var pewdiepieChannel = new ChannelObservable("PewDiePie");
             var waterballChannel = new ChannelObservable("水球軟體學院");
-            var waterballClient = new WaterballSubscriber("水球");
-            var fireballClient = new FireballSubscriber("火球");
+            var waterballSubscriber = new WaterballSubscriber("水球");
+            var fireballSubscriber = new FireballSubscriber("火球");
 
-            waterballClient.Subscribe(waterballChannel);
-            waterballClient.Subscribe(pewdiepieChannel);
-            fireballClient.Subscribe(waterballChannel);
-            fireballClient.Subscribe(pewdiepieChannel);
+            waterballSubscriber.Subscribe(waterballChannel);
+            waterballSubscriber.Subscribe(pewdiepieChannel);
+            fireballSubscriber.Subscribe(waterballChannel);
+            fireballSubscriber.Subscribe(pewdiepieChannel);
 
             var video1 = new Video("C1M1S2", 240);
             var video2 = new Video("Hello guys", 30);
