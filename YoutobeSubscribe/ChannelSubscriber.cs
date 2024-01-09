@@ -3,7 +3,6 @@
     internal abstract class ChannelSubscriber : IObserver<YoutubeChannel>
     {
         private IDisposable? unsubscriber;
-        private YoutubeChannel? last;
         private List<ChannelObservable> _channelObservables;
         private bool _like;
 
