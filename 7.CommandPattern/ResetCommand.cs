@@ -2,22 +2,28 @@
 {
     internal class ResetCommand : ICommand
     {
-        private Telecom _telecom;
-        private Dictionary<char, ICommand> _shortcut;
-        private Dictionary<char, ICommand> _shortcutUndo;
-        public ResetCommand(Dictionary<char, ICommand> shortcut)
+        private List<Item> _items;
+        private List<Item> _itemsUndo;
+        private Item[] _itemssArray = new Item[0] ;
+        public ResetCommand(List<Item> items)
         {
-            _shortcut = shortcut;
-            _shortcutUndo = shortcut;
+            _items = items;
+            _itemsUndo = items;
         }
         public void Execute()
         {
-            _shortcut.Clear();
+            _items.CopyTo(_itemssArray);
+            _items.Clear();
         }
 
         public void Undo()
         {
-            _shortcut = _shortcutUndo;
+            _items = _itemssArray.ToList();
+        }
+
+        public (List<Item>, List<Item>) GetItems()
+        {
+            return (_items, _itemsUndo);
         }
     }
 }

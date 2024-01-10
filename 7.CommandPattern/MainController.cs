@@ -1,13 +1,15 @@
-﻿namespace _7.CommandPattern
+﻿using System.Runtime.ExceptionServices;
+
+namespace _7.CommandPattern
 {
     internal class MainController
     {
         private Tank _tank = new Tank();
         private Telecom _telecom = new Telecom();
         private List<Item> selectItems;
-        private Dictionary<char, ICommand> _keyboard_shortcut = new Dictionary<char, ICommand>();
-        private Dictionary<char, ICommand> _macroes = new Dictionary<char, ICommand>();
-        private Stack<ICommand> _runningCommands = new Stack<ICommand> ();
+        private List<Item> _keyboard_shortcut = new List<Item>();
+        private Stack<ICommand> _executedCommands = new Stack<ICommand>();
+        private Stack<ICommand> _redoCommands = new Stack<ICommand>();
         public MainController()
         {
             selectItems = new List<Item>
@@ -25,13 +27,13 @@
             {
                 PrintQuestion();
                 var key = Console.ReadKey();
-                Console.WriteLine($"{key.KeyChar}?");
+                Console.WriteLine();
 
                 if (key.KeyChar == '1')
                 {
-                    var res = SetupMacro();
-                    if (!res)
+                    if (!SetupMacro())
                     {
+                        Console.WriteLine();
                         continue;
                     }
                 }
@@ -45,41 +47,58 @@
                 }
                 else
                 {
-                    try 
-                    {
-                        ICommand command = null;
-                        if (_keyboard_shortcut.TryGetValue(key.KeyChar, out command))
-                        {
-                            command.Execute();
-                            _runningCommands.Push(command);
-                        }
-                    }
-                    catch
-                    {
-                        Console.WriteLine("輸入錯誤，重來");
-                        continue;
-                    }
+                    ExecuteCommand(key);
                 }
+            }
+        }
+        private void ExecuteCommand(ConsoleKeyInfo key)
+        {
+            try
+            {
+                var item = _keyboard_shortcut.FirstOrDefault(p => p.Key == key.KeyChar);
+                var command = item?.Command;
+                if (command != null)
+                {
+                    command.Execute();
+                    _executedCommands.Push(command);
+                }
+                else
+                {
+                    Console.WriteLine("輸入錯誤，重來");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("輸入錯誤，重來");
             }
         }
 
         private void PrintQuestion()
         {
-            foreach (var item in _macroes)
+            Console.WriteLine();
+            var ordered_shortcut = _keyboard_shortcut.OrderBy(p=>p.Key).ToList();
+            foreach (var item in ordered_shortcut)
             {
-                var macro = item.Value as Macro;
-                Console.WriteLine($"{item.Key}: {macro.Description} ");
+                Console.WriteLine($"{item.Key}: {item.Description} ");
             }
-
-            Console.Write("(1) 快捷鍵設置 (2) Undo (3) Redo (字母) 按下按鍵:");
+            Console.Write("(1) 快捷鍵設置 (2) Undo (3) Redo (字母) 按下按鍵: ");
         }
 
-        private char SetupCommand()
+        private char SetupCommand(bool ismacro)
         {
             Console.WriteLine();
+            Console.Write($"Key: ");
             var key = Console.ReadKey();
-            Console.Write($"Key: {key.KeyChar}");
-            Console.WriteLine($"要將哪一道指令設置到快捷鍵 {key.KeyChar}上:");
+            Console.WriteLine();
+            if (ismacro)
+            {
+                Console.WriteLine($"要將哪些指令設置成快捷鍵 {key.KeyChar} 的巨集（輸入多個數字，以空白隔開）: ");
+            }
+            else
+            {
+                Console.WriteLine($"要將哪一道指令設置到快捷鍵 {key.KeyChar} 上: ");
+            }
+            
             for (int i = 0; i < selectItems.Count; i++)
             {
                 Console.WriteLine($"({selectItems[i].Key}) {selectItems[i].Description}");
@@ -89,31 +108,43 @@
 
         private bool SetupMacro()
         {
-            Console.WriteLine();
-            Console.Write("設置巨集指令(y / n):");
+            Console.Write("設置巨集指令(y / n): ");
             var yn = Console.ReadKey();
-            Console.Write($"{yn.KeyChar}");
             try
             {
-                if (yn.KeyChar.ToString().ToLower() == "y")
+                var ismacro = yn.KeyChar.ToString().ToLower() == "y";
+                var key = SetupCommand(ismacro);
+                if (ismacro)
                 {
-                    var key = SetupCommand();
                     var commandLine = Console.ReadLine();
                     var commandKeys = commandLine.Split(" ").Select(p => char.Parse(p)).ToList();
-                    var commands = selectItems.Where(p => commandKeys.Contains(p.Key)).ToList();
-                    var macro = new Macro(commands);
-                    _keyboard_shortcut.Add(key, macro);
-                    _macroes.Add(key, macro);
+                    var items = selectItems.Where(p => commandKeys.Contains(p.Key)).ToList();
+                    var description = string.Join(" & ", items.Select(p=>p.Description).ToArray());
+                    var commands = items.Select(p => p.Command).ToList();
+                    var macro = new Macro(key, description, commands);
+                    _keyboard_shortcut.Add(new Item(key, description, macro));
                 }
                 else if (yn.KeyChar.ToString().ToLower() == "n")
                 {
-                    var key = SetupCommand();
-                    _keyboard_shortcut.Add(key, selectItems.GetCommandByKey(key));
+                    var commandKey = Console.ReadKey();
+                    var selectedItem = selectItems.FirstOrDefault(p=>p.Key == commandKey.KeyChar);
+                    var item = new Item(key, selectedItem.Description, selectedItem.Command);
+                    _keyboard_shortcut.Add(item);
                 }
                 else
                 {
                     return false;
                 }
+
+                for (int i = 0; i < _keyboard_shortcut.Count; i++)
+                {
+                    if (_keyboard_shortcut[i].Command is ResetCommand)
+                    { 
+                        var reset = _keyboard_shortcut[i].Command as ResetCommand;
+                        List<Item> t1, t2;
+                        (t1,t2) = reset.GetItems();
+                    }
+                } 
             }
             catch (Exception)
             { 
@@ -125,25 +156,20 @@
 
         private void Undo()
         {
-            if (_runningCommands != null)
+            if (_executedCommands?.TryPop(out var redo) == true)
             {
-                var redo = _runningCommands.Pop();
-                redo.Undo();
+                _redoCommands.Push(redo);
+                redo?.Undo();
             }
         }
 
         private void Redo()
         {
-            if (_runningCommands != null)
+            if (_redoCommands?.TryPop(out var redo) == true)
             {
-                var redo = _runningCommands.Pop();
-                redo.Undo();
+                _executedCommands.Push(redo);
+                redo?.Execute();
             }
-        }
-        public void Reset()
-        {
-            _keyboard_shortcut.Clear();
-            _runningCommands.Clear();
         }
     }
 }

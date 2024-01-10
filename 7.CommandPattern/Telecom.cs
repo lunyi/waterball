@@ -4,12 +4,14 @@
     {
         public void Connect()
         {
-            Console.WriteLine("The telecom has been turned on.");
+            Console.Write("The telecom has been turned on.");
+            Console.WriteLine();
         }
 
         public void Disconnect()
         {
-            Console.WriteLine(" The telecom has been turned off.");
+            Console.Write(" The telecom has been turned off.");
+            Console.WriteLine();
         }
     }
 }

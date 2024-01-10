@@ -2,37 +2,31 @@
 {
     internal class Macro : ICommand
     {
-        private List<Item> _items;
+        private List<ICommand> _commands;
         public string Description { get; set; }
         public char Key { get; set; }
 
-        public Macro(List<Item> items) 
+        public Macro(char key, string description, List<ICommand> commands) 
         {
-            _items = items;
+            Key = key;
+            Description = description;
+            _commands = commands;
         }
 
         public void Execute()
         {
-            var list = _items.Select(p => p.Command).ToList();
-            for (int i = 0; i < list.Count; i++) 
+            for (int i = 0; i < _commands.Count; i++) 
             {
-                list[i].Execute();
+                _commands[i].Execute();
             }    
         }
 
         public void Undo()
         {
-            var list = _items.Select(p => p.Command).ToList();
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < _commands.Count; i++)
             {
-                list[i].Undo();
+                _commands[i].Undo();
             }
-        }
-
-        public string GetDescription()
-        {
-            var list = _items.Select(p => p.Description).ToList();
-            return string.Join(" & ", list);
         }
     }
 }

@@ -4,12 +4,14 @@
     {
         public void MoveForward()
         {
-            Console.WriteLine("The tank has moved forward.");
+            Console.Write("The tank has moved forward.");
+            Console.WriteLine();
         }
 
         public void MoveBackward()
         {
-            Console.WriteLine("The tank has moved backward.");
+            Console.Write("The tank has moved backward.");
+            Console.WriteLine();
         }
     }
 }

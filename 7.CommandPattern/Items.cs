@@ -13,12 +13,4 @@
         public string Description { get; set; }
         public ICommand Command { get; set; }
     }
-
-    internal static class ItemExtensions
-    { 
-        public static ICommand GetCommandByKey(this List<Item> list, char key)
-        {
-            return list.First(p => p.Key == key).Command;
-        }
-    }
 }
