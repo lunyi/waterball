@@ -29,11 +29,7 @@
 
                 if (key.KeyChar == '1')
                 {
-                    if (!SetupMacro())
-                    {
-                        Console.WriteLine();
-                        continue;
-                    }
+                    SetupMacro();
                 }
                 else if (key.KeyChar == '2')
                 {
