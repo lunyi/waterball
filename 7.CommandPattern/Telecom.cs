@@ -10,7 +10,7 @@
 
         public void Disconnect()
         {
-            Console.Write(" The telecom has been turned off.");
+            Console.Write("The telecom has been turned off.");
             Console.WriteLine();
         }
     }

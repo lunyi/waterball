@@ -1,13 +1,11 @@
-﻿using System.Runtime.ExceptionServices;
-
-namespace _7.CommandPattern
+﻿namespace _7.CommandPattern
 {
     internal class MainController
     {
         private Tank _tank = new Tank();
         private Telecom _telecom = new Telecom();
         private List<Item> selectItems;
-        private List<Item> _keyboard_shortcut = new List<Item>();
+        private static List<Item> _keyboard_shortcut = new List<Item>();
         private Stack<ICommand> _executedCommands = new Stack<ICommand>();
         private Stack<ICommand> _redoCommands = new Stack<ICommand>();
         public MainController()
@@ -76,6 +74,12 @@ namespace _7.CommandPattern
         private void PrintQuestion()
         {
             Console.WriteLine();
+
+            if (_keyboard_shortcut.Any(p => p == null))
+            {
+                _keyboard_shortcut = _keyboard_shortcut.Where(p => p != null).ToList();
+            }
+
             var ordered_shortcut = _keyboard_shortcut.OrderBy(p=>p.Key).ToList();
             foreach (var item in ordered_shortcut)
             {
@@ -106,49 +110,53 @@ namespace _7.CommandPattern
             return key.KeyChar;
         }
 
+        private void InsertShortCutByMacro(char key)
+        {
+            var commandLine = Console.ReadLine();
+            var commandKeys = commandLine.Split(" ").Select(p => char.Parse(p)).ToList();
+            var items = selectItems.Where(p => commandKeys.Contains(p.Key)).ToList();
+            var description = string.Join(" & ", items.Select(p => p.Description).ToArray());
+            var commands = items.Select(p => p.Command).ToList();
+            var macro = new MacroCommand(key, description, commands);
+            _keyboard_shortcut.Add(new Item(key, description, macro));
+        }
+
+        private void InsertShortCutByKey(char key)
+        {
+            try
+            {
+                var commandKey = Console.ReadKey();
+                var selectedItem = selectItems.FirstOrDefault(p => p.Key == commandKey.KeyChar);
+                var item = new Item(key, selectedItem.Description, selectedItem.Command);
+                _keyboard_shortcut.Add(item);
+            }
+            catch (Exception ex) 
+            { 
+                Console.WriteLine(ex.ToString()); 
+            }
+        }
+
         private bool SetupMacro()
         {
             Console.Write("設置巨集指令(y / n): ");
-            var yn = Console.ReadKey();
-            try
+            var keyYn = Console.ReadKey().KeyChar.ToString().ToLower();
+            if (!(keyYn == "y" || keyYn == "n"))
             {
-                var ismacro = yn.KeyChar.ToString().ToLower() == "y";
-                var key = SetupCommand(ismacro);
-                if (ismacro)
-                {
-                    var commandLine = Console.ReadLine();
-                    var commandKeys = commandLine.Split(" ").Select(p => char.Parse(p)).ToList();
-                    var items = selectItems.Where(p => commandKeys.Contains(p.Key)).ToList();
-                    var description = string.Join(" & ", items.Select(p=>p.Description).ToArray());
-                    var commands = items.Select(p => p.Command).ToList();
-                    var macro = new Macro(key, description, commands);
-                    _keyboard_shortcut.Add(new Item(key, description, macro));
-                }
-                else if (yn.KeyChar.ToString().ToLower() == "n")
-                {
-                    var commandKey = Console.ReadKey();
-                    var selectedItem = selectItems.FirstOrDefault(p=>p.Key == commandKey.KeyChar);
-                    var item = new Item(key, selectedItem.Description, selectedItem.Command);
-                    _keyboard_shortcut.Add(item);
-                }
-                else
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < _keyboard_shortcut.Count; i++)
-                {
-                    if (_keyboard_shortcut[i].Command is ResetCommand)
-                    { 
-                        var reset = _keyboard_shortcut[i].Command as ResetCommand;
-                        List<Item> t1, t2;
-                        (t1,t2) = reset.GetItems();
-                    }
-                } 
-            }
-            catch (Exception)
-            { 
                 Console.WriteLine("輸入錯誤，重來");
+                return false;
+            }
+            var ismacro = keyYn == "y";
+            var key = SetupCommand(ismacro);
+            if (ismacro)
+            {
+                InsertShortCutByMacro(key);
+            }
+            else if (keyYn == "n")
+            {
+                InsertShortCutByKey(key);
+            }
+            else
+            {
                 return false;
             }
             return true;
@@ -160,6 +168,12 @@ namespace _7.CommandPattern
             {
                 _redoCommands.Push(redo);
                 redo?.Undo();
+
+                if (redo is ResetCommand)
+                {
+                    var reset1 = redo as ResetCommand;
+                    _keyboard_shortcut = reset1.GetKeyboardShortcus();
+                }
             }
         }
 

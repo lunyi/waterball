@@ -1,12 +1,12 @@
 ﻿namespace _7.CommandPattern
 {
-    internal class Macro : ICommand
+    internal class MacroCommand : ICommand
     {
         private List<ICommand> _commands;
         public string Description { get; set; }
         public char Key { get; set; }
 
-        public Macro(char key, string description, List<ICommand> commands) 
+        public MacroCommand(char key, string description, List<ICommand> commands) 
         {
             Key = key;
             Description = description;

@@ -2,28 +2,26 @@
 {
     internal class ResetCommand : ICommand
     {
-        private List<Item> _items;
-        private List<Item> _itemsUndo;
-        private Item[] _itemssArray = new Item[0] ;
-        public ResetCommand(List<Item> items)
+        private List<Item>? _keyboard_shortcus;
+        private List<Item>? _keyboard_shortcusUndo;
+
+        public ResetCommand(List<Item> keyboard_shortcus)
         {
-            _items = items;
-            _itemsUndo = items;
+            _keyboard_shortcus = keyboard_shortcus;
         }
         public void Execute()
         {
-            _items.CopyTo(_itemssArray);
-            _items.Clear();
+            _keyboard_shortcusUndo = new List<Item>(_keyboard_shortcus);
+            _keyboard_shortcus.Clear();
         }
 
         public void Undo()
         {
-            _items = _itemssArray.ToList();
+            _keyboard_shortcus = _keyboard_shortcusUndo;
         }
-
-        public (List<Item>, List<Item>) GetItems()
+        public List<Item> GetKeyboardShortcus()
         {
-            return (_items, _itemsUndo);
+            return _keyboard_shortcus;
         }
     }
 }
