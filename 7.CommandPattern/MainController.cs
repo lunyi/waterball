@@ -63,7 +63,7 @@
             }
             catch (Exception)
             {
-                Console.WriteLine("輸入錯誤，重來");
+                Console.WriteLine("執行錯誤，重來");
             }
         }
 
