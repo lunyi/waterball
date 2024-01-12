@@ -4,12 +4,8 @@
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                ConsoleKeyInfo key = Console.ReadKey();
-                var test = key.KeyChar;
-                Console.WriteLine(test);
-            }
+            var game = new Game();
+            game.Start();
         }
     }
 }

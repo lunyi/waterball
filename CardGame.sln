@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "6.YoutobeSubscribe", "Youto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "7.CommandPattern", "7.CommandPattern\7.CommandPattern.csproj", "{CD9EAA7A-DB1C-43A7-A106-F2E1977250C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8.StatePattern", "8.StatePattern\8.StatePattern.csproj", "{F7895891-A7CA-4D0A-B6C2-1692670BF1C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8.StatePattern", "8.StatePattern\8.StatePattern.csproj", "{F7895891-A7CA-4D0A-B6C2-1692670BF1C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8.TicketSystem", "8.StateMachine\8.TicketSystem.csproj", "{F127DC29-B358-4F26-97CB-74DD18DD9151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{F7895891-A7CA-4D0A-B6C2-1692670BF1C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7895891-A7CA-4D0A-B6C2-1692670BF1C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7895891-A7CA-4D0A-B6C2-1692670BF1C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F127DC29-B358-4F26-97CB-74DD18DD9151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F127DC29-B358-4F26-97CB-74DD18DD9151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F127DC29-B358-4F26-97CB-74DD18DD9151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F127DC29-B358-4F26-97CB-74DD18DD9151}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
