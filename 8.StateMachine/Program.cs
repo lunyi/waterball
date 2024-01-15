@@ -1,7 +1,6 @@
-﻿using _8.TicketSystem;
-using static _8.TicketSystem.TicketSystem2;
+﻿using static _8.TicketSystem.TicketSystem2;
 
-namespace _8.StateMachine
+namespace _8.TicketSystem
 {
     internal class Program
     {

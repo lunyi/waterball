@@ -1,6 +1,4 @@
-﻿using _8.StateMachine;
-
-namespace _8.TicketSystem
+﻿namespace _8.TicketSystem
 {
     internal class SoldOutState : State
     {

@@ -1,6 +1,4 @@
-﻿using _8.StateMachine;
-
-namespace _8.TicketSystem
+﻿namespace _8.TicketSystem
 {
     internal class TicketSystem3
     {
@@ -32,7 +30,7 @@ namespace _8.TicketSystem
 
         public void SetTotal(int total)
         {
-            _total =total;
+            _total = total;
         }
 
         public void updateCoinsDisplay()

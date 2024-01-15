@@ -2,71 +2,32 @@
 {
     internal class Game
     {
+        private Character _character;
+        private List<Monster> _monsters;
+
+        public Game(Character character, List<Monster> monsters)
+        {
+            _character = character;
+            _monsters = monsters;
+        }
         public void Start()
         {
             ConsoleKeyInfo keyInfo;
             int x = 1;
             int y = 1;
-            DisplayObstacle(5, 5);
-            DisplayO(x, y);
             
             do
             {
                 keyInfo = Console.ReadKey(true);
-
-                if (IsMoveAllowed(x, y, keyInfo))
-                {
-                    continue;
-                }
-
-                ClearO(x, y);
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        y--;
-                        break;
-                    case ConsoleKey.DownArrow:
-                        y++;
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        x--;
-                        break;
-                    case ConsoleKey.RightArrow:
-                        x++;
-                        break;
-                }
-
-                DisplayO(x, y);
-
-            } while (keyInfo.Key != ConsoleKey.Escape);
+                _character.Move(ref x, ref y, keyInfo);
+                _monsters.Move(x, y);
+            } 
+            while (keyInfo.Key != ConsoleKey.Escape);
 
             Console.WriteLine("Program ended");
         }
-        void DisplayO(int x, int y)
-        {
-            if (x <= 0 || y <= 0)
-            {
-                return;
-            }
-            Console.SetCursorPosition(x, y);
-            Console.Write("O");
-        }
 
-        void DisplayObstacle(int x, int y)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine("\u25A1");
-        }
 
-        void ClearO(int x, int y)
-        {
-            if (x <= 0 || y <= 0)
-            {
-                return;
-            }
-            Console.SetCursorPosition(x, y);
-            Console.Write(" ");
-        }
 
         static bool IsMoveAllowed(int x, int y, ConsoleKeyInfo keyInfo)
         {

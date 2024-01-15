@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace _8.TicketSystem
+﻿namespace _8.TicketSystem
 {
     internal class TicketSystem2
     {
