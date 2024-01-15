@@ -1,4 +1,4 @@
-﻿using static _8.TicketSystem.TicketSystem2;
+﻿using _8.StateMachine;
 
 namespace _8.TicketSystem
 {
@@ -10,9 +10,10 @@ namespace _8.TicketSystem
         private bool lighton = false;
         private State _state;
 
-        public TicketSystem3(int ticekts) 
+        public TicketSystem3(int tickets) 
         {
-            _tickets = ticekts;
+            _tickets = tickets;
+            _state = new InStockState(this, tickets);
         }
 
 
@@ -28,24 +29,15 @@ namespace _8.TicketSystem
         {
             return _total;
         }
+
+        public void SetTotal(int total)
+        {
+            _total =total;
+        }
+
         public void updateCoinsDisplay()
         {
             Console.WriteLine($"Total Coins: {_total}");
-        }
-
-        public void turnLight(bool on)
-        { 
-            lighton = on;
-            var sign = on ? "on" : "off";
-            Console.WriteLine($"The light is {sign}");
-        }
-
-        public void EnterState(State state)
-        {
-            _state.ExitState();
-            _state = state;
-            Console.WriteLine($"State updated: {state}");
-            _state.EnterState();
         }
 
         public void InsertCoin()
@@ -54,7 +46,14 @@ namespace _8.TicketSystem
             _state.InsertCoin();
         }
 
-        private void issueOneTicket()
+        public void TurnLight(bool on)
+        {
+            lighton = on;
+            var sign = on ? "on" : "off";
+            Console.WriteLine($"The light is {sign}");
+        }
+
+        public void issueOneTicket()
         {
             Console.WriteLine($"You have bought one ticket.");
             if (--_tickets == 0)
@@ -73,86 +72,22 @@ namespace _8.TicketSystem
             Console.WriteLine($"Spitting the coins: {coins}");
         }
 
+        public void EnterState(State state)
+        {
+            _state.ExitState();
+            _state = state;
+            Console.WriteLine($"State updated: {state}");
+            _state.EnterState();
+        }
+        public void PressBuyButton()
+        {
+            _state.PressBuyButton();
+        }
+
         public void PressRefundButton()
         {
             Console.WriteLine($"[Action] Press the refund button.");
             _state.PressRefundButton();
-        }
-    }
-
-    internal class InStockState : State
-    {
-        private TicketSystem3 ticketSystem3;
-        private int tickets;
-
-        public InStockState(TicketSystem3 ticketSystem3, int tickets)
-        {
-            this.ticketSystem3 = ticketSystem3;
-            this.tickets = tickets;
-        }
-
-        public override void InsertCoin()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void PressBuyButton()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class SoldOutState : State
-    {
-        public SoldOutState(TicketSystem3 ticketSystem3) : base(ticketSystem3)
-        {
-        }
-
-        public override void InsertCoin()
-        {
-            _ticketSystem3.set
-        }
-
-        public override void PressBuyButton()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal abstract class State
-    {
-        protected TicketSystem3 _ticketSystem3;
-
-        public State(TicketSystem3 ticketSystem3)
-        {
-            _ticketSystem3 = ticketSystem3;
-        }
-
-        public State(TicketSystem3 ticketSystem3, int ticket)
-        {
-            _ticketSystem3 = ticketSystem3;
-        }
-
-        public abstract void InsertCoin();
-        public abstract void PressBuyButton();
-
-        public void EnterState()
-        { 
-        
-        }
-        public void ExitState()
-        {
-
-        }
-
-        public void FillInTickets(int tickets)
-        {
-            _ticketSystem3.SetTickets(_ticketSystem3.GetTickets() + tickets);
-        }
-
-        public void PressRefundButton()
-        {
-            _ticketSystem3.SpitCoins(_ticketSystem3.GetTotal());
         }
     }
 }
