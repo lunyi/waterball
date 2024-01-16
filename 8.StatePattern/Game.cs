@@ -4,30 +4,37 @@
     {
         private Character _character;
         private List<Monster> _monsters;
+        private List<Obstacle> _obstables;
+        private List<Treasure> _treasures;
 
-        public Game(Character character, List<Monster> monsters)
+        public Game(Character character, List<Monster> monsters, List<Obstacle> obstables, List<Treasure> treasures)
         {
             _character = character;
             _monsters = monsters;
+            _obstables = obstables;
+            _treasures = treasures;
         }
         public void Start()
         {
+            int x, y = 0;
+            _character.Display();
+            _treasures.Display();
+            _obstables.Display();
+            _monsters.Display();
+
             ConsoleKeyInfo keyInfo;
-            int x = 1;
-            int y = 1;
-            
             do
             {
                 keyInfo = Console.ReadKey(true);
-                _character.Move(ref x, ref y, keyInfo);
-                _monsters.Move(x, y);
+                (x, y) =_character.Move(keyInfo);
+                _monsters.Move(ref x, ref y);
             } 
-            while (keyInfo.Key != ConsoleKey.Escape);
-
+            while 
+            (
+                keyInfo.Key != ConsoleKey.Escape
+            );
             Console.WriteLine("Program ended");
         }
-
-
 
         static bool IsMoveAllowed(int x, int y, ConsoleKeyInfo keyInfo)
         {

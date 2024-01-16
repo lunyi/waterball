@@ -3,9 +3,23 @@
     internal class Character
     {
         private State _state;
-        public Character()
+        private List<Monster> _monsters;
+        public int _direction { get; set; }
+        public string _dirChar { get; set; }
+        public int HP { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+
+        public Character(int x, int y)
         {
-            
+            HP = 300;
+            X = x;
+            Y = y;
+        }
+
+        public void SetMonsters(List<Monster> monsters)
+        {
+            _monsters = monsters;
         }
 
         public void EnterState(State state)
@@ -13,36 +27,53 @@
             _state = state;
         }
 
-        public void Move(ref int x, ref int y, ConsoleKeyInfo keyInfo)
+        public (int, int) Move(ConsoleKeyInfo keyInfo)
         {
-
-            ClearO(x, y);
+            ClearO(X, Y);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    y--;
+                    _dirChar = "\u2191";
+                    Y--;
+                    _direction = 8;
                     break;
                 case ConsoleKey.DownArrow:
-                    y++;
+                    _dirChar = "\u2193";
+                    _direction = 2;
+                    Y++;
                     break;
                 case ConsoleKey.LeftArrow:
-                    x--;
+                    _dirChar = "\u2190";
+                    _direction = 4;
+                    X--;
                     break;
                 case ConsoleKey.RightArrow:
-                    x++;
+                    _dirChar = "\u2192";
+                    _direction = 6;
+                    X++;
                     break;
             }
-
-            DisplayO(x, y);
+            Display(X, Y);
+            return (X, Y);
         }
 
-        void DisplayO(int x, int y)
+        public void Display(int x, int y)
         {
             if (x <= 0 || y <= 0)
             {
                 return;
             }
             Console.SetCursorPosition(x, y);
+            Console.Write(_dirChar);
+        }
+
+        public void Display()
+        {
+            if (X <= 0 || Y <= 0)
+            {
+                return;
+            }
+            Console.SetCursorPosition(X, Y);
             Console.Write("O");
         }
 

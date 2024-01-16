@@ -2,5 +2,8 @@
 {
     internal class HealingPotion : Treasure
     {
+        public HealingPotion(int x, int y) : base(x, y)
+        {
+        }
     }
 }
