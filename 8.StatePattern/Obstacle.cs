@@ -2,13 +2,13 @@
 {
     internal class Obstacle
     {
-        public int _x { get; private set; }
-        public int _y { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public Obstacle(int x, int y)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
         }
 
         void Clear(int x, int y)
@@ -34,7 +34,7 @@
         {
             for (int i = 0; i < obstacles.Count; i++)
             {
-                obstacles[i].Display(obstacles[i]._x, obstacles[i]._y);
+                obstacles[i].Display(obstacles[i].X, obstacles[i].Y);
             }
         }
     }

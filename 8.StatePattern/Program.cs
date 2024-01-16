@@ -6,30 +6,31 @@ namespace _8.StatePattern
     {
         static void Main(string[] args)
         {
-            var character = new Character(1,1);
-            character.EnterState(new NormalState(character));
-
             var monsters = new List<Monster>
-            { 
-                new Monster(5,6),
-                new Monster(2,2),
-                new Monster(8,7)
-            };
-            character.SetMonsters(monsters);
+            {
+                new Monster(15,6),
+                new Monster(2,12),
+                new Monster(18,7)
+            };         
 
             var obstables = new List<Obstacle>
             {
-                new Obstacle(1, 7),
-                new Obstacle(3, 3)
+                new Obstacle(11, 7),
+                new Obstacle(3, 13)
             };
 
             var treasures = new List<Treasure>
             {
-                new Treasure(2, 8),
-                new Treasure(6, 3)
+                new Treasure(12, 8),
+                new Treasure(6, 13)
             };
 
-            var game = new Game(character, monsters, obstables, treasures);
+            var character = new Character(1,1);
+            character.EnterState(new NormalState(character));
+            character.SetMonsters(monsters);
+            character.SetObstacles(obstables);
+
+            var game = new Game(character, monsters, obstables, treasures, new Touch());
             game.Start();
         }
     }

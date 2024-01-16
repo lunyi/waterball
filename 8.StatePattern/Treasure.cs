@@ -11,7 +11,7 @@
         }
         public void Display()
         {
-            if (X <= 0 || Y <= 0)
+            if (X <= 0 || Y <= 0 || X > Console.BufferWidth || Y > Console.BufferHeight)
             {
                 return;
             }

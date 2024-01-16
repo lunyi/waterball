@@ -6,13 +6,19 @@
         private List<Monster> _monsters;
         private List<Obstacle> _obstables;
         private List<Treasure> _treasures;
+        private Touch _touch;
 
-        public Game(Character character, List<Monster> monsters, List<Obstacle> obstables, List<Treasure> treasures)
+        public Game(Character character, 
+            List<Monster> monsters, 
+            List<Obstacle> obstables, 
+            List<Treasure> treasures,
+            Touch touch)
         {
             _character = character;
             _monsters = monsters;
             _obstables = obstables;
             _treasures = treasures;
+            _touch = touch;
         }
         public void Start()
         {
@@ -26,14 +32,29 @@
             do
             {
                 keyInfo = Console.ReadKey(true);
-                (x, y) =_character.Move(keyInfo);
+                (x, y) = _character.Move(keyInfo);
+                _touch.CheckIfTouchCharacterAndTreasures(_character, _treasures);
+                _touch.CheckIfTouchCharacterAndMonsters(_character, _monsters);
+
                 _monsters.Move(ref x, ref y);
+                _touch.CheckIfTouchCharacterAndTreasures(_character, _treasures);
+                _touch.CheckIfTouchTreasuresAndMonsters(_monsters, _treasures);
+
+                checkIfFinished();
             } 
             while 
             (
                 keyInfo.Key != ConsoleKey.Escape
             );
             Console.WriteLine("Program ended");
+        }
+
+        private void checkIfFinished()
+        {
+            if (_monsters.Count == 0)
+            { 
+                Console.WriteLine("遊戲結束");
+            }
         }
 
         static bool IsMoveAllowed(int x, int y, ConsoleKeyInfo keyInfo)
