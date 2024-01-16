@@ -22,17 +22,26 @@
         }
         public void Start()
         {
-            int x, y = 0;
+            int x = 0, y = 0;
             _character.Display();
             _treasures.Display();
             _obstables.Display();
             _monsters.Display();
-
+            bool stuck = false;
             ConsoleKeyInfo keyInfo;
             do
             {
                 keyInfo = Console.ReadKey(true);
-                (x, y) = _character.Move(keyInfo);
+                if (!stuck)
+                {
+                    (x, y) = _character.Move(keyInfo);
+                }
+
+                stuck = _touch.CheckIfTouchCharacterAndObstacles(_character, _obstables);
+                if (stuck)
+                {
+                    continue;
+                }
                 _touch.CheckIfTouchCharacterAndTreasures(_character, _treasures);
                 _touch.CheckIfTouchCharacterAndMonsters(_character, _monsters);
 

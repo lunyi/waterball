@@ -2,18 +2,16 @@
 {
     internal class Touch
     {
-        public void CheckIfTouchCharacterAndObstacles(Character character, List<Obstacle> obstacles)
+        public bool CheckIfTouchCharacterAndObstacles(Character character, List<Obstacle> obstacles)
         {
             for (int i = 0; i < obstacles.Count; i++)
             {
-                if (obstacles[i].X == character.X && obstacles[i].Y == character.Y)
+                if (Math.Abs(obstacles[i].X - character.X) + Math.Abs(obstacles[i].Y - character.Y) <= 1)
                 {
-                    //Console.WriteLine("與monster碰撞");
-                    //obstacles[i].Clear();
-                    obstacles.Remove(obstacles[i]);
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
 
         public void CheckIfTouchCharacterAndMonsters(Character character, List<Monster> _monsters)
