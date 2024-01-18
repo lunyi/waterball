@@ -28,6 +28,7 @@
                 }
             }
         }
+
         public void CheckIfTouchCharacterAndTreasures(Character character, List<Treasure> treasures)
         {
             for (int i = 0; i < treasures.Count; i++)

@@ -1,6 +1,6 @@
 ﻿namespace CardGame
 {
-    internal class Card 
+    internal class Card : IComparable
     {
         public Suit Suit { get; set; }
         public Rank Rank { get; set; }
@@ -9,6 +9,17 @@
         { 
             Rank = rank;
             Suit = suit;
+        }
+
+        public int CompareTo(object? obj)
+        {
+            var card = obj as Card;
+            int rankComparison = Rank.CompareTo(card.Rank);
+            if (rankComparison != 0)
+            {
+                return rankComparison;
+            }
+            return Suit.CompareTo(card.Suit);
         }
     }
 

@@ -1,54 +1,93 @@
-﻿namespace CardGame
+﻿using System.Numerics;
+
+namespace CardGame
 {
     internal class Showdown
     {
-        private const int Num_Of_Ranks = 13;
-        private int RountCount = 13;
-        private IDeck _deck;
-        private IList<Player> _players;
+        private Dictionary<Suit, string> MapSuit = new Dictionary<Suit, string> 
+        {
+            { Suit.Heart, "H"},
+            { Suit.Diamond, "D"},
+            { Suit.Spade, "S"},
+            { Suit.Club, "C"}
+        };
 
-        public Showdown(IDeck deck, IList<Player> players)
+        private Dictionary<Rank, string> MapRank = new Dictionary<Rank, string>
+        {
+            { Rank.Ace, "A"},
+            { Rank.Two, "2"},
+            { Rank.Three, "3"},
+            { Rank.Four, "4"},
+            { Rank.Five, "5"},
+            { Rank.Six, "6"},
+            { Rank.Seven, "7"},
+            { Rank.Eight, "8"},
+            { Rank.Nine, "9"},
+            { Rank.Ten, "X"},
+            { Rank.Jack, "J"},
+            { Rank.Queen, "Q"},
+            { Rank.King, "K"},
+        };
+
+        private const int Num_Of_Ranks = 13;
+        private IDeck _deck;
+        private Player[] _players;
+
+        public Showdown(IDeck deck, Player[] players)
         {
             _deck = deck;
             _players = players;
         }
 
-        public void Start() 
+        public Player[] GetPlayers()
         {
-            var quit = false;
-            while (!quit)
-            {
-                initPlayerCards();
-                DisplayCards.DisplayCardsOfPlayers(_players);
-                Thread.Sleep(100);
-                RunEachRound();
-            }
-           
-            Console.ReadKey();
+            return _players;
         }
 
-        private void RunEachRound()
+        public void Start() 
         {
-            while (RountCount >= 1 && RountCount <= Num_Of_Ranks)
-            {
-                checkIfPlayerWantToExchangeCard();
-
-                var handsInThisRound = playersDrawCard();
-                DisplayCards.DisplayRound(handsInThisRound);
-
-                (Player winner, List<Hand> rounds) = getRoundWinner(handsInThisRound);
-
-                winner.AddPoint();
-                DisplayCards.DisplayRoundWinnner(winner, rounds);
-                Console.ReadKey();
-                Console.Clear();
-
-                checkPlayerChangeHandBack();
-                displayCardsOfPlayers();
-            }
+            initPlayerCards();
+            runAllRounds();
             displayWinner();
         }
 
+        private void runAllRounds()
+        {
+            for (int i = 0; i < Num_Of_Ranks; i++)
+            {
+                Console.WriteLine("====================");
+                Console.WriteLine($"Round-{i+1}");
+                var rounds = new List<Round>();
+                foreach (var player in _players)
+                {
+                    Console.WriteLine($"{player.Name}");
+                    var cards = player.Hand.ShowCards();
+                    foreach (var c in cards)
+                    { 
+                        Console.Write($" {MapRank[c.Rank]}{MapSuit[c.Suit]} ");
+                    }
+
+                    var card = player.SelectCard();
+                    
+                    if (card != null)
+                    {
+                        Console.Write($" ==> {MapRank[card.Rank]}{MapSuit[card.Suit]} ");
+                        Console.WriteLine();
+                        rounds.Add(new Round(player, card));
+                    }
+                }
+                
+                CompareCard(rounds.ToArray());
+            }
+        }
+
+        private void CompareCard(Round[] rounds)
+        {
+            var maxCard = rounds.Max(p => p.Card);
+            var round = rounds.FirstOrDefault(p => p.Card == maxCard);
+            round.Player.AddPoint();
+            Console.WriteLine($"round winner: {round.Player.Name} {MapRank[maxCard.Rank]}{MapSuit[maxCard.Suit]}");
+        }
         private void displayWinner()
         {
             Console.WriteLine();
@@ -59,68 +98,13 @@
             Console.WriteLine(result);
             Console.ReadKey();
         }
-        private void displayCardsOfPlayers()
-        {
-            if (RountCount >= 2)
-            {
-                DisplayCards.DisplayCardsOfPlayers(_players);
-            }
-            RountCount--;
-        }
-
-        private void checkIfPlayerWantToExchangeCard()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                var descision = _players[i].ExchangeHands.CheckIfPlayerWantToExchangeCard(_players[i], _players);
-                if (descision)
-                {
-                    DisplayCards.DisplayCardsOfPlayers(_players);
-                }
-            }
-        }
-
-        private List<Hand> playersDrawCard()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                _players[i].DrawCard();
-            }
-            return _players.Select(p => p.Hand).ToList();
-        }
-
-        private void checkPlayerChangeHandBack()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                _players[i].ExchangeHands.ChangeHandBack();
-            }
-        }
-
-        private (Player winner, List<Hand> rounds) getRoundWinner(List<Hand> hands)
-        {
-            List<Hand> sortedHands = hands.ToList(); // Create a copy to avoid modifying the original list
-
-            for (int i = 0; i < sortedHands.Count; i++)
-            {
-                for (int j = 0; j < sortedHands.Count - 1; j++)
-                {
-                    if (sortedHands[j + 1].ShowCard().GreatThan(sortedHands[j].ShowCard()))
-                    {
-                        (sortedHands[j], sortedHands[j + 1]) = (sortedHands[j + 1], sortedHands[j]);
-                    }
-                }
-            }
-
-            return (sortedHands[0].Player, sortedHands);
-        }
 
         private void initPlayerCards()
         {
-            RountCount = Num_Of_Ranks;
             foreach (var player in _players)
             {
-                player.Clear();
+                player.Naming();
+                player.Showdown = this;
             }
 
             _deck.Shuffle();
