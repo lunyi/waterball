@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace _4.Collision
+﻿namespace _4.Collision
 {
     internal class Game
     {
@@ -12,8 +10,8 @@ namespace _4.Collision
 
         private Dictionary<char, Func<int, Base>> map = new Dictionary<char, Func<int, Base>>()
             {
-                { 'F',  i => new Fire(i) },
-                { 'W',  i => new Water(i) },
+                { 'F',  i => new Base(i, 'F') },
+                { 'W',  i => new Base(i, 'W') },
                 { 'H',  i => new Hero(i) }
             };
 
@@ -43,7 +41,6 @@ namespace _4.Collision
 
                     var start = getStarter(source);
                     var end = getEnder(target);
-                    end ??= new Empty(target);
                     move(start, end);
                 }
                 catch (Exception ex)
@@ -56,7 +53,7 @@ namespace _4.Collision
 
         private void move(Base start, Base end)
         {
-            var hander =  new SameLifeHandler(Lifes, new WaterFireHandler(Lifes, new HeroFireHandler(Lifes, new HeroWaterHandler(Lifes, new EndIsNullHandler(Lifes, null)))));
+            var hander =  new CollisionSameLifeHandler(Lifes, new CollisionWaterFireHandler(Lifes, new CollisionHeroFireHandler(Lifes, new CollisionHeroWaterHandler(Lifes, null))));
             hander.Handle(start, end);
         }
 

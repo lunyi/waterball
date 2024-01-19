@@ -9,12 +9,18 @@
         {
             Index = index;
         }
-    }
 
-    internal class Empty : Base
-    {
-        public Empty(int index) : base(index)
+        public Base(int index, char key)
         {
+            Index = index;
+            Key = key;
         }
     }
+
+    //internal class Empty : Base
+    //{
+    //    public Empty(int index) : base(index)
+    //    {
+    //    }
+    //}
 }
