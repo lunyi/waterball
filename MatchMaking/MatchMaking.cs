@@ -14,7 +14,9 @@
         {
             _matchMethod = matchMethod;
         }
-        public Individual[] Match<T>(Individual ind, Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T : struct
+        public Individual[] Match<T>(
+            Individual ind, 
+            Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T : struct
         {
             return _matchMethod.Match(ind, _individuals, orderby);
         }

@@ -1,21 +1,36 @@
-﻿using System.Linq;
-
-namespace MatchMaking
+﻿namespace MatchMaking
 {
     internal class MatchDistanceBased : IMatchMethod
     {
-        public Individual[] Match<T>(Individual ind, Individual[] others, Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T: struct
+        public Individual[] Match<T>(
+            Individual ind, 
+            Individual[] others, 
+            Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T: struct
         {
             var distList = new Dictionary<Individual, T>();
             others = others.Where(p => p.Id != ind.Id).ToArray();
 
-            for (int i = 0; i < others.Length; i++)
+            foreach (var other in others)
             {
-                var dis = Math.Pow(others[i].CoordX - ind.CoordX, 2) + Math.Pow(others[i].CoordY - ind.CoordY, 2);
-                distList.Add(others[i], (T)(object)dis);
+                var dis = ind.Coord.GetDistance(other.Coord);
+                distList.Add(other, (T)(object)dis);
             }
 
             return orderby(distList).Select(p => p.Key).ToArray();
+        }
+
+        public Individual[] Match<T>(Individual ind, Individual[] others)
+        {
+            var distList = new List<Individual>();
+            others = others.Where(p => p.Id != ind.Id).ToArray();
+
+            foreach (var other in others)
+            {
+                var dis = ind.Coord.GetDistance(other.Coord);
+                distList.Add(other);
+            }
+
+            return distList.OrderBy(p=>p.Coord.GetDistance(ind.Coord)).ToArray();
         }
     }
 }

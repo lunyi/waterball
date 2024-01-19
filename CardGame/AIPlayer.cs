@@ -11,21 +11,14 @@
         {
             if (ExchangeHands == null)
             {
-                try
+                var ifexhange = random.Next(0, 3);
+                if (ifexhange == 0)
                 {
-                    var ifexhange = random.Next(0, 4);
-                    if (ifexhange == 0)
-                    {
-                        var exchangees = Showdown.GetPlayers()
-                            .Where(p => p.ExchangeHands == null && p.Index != Index)
-                            .ToArray();
+                    var exchangees = Showdown.GetPlayers()
+                        .Where(p => p.ExchangeHands == null && p.Index != Index)
+                        .ToArray();
 
-                        ExchangeHands = new ExchangeHands(this, exchangees[random.Next(0, exchangees.Count())]);
-                    }
-                }
-                catch
-                {
-
+                    ExchangeHands = new ExchangeHands(this, exchangees[random.Next(0, exchangees.Count())]);
                 }
             }
             else

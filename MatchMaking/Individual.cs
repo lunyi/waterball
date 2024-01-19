@@ -8,10 +8,9 @@
         public int Age { get; set; }
         public string Intro { get; set; }
         public string Habits { get; set; }
-        public double CoordX { get; set; }
-        public double CoordY { get; set; }
+        public Coord Coord { get; set; }
 
-        public Individual(int id, string name, Gender gender, int age, string intro, string habits, double coordX, double coordY)
+        public Individual(int id, string name, Gender gender, int age, string intro, string habits, Coord coord)
         {
             Id = id;
             Name = name;
@@ -19,8 +18,7 @@
             Age = age;
             Intro = intro;
             Habits = habits;
-            CoordX = coordX;
-            CoordY = coordY;
+            Coord = coord;
         }
     }
 }

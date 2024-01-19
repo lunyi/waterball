@@ -22,7 +22,7 @@ namespace CardGame
                 }
                 catch
                 {
-
+                    Console.WriteLine("Invalid parameter");
                 }
             }
             else
