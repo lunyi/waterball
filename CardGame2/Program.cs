@@ -25,7 +25,7 @@ namespace Game
         private static void InitConsoleSetting()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            //Console.SetWindowSize(130, 600);
+            Console.SetWindowSize(130, 600);
             Console.OutputEncoding = Encoding.UTF8;
         }
     }

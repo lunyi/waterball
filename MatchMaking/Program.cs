@@ -23,13 +23,13 @@ namespace MatchMaking
 
             var matchMaking = new MatchMaking(indviduals);
             matchMaking.SetMatchMethod(new MatchDistanceBased());
-            //matchMaking.SetMatchMethod(new MatchDistanceBasedReverse(new MatchDistanceBased()));
+            //matchMaking.SetMatchMethod(new Reverse(new MatchDistanceBased()));
 
             var res1 = matchMaking.Match<double>(idv1, dict => dict.OrderBy(p => p.Value));
             var res2 = matchMaking.Match<double>(idv1, dict => dict.OrderByDescending(p => p.Value));
 
             matchMaking.SetMatchMethod(new MatchHabitsBased());
-            //matchMaking.SetMatchMethod(new MatchHabitsBasedReverse(new MatchHabitsBased()));
+            //matchMaking.SetMatchMethod(new Reverse(new MatchHabitsBased()));
 
             var res3 = matchMaking.Match<int>(idv1, dict => dict.OrderBy(p => p.Value));
             var res4 = matchMaking.Match<int>(idv1, dict => dict.OrderByDescending(p => p.Value));
