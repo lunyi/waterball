@@ -77,17 +77,18 @@ namespace CardGame
                     }
                 }
                 
-                CompareCard(rounds.ToArray());
+                compareCard(rounds.ToArray());
             }
         }
 
-        private void CompareCard(Round[] rounds)
+        private void compareCard(Round[] rounds)
         {
             var maxCard = rounds.Max(p => p.Card);
             var round = rounds.FirstOrDefault(p => p.Card == maxCard);
             round.Player.AddPoint();
             Console.WriteLine($"round winner: {round.Player.Name} {MapRank[maxCard.Rank]}{MapSuit[maxCard.Suit]}");
         }
+
         private void displayWinner()
         {
             Console.WriteLine();
