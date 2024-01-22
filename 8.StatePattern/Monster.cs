@@ -1,20 +1,10 @@
 ﻿namespace _8.StatePattern
 {
-    internal class Monster
+    internal class Monster : Role
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-
-        private State _state;
-        public Monster(int x, int y)
+        public Monster(int x, int y) : base(x, y)
         {
-            X = x;
-            Y = y;
-        }
 
-        public void EnterState(State state)
-        { 
-            _state = state;
         }
 
         public void MoveX(int x, int y)
@@ -29,32 +19,6 @@
             Clear(X, Y);
             Y = y > Y ? Y + 1 : Y - 1;
             Display(X, Y);
-        }
-
-        void Clear(int x, int y)
-        {
-            if (x <= 0 || y <= 0)
-            {
-                return;
-            }
-            Console.SetCursorPosition(x, y);
-            Console.Write(" ");
-        }
-
-        public void Clear()
-        {
-            Console.SetCursorPosition(X, Y);
-            Console.Write(" ");
-        }
-
-        public void Display(int x, int y)
-        {
-            if (x <= 0 || y <= 0 || x > Console.BufferWidth || y > Console.BufferHeight)
-            {
-                return;
-            }
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine("M");
         }
     }
 

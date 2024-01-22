@@ -1,21 +1,16 @@
 ﻿namespace _8.StatePattern
 {
-    internal class Character
+    internal class Character  : Role
     {
-        private State _state;
         private List<Monster> _monsters;
         private List<Obstacle> _obstacles;
         public int _direction { get; set; }
         public string _dirChar { get; set; }
         public int HP { get; set; }
-        public int X { get; private set; }
-        public int Y { get; private set; }
 
-        public Character(int x, int y)
+        public Character(int x, int y) : base(x, y)
         {
             HP = 300;
-            X = x;
-            Y = y;
         }
 
         public void SetMonsters(List<Monster> monsters)
@@ -26,11 +21,6 @@
         public void SetObstacles(List<Obstacle> obstacles)
         {
             _obstacles = obstacles;
-        }
-
-        public void EnterState(State state)
-        {
-            _state = state;
         }
 
         public (int, int) Move(ConsoleKeyInfo keyInfo)

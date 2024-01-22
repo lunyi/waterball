@@ -2,6 +2,13 @@
 {
     internal class Touch
     {
+        private TreasureGenerator _treasureGenerator;
+
+        public Touch(TreasureGenerator treasureGenerator)
+        {
+            _treasureGenerator = treasureGenerator;
+        }
+
         public bool CheckIfTouchCharacterAndObstacles(Character character, List<Obstacle> obstacles)
         {
             for (int i = 0; i < obstacles.Count; i++)
@@ -35,7 +42,7 @@
             {
                 if (treasures[i].X == character.X && treasures[i].Y == character.Y)
                 {
-                    //Console.WriteLine("與monster碰撞");
+                    var state = _treasureGenerator.GetState(treasures[i]);
                     treasures.RemoveAt(i);
                     break;
                 }

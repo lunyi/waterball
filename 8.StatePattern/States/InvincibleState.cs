@@ -2,7 +2,7 @@
 {
     internal class InvincibleState : State
     {
-        public InvincibleState(Character character) : base(character)
+        public InvincibleState() : base()
         {
         }
     }

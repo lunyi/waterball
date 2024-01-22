@@ -3,13 +3,16 @@
     internal class State
     {
         public int _round;
-        private Character _character;
+        private Role _role;
 
-        public State(Character character)
+        public State()
         {
-            _character = character;
         }
 
+        public void SetRole(Role role)
+        {
+            _role = role;
+        }
         public void DeductRound()
         {
             _round--;

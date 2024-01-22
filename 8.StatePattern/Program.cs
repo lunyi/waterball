@@ -26,11 +26,12 @@ namespace _8.StatePattern
             };
 
             var character = new Character(1,1);
-            character.EnterState(new NormalState(character));
+            character.EnterState(new NormalState());
             character.SetMonsters(monsters);
             character.SetObstacles(obstables);
-
-            var game = new Game(character, monsters, obstables, treasures, new Touch());
+            
+            var treasureGenerator = new TreasureGenerator();
+            var game = new Game(character, monsters, obstables, treasures, new Touch(treasureGenerator));
             game.Start();
         }
     }

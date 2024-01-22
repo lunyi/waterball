@@ -1,22 +1,10 @@
 ﻿namespace _8.StatePattern
 {
-    internal class Treasure
+    internal class Treasure : Role
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Treasure(int x, int y)
+        public Treasure(int x, int y) : base(x, y)
         {
-            X = x;
-            Y = y;
-        }
-        public void Display()
-        {
-            if (X <= 0 || Y <= 0 || X > Console.BufferWidth || Y > Console.BufferHeight)
-            {
-                return;
-            }
-            Console.SetCursorPosition(X, Y);
-            Console.Write("x");
+
         }
     }
 
