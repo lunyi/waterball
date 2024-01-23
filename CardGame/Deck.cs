@@ -7,8 +7,6 @@
     }
     internal class Deck : IDeck
     {
-        const int Num_Of_Cards = 52;
-        const int Num_Of_Ranks = 13;
         const int ShuffleIterations = 1000;
         private List<Card> cards;
         static Random r = new Random();
@@ -20,7 +18,7 @@
 
         private List<Card> GenerateCards()
         {
-            var generatedCards = new List<Card>(Num_Of_Cards);
+            var generatedCards = new List<Card>();
 
             foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
@@ -37,9 +35,9 @@
             cards = GenerateCards();
             for (int times = 0; times < ShuffleIterations; times++) 
             {
-                for (int i = 0; i < Num_Of_Cards; i++)
+                for (int i = 0; i < cards.Count; i++)
                 {
-                    int secondCardIndex = r.Next(Num_Of_Ranks);
+                    int secondCardIndex = r.Next(cards.Count);
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }

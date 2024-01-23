@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PokeCard\**" />
+    <EmbeddedResource Remove="PokeCard\**" />
+    <None Remove="PokeCard\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 

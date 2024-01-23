@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.CardGame", "CardGame\1.Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.MatchMaking", "matchmaking\2.MatchMaking.csproj", "{28AA9D66-F16A-492A-A0B3-F50222D22590}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.CardGame2", "CardGame2\3.CardGame2.csproj", "{37AC9D68-B397-4F1F-98C6-2EDB46CF0696}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.Collision", "Collision\4.Collision.csproj", "{5DA8B3CE-4AF6-4361-9037-ACFF6D08DBD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5.CardGameBigTwo", "CardGameBigTwo\5.CardGameBigTwo.csproj", "{4187E262-AF87-42F3-937A-4BF0F9216032}"
@@ -21,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8.StatePattern", "8.StatePa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8.TicketSystem", "8.StateMachine\8.TicketSystem.csproj", "{F127DC29-B358-4F26-97CB-74DD18DD9151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3.UnoGame", "3.UnoGame\3.UnoGame.csproj", "{91EED31F-C48A-4CDE-AAA1-72BD62C76EB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.UnoGame", "3.UnoGame\3.UnoGame.csproj", "{91EED31F-C48A-4CDE-AAA1-72BD62C76EB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.CardTemplate", "CardGameTemplate\3.CardTemplate.csproj", "{8BF6E927-00E3-4AE9-AAA4-FCA9CA2CBC29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28AA9D66-F16A-492A-A0B3-F50222D22590}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37AC9D68-B397-4F1F-98C6-2EDB46CF0696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37AC9D68-B397-4F1F-98C6-2EDB46CF0696}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37AC9D68-B397-4F1F-98C6-2EDB46CF0696}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37AC9D68-B397-4F1F-98C6-2EDB46CF0696}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5DA8B3CE-4AF6-4361-9037-ACFF6D08DBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DA8B3CE-4AF6-4361-9037-ACFF6D08DBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA8B3CE-4AF6-4361-9037-ACFF6D08DBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{91EED31F-C48A-4CDE-AAA1-72BD62C76EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91EED31F-C48A-4CDE-AAA1-72BD62C76EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91EED31F-C48A-4CDE-AAA1-72BD62C76EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BF6E927-00E3-4AE9-AAA4-FCA9CA2CBC29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF6E927-00E3-4AE9-AAA4-FCA9CA2CBC29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF6E927-00E3-4AE9-AAA4-FCA9CA2CBC29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF6E927-00E3-4AE9-AAA4-FCA9CA2CBC29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
