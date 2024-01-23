@@ -1,4 +1,6 @@
-﻿namespace _3.UnoGame
+﻿using System.Runtime.CompilerServices;
+
+namespace _3.UnoGame
 {
     internal interface IDeck
     {
@@ -6,6 +8,7 @@
         void Shuffle(Card[] cards);
         Card? DrawCard();
         int Size();
+        Card[] GetAllCards();
     }
 
     internal class Deck : IDeck
@@ -38,14 +41,7 @@
         public void Shuffle()
         {
             _cards = GenerateCards();
-            for (int times = 0; times < ShuffleIterations; times++)
-            {
-                for (int i = 0; i < Num_Of_Cards; i++)
-                {
-                    int secondCardIndex = r.Next(Num_Of_Ranks);
-                    (_cards[i], _cards[secondCardIndex]) = (_cards[secondCardIndex], _cards[i]);
-                }
-            }
+            Shuffle(_cards.ToArray());
         }
 
         public void Shuffle(Card[] cards)
@@ -54,11 +50,10 @@
             {
                 for (int i = 0; i < cards.Length; i++)
                 {
-                    int secondCardIndex = r.Next(Num_Of_Ranks);
+                    int secondCardIndex = r.Next(cards.Length);
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
-
             _cards = cards.ToList();
         }
 
@@ -75,9 +70,15 @@
             return card;
         }
 
+        
         public int Size()
         {
             return _cards.Count;
+        }
+
+        public Card[] GetAllCards()
+        {
+            return _cards.ToArray();
         }
     }
 }

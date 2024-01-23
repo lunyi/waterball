@@ -11,6 +11,14 @@ namespace _3.UnoGame
                 { Suit.Red,ConsoleColor.Red },
             };
 
+        static Dictionary<Suit, string> MapSuitString = new Dictionary<Suit, string>
+            {
+                { Suit.Blue, "B" },
+                { Suit.Yellow, "Y" },
+                { Suit.Green, "G" },
+                { Suit.Red, "R" },
+            };
+
         static Dictionary<Rank, string> MapRank = new Dictionary<Rank, string>
             {
                 { Rank.One, "1" },
@@ -25,8 +33,19 @@ namespace _3.UnoGame
                 { Rank.Ten, "10" }
             };
 
-        internal static int DisplayCardsOfPlayers(IList<Player> players, int topPosition)
+        internal static void DisplayAllCards(Card[] cards)
         {
+            foreach (var card in cards)
+            {
+                Console.Write($"{MapSuitString[card.Suit]}{MapRank[card.Rank]} ");
+            }
+            Console.WriteLine();
+        }
+
+        internal static int DisplayCardsOfPlayers(IList<Player> players)
+        {
+            var topPosition = 2;
+            Console.Clear();
             for (int i = 0; i < players.Count; i++)
             {
                 var cards = players[i].Hand.ShowCards();
@@ -39,6 +58,7 @@ namespace _3.UnoGame
                     var c = new Card(cards[j].Suit, cards[j].Rank);
                     if (j <= 5)
                     {
+                        Thread.Sleep(100);
                         DrawCard(c, 2 * j, topPosition + 1);
                     }
                     

@@ -2,19 +2,17 @@
 {
     internal class Hand
     {
-        private IList<Card> Cards = new List<Card>();
-        private IList<Card> OrderedCards;
+        private List<Card> Cards = new List<Card>();
+        private Card[] OrderedCards;
         public void AddHandCard(Card card)
         {
             Cards.Add(card);
-            OrderedCards = Cards
-                .OrderBy(p => p.Suit)
-                .ThenBy(p => p.Rank).ToList();
+            OrderedCards = SortCards();
         }
 
         public int Size() 
         {
-            return OrderedCards.Count;
+            return Cards.Count;
         }
 
         public Card SelectCard(Suit suit)
@@ -24,11 +22,19 @@
             {
                 Cards.Remove(card);
             }
+            OrderedCards = SortCards();
             return card;
         }
 
+        private Card[] SortCards()
+        {
+            return Cards
+                .OrderBy(p => p.Suit)
+                .ThenBy(p => p.Rank).ToArray();
+
+        }
         public Card[] ShowCards()
-        {  
+        {
             return OrderedCards.ToArray();
         }
     }

@@ -36,14 +36,15 @@ namespace _3.UnoGame
 
         private void RunEachRound(Dictionary<string, int> countCalculate)
         {
-            var topPosition = 2;
-            topPosition = DisplayUno.DisplayCardsOfPlayers(_players, topPosition);
+            var topPosition = DisplayUno.DisplayCardsOfPlayers(_players);
             var targetCard = GetTargetCard(topPosition);
+            DisplayUno.DisplayAllCards(_deck.GetAllCards());
+
             topPosition++;
 
             for (int i = 0; i < _players.Length; i++)
             {
-                Console.Write($"    {_players[i].Name}      ");
+                Console.Write($" {_players[i].Name}    ");
             }
             topPosition += 8;
             for (int i = 0; i < _players.Length; i++)
@@ -52,7 +53,7 @@ namespace _3.UnoGame
                 var count = 0;
                 if (_card == null)
                 {
-                    (_card, count) = duplicateDrawCard(targetCard, _players[i]);
+                    (_card, count) = repeatedDrawCard(targetCard, _players[i]);
                 }
                 _tmpCards.Add(_card);
 
@@ -69,7 +70,7 @@ namespace _3.UnoGame
             Console.ReadKey();
         }
 
-        private (Card, int) duplicateDrawCard(Card targetCard, Player player)
+        private (Card, int) repeatedDrawCard(Card targetCard, Player player)
         {
             var repeatedCount = 0;
             var _card = DrawCard();
@@ -77,10 +78,9 @@ namespace _3.UnoGame
             while (_card.Suit != targetCard.Suit)
             {
                 repeatedCount++;
-                player.Hand.SelectCard(targetCard.Suit);
+                player.AddHandCard(_card);
                 _card = DrawCard();
             }
-            _card = player.Hand.SelectCard(targetCard.Suit);
             return (_card, repeatedCount);
         }
 
@@ -89,7 +89,8 @@ namespace _3.UnoGame
             var targetCard = DrawCard();
             _tmpCards.Add(targetCard);
             topPosition += 1;
-            //DisplayUno.DrawCard(targetCard, 4, topPosition + 1);
+            
+            DisplayUno.DrawCard(targetCard, 4, topPosition + 1);
 
             Console.ResetColor();
             Console.WriteLine();
@@ -119,6 +120,11 @@ namespace _3.UnoGame
         private Card DrawCard()
         {
             Card card = _deck.DrawCard();
+            if (card == null)
+            {
+                var s = "";
+                var cards = _deck.GetAllCards();
+            }
             CheckIfDeckHasCard();
             return card;
         }

@@ -43,6 +43,7 @@
                 if (treasures[i].X == character.X && treasures[i].Y == character.Y)
                 {
                     var state = _treasureGenerator.GetState(treasures[i]);
+                    character.EnterState(state);
                     treasures.RemoveAt(i);
                     break;
                 }
@@ -57,7 +58,9 @@
                 {
                     if (monsters[i].X == treasures[j].X && monsters[i].Y == treasures[j].Y)
                     {
-                        //var treasure = new
+                        var state = _treasureGenerator.GetState(treasures[i]);
+                        monsters[i].EnterState(state);
+                        treasures.RemoveAt(i);
                     }
                 }
             }
