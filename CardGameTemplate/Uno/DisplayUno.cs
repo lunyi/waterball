@@ -44,7 +44,7 @@ namespace CardGame.Uno
             Console.WriteLine();
         }
 
-        internal static int DisplayCardsOfPlayers(IList<Player> players)
+        internal static int DisplayCardsOfPlayers(IList<Player<Suit, Rank>> players)
         {
             var topPosition = 2;
             Console.Clear();
@@ -52,7 +52,7 @@ namespace CardGame.Uno
             {
                 var cards = players[i].Hand.ShowCards();
                 Console.SetCursorPosition(0, topPosition);
-                Console.ForegroundColor = players[i] is HumanPlayer ? ConsoleColor.Blue : ConsoleColor.Yellow;
+                Console.ForegroundColor = players[i] is HumanPlayer<Suit, Rank> ? ConsoleColor.Blue : ConsoleColor.Yellow;
                 Console.WriteLine($"{players[i].Index}: {players[i].Name}");
 
                 for (int j = 0; j < cards.Length; j++)

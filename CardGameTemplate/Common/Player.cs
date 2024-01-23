@@ -1,26 +1,26 @@
 ﻿using CardGame.Common;
 
-namespace CardGame.Poke
-{
-    internal abstract class Player 
+namespace CardGame.Common
+{ 
+    internal abstract class Player<TSuit, TRank>
+        where TSuit : Enum
+        where TRank : Enum
     {
         static protected Random random = new Random();
         private int Point;
         public int Index { get; protected set; }
         public string Name { get; protected set; }
-        public ExchangeHands ExchangeHands { get; protected set; }
-        public Showdown Showdown { get; internal set; }
-        public Hand Hand { get; internal set; }
-        public abstract Card<Suit, Rank> SelectCard();
+        public Hand<TSuit, TRank> Hand { get; internal set; }
+        public abstract Card<TSuit, TRank> SelectCard(TSuit suit);
         public abstract void Naming();
 
         public Player(int index)
         {
-            Hand = new Hand();
+            Hand = new Hand<TSuit, TRank>();
             Index = index;
         }
 
-        public void AddHandCard(Card<Suit, Rank> card)
+        public void AddHandCard(Card<TSuit, TRank> card)
         {
             Hand.AddHandCard(card);
         }
@@ -38,7 +38,9 @@ namespace CardGame.Poke
 
     internal static class PlayerExtensions
     {
-        public static (string[], int) GetFinalWinner(this IList<Player> players)
+        public static (string[], int) GetFinalWinner<TSuit, TRank>(this IList<Player<TSuit,TRank>> players)
+            where TSuit : Enum
+            where TRank : Enum
         {
             var point = players.Max(player => player.GetPoint());
             var playerNames = players.Where(p => p.GetPoint() == point)

@@ -1,13 +1,15 @@
 ﻿using CardGame.Common;
 using System.Numerics;
 
-namespace CardGame.Uno
+namespace CardGame.Common
 {
-    internal class HumanPlayer : Player
+    internal class HumanPlayer<TSuit, TRank> : Player<TSuit, TRank>
+        where TSuit : Enum
+        where TRank : Enum
     {
         public HumanPlayer(int index) : base(index) { }
 
-        public override Card<Suit, Rank> SelectCard(Suit suit)
+        public override Card<TSuit, TRank> SelectCard(TSuit suit)
         {
             return Hand.SelectCard(suit);
         }

@@ -9,9 +9,9 @@ namespace CardGame.Uno
         private List<Card<Suit, Rank>> _tmpCards = new List<Card<Suit, Rank>>();
 
         private IDeck<Suit, Rank> _deck;
-        private Player[] _players;
+        private Player<Suit, Rank>[] _players;
 
-        public UnoGame(IDeck<Suit, Rank> deck, Player[] players)
+        public UnoGame(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players)
         {
             _deck = deck;
             _players = players;
@@ -71,7 +71,7 @@ namespace CardGame.Uno
             Console.ReadKey();
         }
 
-        private (Card<Suit, Rank>, int) repeatedDrawCard(Card<Suit, Rank> targetCard, Player player)
+        private (Card<Suit, Rank>, int) repeatedDrawCard(Card<Suit, Rank> targetCard, Player<Suit, Rank> player)
         {
             var repeatedCount = 0;
             var _card = DrawCard();
@@ -183,7 +183,7 @@ namespace CardGame.Uno
             foreach (var player in _players)
             {
                 player.Naming();
-                player.Hand = new Hand();
+                player.Hand = new Hand<Suit, Rank>();
 
                 for (int i = 0; i < CardCount; i++)
                 {

@@ -31,7 +31,7 @@ namespace CardGame.Poke
 
         private const int Num_Of_Ranks = 13;
         private IDeck<Suit, Rank> _deck;
-        private Player[] _players;
+        private Player<Suit, Rank>[] _players;
 
         public Showdown(IDeck<Suit, Rank> deck, Player[] players)
         {
