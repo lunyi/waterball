@@ -1,25 +1,20 @@
 ﻿using CardGame.Common;
-using System.Numerics;
 
 namespace CardGame.Uno
 {
-    internal class UnoGame
+    internal class UnoGame : Game<Suit, Rank>
     {
         private int CardCount = 5;
         private List<Card<Suit, Rank>> _tmpCards = new List<Card<Suit, Rank>>();
 
-        private IDeck<Suit, Rank> _deck;
-        private Player<Suit, Rank>[] _players;
-
-        public UnoGame(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players)
+        public UnoGame(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players) : base(deck, players)
         {
-            _deck = deck;
-            _players = players;
+
         }
 
-        public void Start()
+        public override void Start()
         {
-            initPlayerCards();
+            initPlayerCards(CardCount);
             var countCalculate = new Dictionary<string, int>();
             var quit = false;
             while (!quit)
@@ -174,21 +169,6 @@ namespace CardGame.Uno
             for (int i = 0; i < players.Length; i++)
             {
                 Console.WriteLine($" {players[i]} ");
-            }
-        }
-        private void initPlayerCards()
-        {
-            _deck.Shuffle();
-
-            foreach (var player in _players)
-            {
-                player.Naming();
-                player.Hand = new Hand<Suit, Rank>();
-
-                for (int i = 0; i < CardCount; i++)
-                {
-                    player.Hand.AddHandCard(_deck.DrawCard());
-                }
             }
         }
     }

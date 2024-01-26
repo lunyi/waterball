@@ -1,7 +1,15 @@
 ﻿using CardGame.Common;
 using CardGame.Poke;
+using CardGame.Uno;
 using System.Text;
-//using CardGame.Uno;
+using PokeHumanPlayer = CardGame.Poke.HumanPlayer;
+using PokeAIPlayer = CardGame.Poke.AIPlayer;
+using UnoHumanPlayer = CardGame.Uno.HumanPlayer;
+using UnoAIPlayer = CardGame.Uno.AIPlayer;
+using PokeSuit = CardGame.Poke.Suit;
+using PokeRank = CardGame.Poke.Rank;
+using UnoSuit = CardGame.Uno.Suit;
+using UnoRank = CardGame.Uno.Rank;
 
 namespace Game
 {
@@ -19,19 +27,23 @@ namespace Game
         static void Main(string[] args)
         {
             InitConsoleSetting();
-            var deck = new Deck<Suit, Rank>();
-            var players = new Player<Suit, Rank>[] { new HumanPlayer<Suit, Rank>(1), new AIPlayer<Suit, Rank>(2), new AIPlayer<Suit, Rank>(3), new AIPlayer<Suit, Rank>(4) };
+            StartShowdown();
+        }
 
-            //var unoGame = new UnoGame(deck, players);
-            //unoGame.Start();
-
-
-            //IDeck deck = new Deck();
-            //var players = new Player[] { new HumanPlayer(1), new AIPlayer(2), new AIPlayer(3), new AIPlayer(4) };
-
+        private static void StartShowdown()
+        {
+            var deck = new Deck<PokeSuit, PokeRank>();
+            var players = new Player<PokeSuit, PokeRank>[] { new PokeHumanPlayer(1), new PokeAIPlayer(2), new PokeAIPlayer(3), new PokeAIPlayer(4) };
             var showdown = new Showdown(deck, players);
             showdown.Start();
+        }
 
+        private static void StartUno()
+        {
+            var deck = new Deck<UnoSuit, UnoRank>();
+            var players = new Player<UnoSuit, UnoRank>[] { new UnoHumanPlayer(1), new UnoAIPlayer(2), new UnoAIPlayer(3), new UnoAIPlayer(4) };
+            var unoGame = new UnoGame(deck, players);
+            unoGame.Start();
         }
     }
 }

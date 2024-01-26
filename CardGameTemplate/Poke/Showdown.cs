@@ -2,7 +2,7 @@
 
 namespace CardGame.Poke
 {
-    internal class Showdown
+    internal class Showdown : Game<Suit, Rank>
     {
         private Dictionary<Suit, string> MapSuit = new Dictionary<Suit, string> 
         {
@@ -30,23 +30,15 @@ namespace CardGame.Poke
         };
 
         private const int Num_Of_Ranks = 13;
-        private IDeck<Suit, Rank> _deck;
-        private Player<Suit, Rank>[] _players;
 
-        public Showdown(IDeck<Suit, Rank> deck, Player[] players)
+        public Showdown(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players) : base(deck, players)
         {
-            _deck = deck;
-            _players = players;
+
         }
 
-        public Player[] GetPlayers()
+        public override void Start() 
         {
-            return _players;
-        }
-
-        public void Start() 
-        {
-            initPlayerCards();
+            initPlayerCards(Num_Of_Ranks);
             runAllRounds();
             displayWinner();
         }
@@ -98,25 +90,6 @@ namespace CardGame.Poke
             var result = $"(The Winner is {winnerString} and the point is {point})\n";
             Console.WriteLine(result);
             Console.ReadKey();
-        }
-
-        private void initPlayerCards()
-        {
-            foreach (var player in _players)
-            {
-                player.Naming();
-                player.Showdown = this;
-            }
-
-            _deck.Shuffle();
-
-            foreach (var player in _players)
-            {
-                for (int i = 0; i < Num_Of_Ranks; i++)
-                {
-                    player.AddHandCard(_deck.DrawCard());
-                }
-            }
-        }       
+        }      
     }
 }

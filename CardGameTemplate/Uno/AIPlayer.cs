@@ -1,10 +1,8 @@
 ﻿using CardGame.Common;
 
-namespace CardGame.Common
+namespace CardGame.Uno
 {
-    internal class AIPlayer<TSuit, TRank> : Player<TSuit, TRank>
-        where TSuit : Enum
-        where TRank : Enum
+    internal class AIPlayer : Player<Suit, Rank>
     {
         public AIPlayer(int index) : base(index) 
         { 
@@ -16,7 +14,12 @@ namespace CardGame.Common
             Name = $"AI Player-{Index}";
         }
 
-        public override Card<TSuit, TRank> SelectCard(TSuit suit)
+        public override Card<Suit, Rank> SelectCard(Suit suit)
+        {
+            return Hand.SelectCard(suit);
+        }
+
+        public override Card<Suit, Rank> SelectCard()
         {
             throw new NotImplementedException();
         }

@@ -1,7 +1,7 @@
-﻿using CardGame.Common;
+﻿using CardGame.Poke;
 
 namespace CardGame.Common
-{ 
+{
     internal abstract class Player<TSuit, TRank>
         where TSuit : Enum
         where TRank : Enum
@@ -10,8 +10,11 @@ namespace CardGame.Common
         private int Point;
         public int Index { get; protected set; }
         public string Name { get; protected set; }
-        public Hand<TSuit, TRank> Hand { get; internal set; }
+        public ExchangeHands ExchangeHands { get; protected set; }
+        public Game<TSuit, TRank>? Game { get; internal set; }
+        public Hand<TSuit, TRank>? Hand { get; internal set; }
         public abstract Card<TSuit, TRank> SelectCard(TSuit suit);
+        public abstract Card<TSuit, TRank> SelectCard();
         public abstract void Naming();
 
         public Player(int index)

@@ -1,15 +1,12 @@
 ﻿using CardGame.Common;
-using System.Numerics;
 
-namespace CardGame.Common
+namespace CardGame.Uno
 {
-    internal class HumanPlayer<TSuit, TRank> : Player<TSuit, TRank>
-        where TSuit : Enum
-        where TRank : Enum
+    internal class HumanPlayer : Player<Suit, Rank>
     {
         public HumanPlayer(int index) : base(index) { }
 
-        public override Card<TSuit, TRank> SelectCard(TSuit suit)
+        public override Card<Suit, Rank> SelectCard(Suit suit)
         {
             return Hand.SelectCard(suit);
         }
@@ -20,6 +17,11 @@ namespace CardGame.Common
             var inputname = Console.ReadLine();
             Name = string.IsNullOrEmpty(inputname) ? "human" : inputname;
             Name = $"{Name}-{Index}";
+        }
+
+        public override Card<Suit, Rank> SelectCard()
+        {
+            throw new NotImplementedException();
         }
     }
 }
