@@ -1,5 +1,4 @@
 ﻿using CardGame.Common;
-using CardGame.Poke;
 
 namespace CardGame.Poke
 {

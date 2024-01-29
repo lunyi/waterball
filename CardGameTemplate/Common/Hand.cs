@@ -5,11 +5,9 @@
         where TRank : Enum
     {
         private List<Card<TSuit, TRank>> Cards = new List<Card<TSuit, TRank>>();
-        private List<Card<TSuit, TRank>> OrderedCards;
         public void AddHandCard(Card<TSuit, TRank> card)
         {
             Cards.Add(card);
-            OrderedCards = SortCards();
         }
 
         public int Size() 
@@ -19,12 +17,12 @@
 
         public Card<TSuit, TRank> SelectCard(dynamic suit)
         {              
-            var card =  OrderedCards.Where(p=>p.Suit == suit).FirstOrDefault();
+            var card = Cards.Where(p=>p.Suit == suit).FirstOrDefault();
             if (card != null)
             {
                 Cards.Remove(card);
             }
-            OrderedCards = SortCards();
+            Cards = SortCards();
             return card;
         }
 
@@ -34,9 +32,10 @@
             {
                 return null;
             }
-
-            var card = OrderedCards[index - 1];
-            OrderedCards.RemoveAt(index - 1);
+            Cards = SortCards();
+            var indexToDelete = index - 1;
+            var card = Cards[indexToDelete];
+            Cards.RemoveAt(indexToDelete);
             return card;
         }
 
@@ -49,7 +48,7 @@
         }
         public Card<TSuit, TRank>[] ShowCards()
         {
-            return OrderedCards.ToArray();
+            return Cards.ToArray();
         }
     }
 }

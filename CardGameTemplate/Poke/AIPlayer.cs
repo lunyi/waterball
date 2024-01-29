@@ -23,7 +23,7 @@ namespace CardGame.Poke
                 if (ifexhange == 0)
                 {
                     var exchangees = Game.GetPlayers()
-                        .Where(p => p.ExchangeHands == null && p.Index != Index)
+                        .Where(p => p.Index != Index)
                         .ToArray();
 
                     ExchangeHands = new ExchangeHands(this, exchangees[random.Next(0, exchangees.Count())]);

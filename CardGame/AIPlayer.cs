@@ -15,7 +15,7 @@
                 if (ifexhange == 0)
                 {
                     var exchangees = Showdown.GetPlayers()
-                        .Where(p => p.ExchangeHands == null && p.Index != Index)
+                        .Where(p => p.Index != Index)
                         .ToArray();
 
                     ExchangeHands = new ExchangeHands(this, exchangees[random.Next(0, exchangees.Count())]);

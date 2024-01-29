@@ -13,7 +13,6 @@ namespace CardGame.Poke
             _exchanger = exchanger;
             _exchangee = exchangee;
             exchange();
-           
         }
 
         private void exchange(bool isback=false)

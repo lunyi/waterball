@@ -29,7 +29,7 @@ namespace CardGame.Poke
             { Rank.King, "K"},
         };
 
-        private const int Num_Of_Ranks = 13;
+        private const int Card_Quantity = 13;
 
         public Showdown(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players) : base(deck, players)
         {
@@ -38,32 +38,34 @@ namespace CardGame.Poke
 
         public override void Start() 
         {
-            initPlayerCards(Num_Of_Ranks);
+            initPlayerCards(Card_Quantity);
             runAllRounds();
             displayWinner();
         }
 
         private void runAllRounds()
         {
-            for (int i = 0; i < Num_Of_Ranks; i++)
+            for (int i = 0; i < Card_Quantity; i++)
             {
                 Console.WriteLine("====================");
                 Console.WriteLine($"Round-{i+1}");
+                Console.WriteLine();
+                Thread.Sleep(100);
                 var rounds = new List<Round>();
                 foreach (var player in _players)
                 {
                     Console.WriteLine($"{player.Name}");
                     var cards = player.Hand.ShowCards();
                     foreach (var c in cards)
-                    { 
-                        Console.Write($" {MapRank[(Rank)c.Rank]}{MapSuit[(Suit)c.Suit]} ");
+                    {
+                        displayCard(c);
                     }
 
                     var card = player.SelectCard();
                     
                     if (card != null)
                     {
-                        Console.Write($" ==> {MapRank[(Rank)card.Rank]}{MapSuit[(Suit)card.Suit]} ");
+                        displayCard(card, "==>");
                         Console.WriteLine();
                         rounds.Add(new Round(player, card));
                     }
@@ -71,6 +73,11 @@ namespace CardGame.Poke
                 
                 compareCard(rounds.ToArray());
             }
+        }
+
+        private void displayCard(Card<Suit, Rank> card, string targetSymbol = "")
+        {
+            Console.Write($" {targetSymbol} {MapRank[card.Rank]}{MapSuit[card.Suit]} ");
         }
 
         private void compareCard(Round[] rounds)
