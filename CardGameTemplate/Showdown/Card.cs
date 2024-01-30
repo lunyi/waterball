@@ -1,7 +1,29 @@
 ﻿using CardGame.Common;
+using CardGame.Uno;
 
-namespace CardGame.Poke
+namespace CardGame.Showdown
 {
+    internal class Card : IComparable<Card>
+    {
+        public Suit Suit { get; }
+        public Rank Rank { get; }
+
+        public Card(Suit suit, Rank rank)
+        {
+            Suit = suit;
+            Rank = rank;
+        }
+
+        public int CompareTo(Card? other)
+        {
+            int rankComparison = Rank.CompareTo(other.Rank);
+            if (rankComparison != 0)
+            {
+                return rankComparison;
+            }
+            return Suit.CompareTo(other.Suit);
+        }
+    }
     internal enum Suit
     {
         Club,
@@ -29,7 +51,7 @@ namespace CardGame.Poke
 
     internal static class CardExtension
     {
-        internal static bool GreatThan(this Card<Rank,Suit> card, Card<Rank, Suit> anotherCard)
+        internal static bool GreatThan(this Card card, Card anotherCard)
         {
             int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
             if (rankComparison != 0)

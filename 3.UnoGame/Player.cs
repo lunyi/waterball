@@ -34,7 +34,7 @@
 
     internal static class PlayerExtensions
     {
-        public static (string[], int) GetFinalWinner(this IList<Player> players)
+        public static (string[], int) GetFinalWinner(this List<Player> players)
         {
             var point = players.Max(player => player.GetPoint());
             var playerNames = players.Where(p => p.GetPoint() == point)

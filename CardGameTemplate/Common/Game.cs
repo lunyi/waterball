@@ -1,15 +1,11 @@
-﻿using CardGame.Uno;
-
-namespace CardGame.Common
+﻿namespace CardGame.Common
 {
-    internal abstract class Game<TSuit, TRank>
-        where TSuit : Enum
-        where TRank : Enum
+    internal abstract class Game<Card>
     {
-        protected readonly IDeck<TSuit, TRank> _deck;
-        protected readonly Player<TSuit, TRank>[] _players;
+        protected readonly Deck<Card> _deck;
+        protected readonly Player<Card>[] _players;
 
-        public Game(IDeck<TSuit, TRank> deck, Player<TSuit, TRank>[] players)
+        public Game(Deck<Card> deck, Player<Card>[] players)
         {
             _deck = deck;
             _players = players;
@@ -36,7 +32,7 @@ namespace CardGame.Common
             }
         }
 
-        public Player<TSuit, TRank>[] GetPlayers()
+        public Player<Card>[] GetPlayers()
         {
             return _players;
         }

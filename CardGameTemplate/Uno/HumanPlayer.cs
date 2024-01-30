@@ -2,7 +2,7 @@
 
 namespace CardGame.Uno
 {
-    internal class HumanPlayer : Player<Suit, Rank>
+    internal class HumanPlayer : Player
     {
         public HumanPlayer(int index) : base(index) { }
 
@@ -17,11 +17,6 @@ namespace CardGame.Uno
             var inputname = Console.ReadLine();
             Name = string.IsNullOrEmpty(inputname) ? "human" : inputname;
             Name = $"{Name}-{Index}";
-        }
-
-        public override Card<Suit, Rank> SelectCard()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CardGame.Uno
 {
-    internal class AIPlayer : Player<Suit, Rank>
+    internal class AIPlayer : Player
     {
         public AIPlayer(int index) : base(index) 
         { 
@@ -14,14 +14,9 @@ namespace CardGame.Uno
             Name = $"AI Player-{Index}";
         }
 
-        public override Card<Suit, Rank> SelectCard(Suit suit)
+        public override Card SelectCard(Suit suit)
         {
             return Hand.SelectCard(suit);
-        }
-
-        public override Card<Suit, Rank> SelectCard()
-        {
-            throw new NotImplementedException();
         }
     }
 }

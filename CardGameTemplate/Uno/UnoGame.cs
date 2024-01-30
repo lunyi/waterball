@@ -2,12 +2,12 @@
 
 namespace CardGame.Uno
 {
-    internal class UnoGame : Game<Suit, Rank>
+    internal class UnoGame : Game<Card>
     {
         private int CardCount = 5;
-        private List<Card<Suit, Rank>> _tmpCards = new List<Card<Suit, Rank>>();
+        private List<Card> _tmpCards = new List<Card>();
 
-        public UnoGame(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players) : base(deck, players)
+        public UnoGame(Deck<Card> deck, Player<Card>[] players) : base(deck, players)
         {
 
         }
@@ -66,7 +66,7 @@ namespace CardGame.Uno
             Console.ReadKey();
         }
 
-        private (Card<Suit, Rank>, int) repeatedDrawCard(Card<Suit, Rank> targetCard, Player<Suit, Rank> player)
+        private (Card, int) repeatedDrawCard(Card targetCard, Player player)
         {
             var repeatedCount = 0;
             var _card = DrawCard();
@@ -80,7 +80,7 @@ namespace CardGame.Uno
             return (_card, repeatedCount);
         }
 
-        private Card<Suit, Rank> GetTargetCard(int topPosition)
+        private Card GetTargetCard(int topPosition)
         {
             var targetCard = DrawCard();
             _tmpCards.Add(targetCard);
@@ -113,7 +113,7 @@ namespace CardGame.Uno
             Console.WriteLine($"排堆的卡片有 {deckCardCount} 張");
             Console.WriteLine($"全部的卡片有 {totalCount} 張");
         }
-        private Card<Suit, Rank> DrawCard()
+        private Card DrawCard()
         {
             var card = _deck.DrawCard();
             if (card == null)

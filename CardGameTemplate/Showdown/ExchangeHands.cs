@@ -1,14 +1,14 @@
 ﻿using CardGame.Common;
 
-namespace CardGame.Poke
+namespace CardGame.Showdown
 {
     internal class ExchangeHands
     {     
         private int countDown = 3;
-        private Player<Suit, Rank>? _exchanger = null;
-        private Player<Suit, Rank>? _exchangee = null;
+        private Player? _exchanger = null;
+        private Player? _exchangee = null;
 
-        public ExchangeHands(Player<Suit, Rank> exchanger, Player<Suit, Rank> exchangee)
+        public ExchangeHands(Player exchanger, Player exchangee)
         {
             _exchanger = exchanger;
             _exchangee = exchangee;

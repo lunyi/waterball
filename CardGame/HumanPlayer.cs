@@ -10,7 +10,7 @@ namespace CardGame
         {
             if (ExchangeHands == null)
             {
-                Console.WriteLine($" , Hi {Name}, which player do you choose to exchange hand?");
+                Console.WriteLine($" ==> Hi {Name}, which player do you choose to exchange hand?");
                 try
                 {
                     var playerIndex = Convert.ToInt32(Console.ReadLine());

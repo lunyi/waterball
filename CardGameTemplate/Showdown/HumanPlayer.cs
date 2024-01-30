@@ -1,8 +1,8 @@
 ﻿using CardGame.Common;
 
-namespace CardGame.Poke
+namespace CardGame.Showdown
 {
-    internal class HumanPlayer : Player<Suit, Rank>
+    internal class HumanPlayer : Player
     {
         private ExchangeHands? ExchangeHands = null;
         public HumanPlayer(int index) : base(index) { }
@@ -15,7 +15,7 @@ namespace CardGame.Poke
             Name = $"{Name}-{Index}";
         }
 
-        public override Card<Suit, Rank> SelectCard()
+        public override Card SelectCard()
         {
             if (ExchangeHands == null)
             {
@@ -40,11 +40,6 @@ namespace CardGame.Poke
             }
 
             return Hand.SelectCard(Hand.Size());
-        }
-
-        public override Card<Suit, Rank> SelectCard(Suit suit)
-        {
-            return Hand.SelectCard(suit);
         }
     }
 }

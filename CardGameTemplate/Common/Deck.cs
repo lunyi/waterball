@@ -1,22 +1,9 @@
 ﻿namespace CardGame.Common
 {
-    internal interface IDeck<TSuit, TRank> 
-        where TRank: Enum 
-        where TSuit: Enum
-    {
-        void Shuffle();
-        void Shuffle(Card<TSuit, TRank>[] cards);
-        Card<TSuit, TRank>? DrawCard();
-        int Size();
-        Card<TSuit, TRank>[] GetAllCards();
-    }
-
-    internal class Deck<TSuit, TRank> : IDeck<TSuit, TRank>
-         where TRank : Enum
-         where TSuit : Enum
+    internal abstract class Deck<Card>
     {
         const int ShuffleIterations = 1000;
-        private List<Card<TSuit, TRank>> _cards;
+        private List<Card> _cards;
         static Random r = new Random();
 
         public Deck()
@@ -24,19 +11,7 @@
             Shuffle();
         }
 
-        private List<Card<TSuit, TRank>> GenerateCards()
-        {
-            var generatedCards = new List<Card<TSuit, TRank>>();
-
-            foreach (var suit in Enum.GetValues(typeof(TSuit)))
-            {
-                foreach (var rank in Enum.GetValues(typeof(TRank)))
-                {
-                    generatedCards.Add(new Card<TSuit, TRank>((TSuit)suit, (TRank)rank));
-                }
-            }
-            return generatedCards;
-        }
+        protected abstract List<Card> GenerateCards();
 
         public void Shuffle()
         {
@@ -44,7 +19,7 @@
             Shuffle(_cards.ToArray());
         }
 
-        public void Shuffle(Card<TSuit, TRank>[] cards)
+        public void Shuffle(Card[] cards)
         {
             for (int times = 0; times < ShuffleIterations; times++)
             {
@@ -57,11 +32,11 @@
             _cards = cards.ToList();
         }
 
-        public Card<TSuit, TRank>? DrawCard()
+        public Card? DrawCard()
         {
             if (_cards.Count == 0)
             {
-                return null;
+                return default;
             }
 
             var index = r.Next(0, _cards.Count - 1);
@@ -76,7 +51,7 @@
             return _cards.Count;
         }
 
-        public Card<TSuit, TRank>[] GetAllCards()
+        public Card[] GetAllCards()
         {
             return _cards.ToArray();
         }

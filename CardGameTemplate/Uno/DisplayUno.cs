@@ -35,7 +35,7 @@ namespace CardGame.Uno
                 { Rank.Ten, "10" }
             };
 
-        internal static void DisplayAllCards(Card<Suit,Rank>[] cards)
+        internal static void DisplayAllCards(Card[] cards)
         {
             foreach (var card in cards)
             {
@@ -44,7 +44,7 @@ namespace CardGame.Uno
             Console.WriteLine();
         }
 
-        internal static int DisplayCardsOfPlayers(IList<Player<Suit, Rank>> players)
+        internal static int DisplayCardsOfPlayers(IList<Player<Card>> players)
         {
             var topPosition = 2;
             Console.Clear();
@@ -57,7 +57,7 @@ namespace CardGame.Uno
 
                 for (int j = 0; j < cards.Length; j++)
                 {
-                    var c = new Card<Suit, Rank>(cards[j].Suit, cards[j].Rank);
+                    var c = new Card(cards[j].Suit, cards[j].Rank);
                     if (j <= 5)
                     {
                         Thread.Sleep(100);
@@ -71,7 +71,7 @@ namespace CardGame.Uno
             return topPosition;
         }
 
-        internal static void DrawCard(Card<Suit, Rank> card, int xcoor, int ycoor)
+        internal static void DrawCard(Card card, int xcoor, int ycoor)
         {
             if (card == null)
             {
@@ -101,7 +101,7 @@ namespace CardGame.Uno
             Console.ResetColor();
         }
 
-        private static void DrawMiddleRow(Card<Suit, Rank> card)
+        private static void DrawMiddleRow(Card card)
         {
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write($"|  {MapRank[card.Rank]}   |");

@@ -1,11 +1,9 @@
 ﻿namespace CardGame.Common
 {
-    internal class Hand<TSuit, TRank>
-        where TSuit : Enum
-        where TRank : Enum
+    internal class Hand<Card>
     {
-        private List<Card<TSuit, TRank>> Cards = new List<Card<TSuit, TRank>>();
-        public void AddHandCard(Card<TSuit, TRank> card)
+        private List<Card> Cards = new List<Card>();
+        public void AddHandCard(Card card)
         {
             Cards.Add(card);
         }
@@ -15,7 +13,7 @@
             return Cards.Count;
         }
 
-        public Card<TSuit, TRank> SelectCard(dynamic suit)
+        public Card SelectCard(dynamic suit)
         {              
             var card = Cards.Where(p=>p.Suit == suit).FirstOrDefault();
             if (card != null)
@@ -26,11 +24,11 @@
             return card;
         }
 
-        public Card<TSuit, TRank> SelectCard(int index)
+        public Card SelectCard(int index)
         {
             if (index == 0)
             {
-                return null;
+                return default;
             }
             Cards = SortCards();
             var indexToDelete = index - 1;
@@ -39,14 +37,14 @@
             return card;
         }
 
-        private List<Card<TSuit, TRank>> SortCards()
+        private List<Card> SortCards()
         {
             return Cards
                 .OrderBy(p => p.Suit)
                 .ThenBy(p => p.Rank).ToList();
 
         }
-        public Card<TSuit, TRank>[] ShowCards()
+        public Card[] ShowCards()
         {
             return Cards.ToArray();
         }

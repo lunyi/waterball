@@ -1,8 +1,6 @@
-﻿using CardGame.Common;
-
-namespace CardGame.Poke
+﻿namespace CardGame.Showdown
 {
-    internal class AIPlayer: Player<Suit, Rank>
+    internal class AIPlayer: Player
     {
         private ExchangeHands? ExchangeHands = null;
         public AIPlayer(int index) : base(index) 
@@ -15,7 +13,7 @@ namespace CardGame.Poke
             Name = $"AI Player-{Index}";
         }
 
-        public override Card<Suit, Rank> SelectCard()
+        public override Card SelectCard()
         {
             if (ExchangeHands == null)
             {
@@ -35,11 +33,6 @@ namespace CardGame.Poke
             }
 
             return Hand.SelectCard(Hand.Size());
-        }
-
-        public override Card<Suit, Rank> SelectCard(Suit suit)
-        {
-            throw new NotImplementedException();
         }
     }
 }

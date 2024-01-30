@@ -1,8 +1,8 @@
 ﻿using CardGame.Common;
 
-namespace CardGame.Poke
+namespace CardGame.Showdown
 {
-    internal class Showdown : Game<Suit, Rank>
+    internal class Showdown : Game<Card>
     {
         private Dictionary<Suit, string> MapSuit = new Dictionary<Suit, string> 
         {
@@ -31,7 +31,7 @@ namespace CardGame.Poke
 
         private const int Card_Quantity = 13;
 
-        public Showdown(IDeck<Suit, Rank> deck, Player<Suit, Rank>[] players) : base(deck, players)
+        public Showdown(Deck<Card> deck, Player<Card>[] players) : base(deck, players)
         {
 
         }
@@ -75,7 +75,7 @@ namespace CardGame.Poke
             }
         }
 
-        private void displayCard(Card<Suit, Rank> card, string targetSymbol = "")
+        private void displayCard(Card card, string targetSymbol = "")
         {
             Console.Write($" {targetSymbol} {MapRank[card.Rank]}{MapSuit[card.Suit]} ");
         }
