@@ -1,4 +1,4 @@
-﻿using CardGame.Common;
+﻿using CardGame.Base;
 using CardGame.Showdown;
 using CardGame.Uno;
 using System.Text;
@@ -7,7 +7,6 @@ using ShowdownDeck = CardGame.Showdown.Deck;
 using ShowdownHumanPlayer = CardGame.Showdown.HumanPlayer;
 using ShowdownPlayer = CardGame.Showdown.Player;
 using UnoAIPlayer = CardGame.Uno.AIPlayer;
-using UnoCard = CardGame.Uno.Card;
 using UnoDeck = CardGame.Uno.Deck;
 using UnoHumanPlayer = CardGame.Uno.HumanPlayer;
 using UnoPlayer = CardGame.Uno.Player;

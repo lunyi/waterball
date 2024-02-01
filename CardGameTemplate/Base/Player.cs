@@ -1,5 +1,5 @@
 ﻿
-namespace CardGame.Common
+namespace CardGame.Base
 {
     internal abstract class Player<Card>
     {

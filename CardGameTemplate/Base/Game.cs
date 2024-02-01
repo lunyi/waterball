@@ -1,4 +1,4 @@
-﻿namespace CardGame.Common
+﻿namespace CardGame.Base
 {
     internal abstract class Game<Card>
     {

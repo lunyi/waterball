@@ -1,4 +1,4 @@
-﻿namespace CardGame.Common
+﻿namespace CardGame.Base
 {
     internal class Hand<Card> : List<Card>
     {
