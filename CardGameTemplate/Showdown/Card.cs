@@ -61,5 +61,4 @@ namespace CardGame.Showdown
             return card.Suit.CompareTo(anotherCard.Suit) == 1;
         }
     }
-
 }

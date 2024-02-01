@@ -5,7 +5,6 @@ namespace CardGame.Showdown
     internal class HumanPlayer : Player
     {
         public HumanPlayer(int index) : base(index) { }
-        private static Random Random = new Random();
         public override void Naming()
         {
             Console.WriteLine("Please input your name.");
