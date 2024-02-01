@@ -15,8 +15,6 @@ namespace Game
 {
     internal class Program
     {
-        private const int playerCount = 4 ;
-
         private static void InitConsoleSetting()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -27,7 +25,7 @@ namespace Game
         static void Main(string[] args)
         {
             InitConsoleSetting();
-            StartShowdown();
+            StartUno();
         }
 
         private static void StartShowdown()

@@ -37,9 +37,14 @@ namespace CardGame.Uno
 
         internal static void DisplayAllCards(Card[] cards)
         {
+            Console.WriteLine();
+            Console.WriteLine();
             foreach (var card in cards)
             {
-                Console.Write($"{MapSuitString[card.Suit]}{MapRank[card.Rank]} ");
+                Console.BackgroundColor = MapSuit[card.Suit];
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write($" {MapRank[card.Rank]} ");
+                Console.ResetColor();
             }
             Console.WriteLine();
         }
@@ -61,7 +66,7 @@ namespace CardGame.Uno
                     if (j <= 5)
                     {
                         Thread.Sleep(100);
-                        DrawCard(c, 2 * j, topPosition + 1);
+                        DrawCard(c, j, topPosition + 1);
                     }
                     
                     Console.ResetColor();
@@ -80,31 +85,10 @@ namespace CardGame.Uno
             int x = xcoor * 8;
             int y = ycoor;
             Console.SetCursorPosition(x, y);
-            Console.WriteLine("_______\n");
             Console.BackgroundColor = MapSuit[card.Suit];
-
-            for (int i = 0; i < 5; i++) 
-            {
-                Console.SetCursorPosition(x, y+1+i);
-                if (i == 2)
-                {
-                    DrawMiddleRow(card);
-                }
-                else if (i == 4)
-                {
-                    Console.Write($"|______|");
-                }
-                else {
-                    Console.Write($"|      |");
-                }
-            }
-            Console.ResetColor();
-        }
-
-        private static void DrawMiddleRow(Card card)
-        {
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write($"|  {MapRank[card.Rank]}   |");
+            Console.Write($" {MapRank[card.Rank]} ");
+            Console.ResetColor();
         }
     }
 }

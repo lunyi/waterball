@@ -1,6 +1,6 @@
 ﻿using YoutobeSubscribe;
 
-namespace ConsoleApp1
+namespace YoutobeSubscribe
 {
     internal class Program
     {

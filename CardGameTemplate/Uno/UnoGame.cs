@@ -33,9 +33,8 @@ namespace CardGame.Uno
         private void RunEachRound(Dictionary<string, int> countCalculate)
         {
             var topPosition = DisplayUno.DisplayCardsOfPlayers(_players);
-            var targetCard = GetTargetCard(topPosition);
             DisplayUno.DisplayAllCards(_deck.GetAllCards());
-
+            var targetCard = GetTargetCard(topPosition);
             topPosition++;
 
             for (int i = 0; i < _players.Length; i++)
@@ -59,7 +58,7 @@ namespace CardGame.Uno
                     countCalculate.Add(_players[i].Name, count);
                 }
 
-                DisplayUno.DrawCard(_card, i * 2, topPosition);
+                DisplayUno.DrawCard(_card, i , topPosition);
                 Console.ResetColor();
             }
 
@@ -100,7 +99,7 @@ namespace CardGame.Uno
             {
                 Console.WriteLine($"{cal.Key} 丟掉的卡片有 {cal.Value} 張");
             }
-
+            Console.WriteLine();
             var totalCount = 0;
             foreach (var player in _players)
             {
@@ -117,11 +116,6 @@ namespace CardGame.Uno
         private Card DrawCard()
         {
             var card = _deck.DrawCard();
-            if (card == null)
-            {
-                var s = "";
-                var cards = _deck.GetAllCards();
-            }
             CheckIfDeckHasCard();
             return card;
         }

@@ -27,21 +27,20 @@
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
-                if (key.KeyChar == '1')
+                switch (key.KeyChar)
                 {
-                    SetupMacro();
-                }
-                else if (key.KeyChar == '2')
-                {
-                    Undo();
-                }
-                else if (key.KeyChar == '3')
-                {
-                    Redo();
-                }
-                else
-                {
-                    ExecuteCommand(key);
+                    case '1':
+                        SetupMacro();
+                        break;
+                    case '2':
+                        Undo();
+                        break;
+                    case '3':
+                        Redo();
+                        break;
+                    default:
+                        ExecuteCommand(key);
+                        break;
                 }
             }
         }

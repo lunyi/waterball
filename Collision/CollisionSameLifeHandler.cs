@@ -14,21 +14,21 @@
 
         }
 
-        public override void Handle(Base source, Base target)
+        public override void Handle(Base start, Base end)
         {
-            if (target == null || target.Key == '\0')
+            if (end == null || end.Key == '\0')
             {
-                Lifes.Add(map[source.Key](target.Index));
-                Lifes.Remove(source);
+                Lifes.Add(map[start.Key](end.Index));
+                Lifes.Remove(start);
             }
-            else if (source.Key == target.Key)
+            else if (start.Key == end.Key)
             {
                 Console.WriteLine("移動失敗");
                 Thread.Sleep(1000);
             }
             else
             {
-                Next?.Handle(source, target);
+                Next?.Handle(start, end);
             }
         }
     }
