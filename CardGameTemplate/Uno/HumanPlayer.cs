@@ -6,11 +6,6 @@ namespace CardGame.Uno
     {
         public HumanPlayer(int index) : base(index) { }
 
-        public override Card<Suit, Rank> SelectCard(Suit suit)
-        {
-            return Hand.SelectCard(suit);
-        }
-
         public override void Naming()
         {
             Console.WriteLine("Please input your name.");

@@ -14,9 +14,9 @@ namespace CardGame.Showdown
         {
             var generatedCards = new List<Card>();
 
-            foreach (var suit in Enum.GetValues(typeof(Suit)))
+            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
-                foreach (var rank in Enum.GetValues(typeof(Rank)))
+                foreach (Rank rank in Enum.GetValues(typeof(Rank)))
                 {
                     generatedCards.Add(new Card(suit, rank));
                 }

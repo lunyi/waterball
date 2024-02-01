@@ -29,23 +29,23 @@ namespace CardGame.Showdown
             { Rank.King, "K"},
         };
 
-        private const int Card_Quantity = 13;
+        private const int Card_Count = 13;
 
-        public Showdown(Deck<Card> deck, Player<Card>[] players) : base(deck, players)
+        public Showdown(Deck deck, Player[] players) : base(deck, players)
         {
 
         }
 
         public override void Start() 
         {
-            initPlayerCards(Card_Quantity);
+            initPlayerCards(Card_Count);
             runAllRounds();
             displayWinner();
         }
 
         private void runAllRounds()
         {
-            for (int i = 0; i < Card_Quantity; i++)
+            for (int i = 0; i < Card_Count; i++)
             {
                 Console.WriteLine("====================");
                 Console.WriteLine($"Round-{i+1}");
@@ -60,14 +60,15 @@ namespace CardGame.Showdown
                     {
                         displayCard(c);
                     }
-
-                    var card = player.SelectCard();
+                    var showdownPlayer = player as Player;
+                    var card = showdownPlayer.SelectCard();
                     
                     if (card != null)
                     {
                         displayCard(card, "==>");
                         Console.WriteLine();
-                        rounds.Add(new Round(player, card));
+                        
+                        rounds.Add(new Round(showdownPlayer, card));
                     }
                 }
                 
@@ -91,12 +92,19 @@ namespace CardGame.Showdown
         private void displayWinner()
         {
             Console.WriteLine();
-            var (winners, point) = _players.GetFinalWinner();
+            var players = _players.OfType<Player>().ToArray();
+
+            var (winners, point) = players.GetFinalWinner();
 
             var winnerString = string.Join(", ", winners);
             var result = $"(The Winner is {winnerString} and the point is {point})\n";
             Console.WriteLine(result);
             Console.ReadKey();
-        }      
+        }
+
+        public override Player<Card>[] GetPlayers()
+        {
+            return _players;
+        }
     }
 }

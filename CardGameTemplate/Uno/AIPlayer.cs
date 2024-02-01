@@ -13,10 +13,5 @@ namespace CardGame.Uno
         { 
             Name = $"AI Player-{Index}";
         }
-
-        public override Card SelectCard(Suit suit)
-        {
-            return Hand.SelectCard(suit);
-        }
     }
 }

@@ -7,7 +7,7 @@ namespace CardGame.Uno
         private int CardCount = 5;
         private List<Card> _tmpCards = new List<Card>();
 
-        public UnoGame(Deck<Card> deck, Player<Card>[] players) : base(deck, players)
+        public UnoGame(Deck deck, Player[] players) : base(deck, players)
         {
 
         }
@@ -45,11 +45,12 @@ namespace CardGame.Uno
             topPosition += 8;
             for (int i = 0; i < _players.Length; i++)
             {
-                var _card = _players[i].Hand.SelectCard(targetCard.Suit);
+                var unoPlayer = _players[i] as Player;
+                var _card = unoPlayer.SelectCard(targetCard);
                 var count = 0;
                 if (_card == null)
                 {
-                    (_card, count) = repeatedDrawCard(targetCard, _players[i]);
+                   (_card, count) = repeatedDrawCard(targetCard, unoPlayer);
                 }
                 _tmpCards.Add(_card);
 
@@ -170,6 +171,11 @@ namespace CardGame.Uno
             {
                 Console.WriteLine($" {players[i]} ");
             }
+        }
+
+        public override Player<Card>[] GetPlayers()
+        {
+            return _players;
         }
     }
 }

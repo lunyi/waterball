@@ -32,9 +32,6 @@
             }
         }
 
-        public Player<Card>[] GetPlayers()
-        {
-            return _players;
-        }
+        public abstract Player<Card>[] GetPlayers();
     }
 }

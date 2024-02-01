@@ -4,9 +4,8 @@ namespace CardGame.Showdown
 {
     internal class HumanPlayer : Player
     {
-        private ExchangeHands? ExchangeHands = null;
         public HumanPlayer(int index) : base(index) { }
-
+        private static Random Random = new Random();
         public override void Naming()
         {
             Console.WriteLine("Please input your name.");
@@ -17,29 +16,12 @@ namespace CardGame.Showdown
 
         public override Card SelectCard()
         {
-            if (ExchangeHands == null)
-            {
-                Console.WriteLine($"Hi {Name}, which player do you choose to exchange hand?");
-                try
-                {
-                    var playerIndex = Convert.ToInt32(Console.ReadLine());
-                    if (playerIndex != Index && playerIndex >= 1 && playerIndex <= 4)
-                    {
-                        var exchangee = Game.GetPlayers().FirstOrDefault(p => p.Index == playerIndex);
-                        ExchangeHands = new ExchangeHands(this, exchangee);
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Invalid parameter");
-                }
-            }
-            else
-            {
-                ExchangeHands.CountDown();
-            }
-
-            return Hand.SelectCard(Hand.Size());
+            var cards = Hand.ShowCards()
+                .OrderByDescending(p=>p.Rank)
+                .ThenByDescending(c=>c.Suit);
+            var card = cards.First();
+            Hand.Remove(card);
+            return card;
         }
     }
 }

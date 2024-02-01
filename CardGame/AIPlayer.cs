@@ -2,6 +2,7 @@
 {
     internal class AIPlayer : Player
     {
+        private static Random _random = new Random();
         public AIPlayer(int index) : base(index) 
         { 
         

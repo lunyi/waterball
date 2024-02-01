@@ -8,7 +8,6 @@ namespace CardGame.Showdown
         {
         }
 
-        public ExchangeHands ExchangeHands { get; protected set; }
         public abstract Card SelectCard();
         public int AddPoint()
         {
@@ -23,7 +22,7 @@ namespace CardGame.Showdown
 
     internal static class PlayerExtensions
     {
-        public static (string[], int) GetFinalWinne(this Player<Card>[] players)
+        public static (string[], int) GetFinalWinner(this Player[]? players)
         {
             var point = players.Max(player => player.GetPoint());
             var playerNames = players.Where(p => p.GetPoint() == point)

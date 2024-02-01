@@ -7,6 +7,13 @@ namespace CardGame.Uno
         {
         }
 
-        public abstract Card SelectCard(Suit suit);
+        public Card SelectCard(Card targetTard)
+        {
+            var cards = Hand.ShowCards();
+            var filterCards = cards.Where(p => p.Suit == targetTard.Suit).ToList();
+            var card = filterCards.First();
+            Hand.Remove(card);
+            return card;
+        }
     }
 }
