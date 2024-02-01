@@ -14,9 +14,8 @@ namespace _3.UnoGame
     internal class Deck : IDeck
     {
         const int Num_Of_Cards = 40;
-        const int Num_Of_Ranks = 10;
         const int ShuffleIterations = 1000;
-        private List<Card> _cards;
+        private Stack<Card> _cards;
         static Random r = new Random();
 
         public Deck()
@@ -40,7 +39,7 @@ namespace _3.UnoGame
 
         public void Shuffle()
         {
-            _cards = GenerateCards();
+            var cards = GenerateCards();
             Shuffle(_cards.ToArray());
         }
 
@@ -54,7 +53,7 @@ namespace _3.UnoGame
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
-            _cards = cards.ToList();
+            _cards = new Stack<Card>(cards);
         }
 
         public Card? DrawCard()
@@ -64,13 +63,9 @@ namespace _3.UnoGame
                 return null;
             }
 
-            var index = r.Next(0, _cards.Count - 1);
-            var card = _cards[index];
-            _cards.RemoveAt(index);
-            return card;
+            return _cards.Pop();
         }
 
-        
         public int Size()
         {
             return _cards.Count;

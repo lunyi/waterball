@@ -1,15 +1,13 @@
-﻿using YoutobeSubscribe;
-
-namespace YoutobeSubscribe
+﻿namespace YoutobeSubscribe
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var pewdiepieChannel = new ChannelObservable("PewDiePie");
-            var waterballChannel = new ChannelObservable("水球軟體學院");
-            var waterballSubscriber = new WaterballSubscriber("水球");
-            var fireballSubscriber = new FireballSubscriber("火球");
+            var pewdiepieChannel = new Youtube("PewDiePie");
+            var waterballChannel = new Youtube("水球軟體學院");
+            var waterballSubscriber = new SubscriberWaterball("水球");
+            var fireballSubscriber = new SubscriberFireball("火球");
 
             waterballSubscriber.Subscribe(waterballChannel);
             waterballSubscriber.Subscribe(pewdiepieChannel);

@@ -3,8 +3,8 @@
     internal abstract class Deck<Card>
     {
         const int ShuffleIterations = 1000;
-        private List<Card> _cards;
-        static Random r = new Random();
+        private Stack<Card> _cards;
+        static Random random = new Random();
 
         public Deck()
         {
@@ -15,8 +15,8 @@
 
         public void Shuffle()
         {
-            _cards = GenerateCards();
-            Shuffle(_cards.ToArray());
+            var cards = GenerateCards();
+            Shuffle(cards.ToArray());
         }
 
         public void Shuffle(Card[] cards)
@@ -25,11 +25,11 @@
             {
                 for (int i = 0; i < cards.Length; i++)
                 {
-                    int secondCardIndex = r.Next(cards.Length);
+                    int secondCardIndex = random.Next(cards.Length);
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
-            _cards = cards.ToList();
+            _cards = new Stack<Card>(cards);
         }
 
         public Card? DrawCard()
@@ -38,11 +38,7 @@
             {
                 return default;
             }
-
-            var index = r.Next(0, _cards.Count - 1);
-            var card = _cards[index];
-            _cards.RemoveAt(index);
-            return card;
+            return _cards.Pop();
         }
 
         

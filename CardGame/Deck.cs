@@ -8,7 +8,7 @@
     internal class Deck : IDeck
     {
         const int ShuffleIterations = 1000;
-        private List<Card> cards;
+        private Stack<Card> _cards;
         static Random r = new Random();
 
         public Deck()
@@ -32,7 +32,7 @@
 
         public void Shuffle() 
         {
-            cards = GenerateCards();
+            var cards = GenerateCards();
             for (int times = 0; times < ShuffleIterations; times++) 
             {
                 for (int i = 0; i < cards.Count; i++)
@@ -41,18 +41,16 @@
                     (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
                 }
             }
+            _cards = new Stack<Card>(cards);
         }
         public Card? DrawCard() 
         {
-            if (cards.Count == 0)
+            if (_cards.Count == 0)
             {
                 return null;
             }
 
-            var index = r.Next(0, cards.Count - 1);
-            var card = cards[index] ;
-            cards.RemoveAt(index);
-            return card;
+            return _cards.Pop();
         }
     }
 }
