@@ -11,6 +11,10 @@ namespace CardGame.Uno
         {
             var cards = Hand.ShowCards();
             var filterCards = cards.Where(p => p.Suit == targetTard.Suit).ToList();
+            if (filterCards.Count == 0)
+            {
+                return null;
+            }
             var card = filterCards.First();
             Hand.Remove(card);
             return card;
