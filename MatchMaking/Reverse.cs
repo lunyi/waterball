@@ -1,9 +1,9 @@
 ﻿namespace MatchMaking
 {
-    internal class Reverse : IMatchMethod
+    internal class Reverse : IMatchStrategy
     {
-        IMatchMethod _method;
-        public Reverse(IMatchMethod method) 
+        IMatchStrategy _method;
+        public Reverse(IMatchStrategy method) 
         {
             _method = method;
         }

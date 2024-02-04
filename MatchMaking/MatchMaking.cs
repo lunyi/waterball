@@ -3,14 +3,14 @@
     internal class MatchMaking
     {
         private readonly Individual[] _individuals;
-        private IMatchMethod _matchMethod;
+        private IMatchStrategy _matchMethod;
         
         public MatchMaking(Individual[] individuals)
         {
             _individuals = individuals;
         }
 
-        public void SetMatchMethod(IMatchMethod matchMethod)
+        public void SetMatchMethod(IMatchStrategy matchMethod)
         {
             _matchMethod = matchMethod;
         }

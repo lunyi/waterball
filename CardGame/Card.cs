@@ -23,19 +23,6 @@
         }
     }
 
-    internal static class CardExtension
-    {
-        internal static bool GreatThan(this Card card, Card anotherCard)
-        {
-            int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
-            if (rankComparison != 0)
-            {
-                return rankComparison == 1;
-            }
-            return card.Suit.CompareTo(anotherCard.Suit) == 1;
-        }
-    }
-
     internal enum Suit
     {
         Club,
