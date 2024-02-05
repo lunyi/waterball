@@ -3,11 +3,11 @@
    
     internal class CollisionHeroFireHandler : CollisionHandler
     {
-        public CollisionHeroFireHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
+        public CollisionHeroFireHandler(List<Sprite> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 
-        public override void Handle(Base start, Base end)
+        public override void Handle(Sprite start, Sprite end)
         {
             if (start.Key == 'H' && end.Key == 'F')
             {
@@ -25,7 +25,7 @@
                 Next?.Handle(start, end);
             }
         }
-        private Hero getHero(Base base_)
+        private Hero getHero(Sprite base_)
         {
             var hero = base_ as Hero;
             hero.Deduct_HP();

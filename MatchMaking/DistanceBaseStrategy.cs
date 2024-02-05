@@ -1,6 +1,6 @@
 ﻿namespace MatchMaking
 {
-    internal class MatchDistanceBased : IMatchStrategy
+    internal class DistanceBaseStrategy : IMatchStrategy
     {
         public Individual[] Match<T>(
             Individual ind, 
