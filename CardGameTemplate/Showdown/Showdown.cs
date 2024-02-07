@@ -1,34 +1,10 @@
 ﻿using CardGame.Base;
+using CardGame.Utils;
 
 namespace CardGame.Showdown
 {
     internal class Showdown : Game<Card>
     {
-        private Dictionary<Suit, string> MapSuit = new Dictionary<Suit, string> 
-        {
-            { Suit.Heart, "H"},
-            { Suit.Diamond, "D"},
-            { Suit.Spade, "S"},
-            { Suit.Club, "C"}
-        };
-
-        private Dictionary<Rank, string> MapRank = new Dictionary<Rank, string>
-        {
-            { Rank.Ace, "A"},
-            { Rank.Two, "2"},
-            { Rank.Three, "3"},
-            { Rank.Four, "4"},
-            { Rank.Five, "5"},
-            { Rank.Six, "6"},
-            { Rank.Seven, "7"},
-            { Rank.Eight, "8"},
-            { Rank.Nine, "9"},
-            { Rank.Ten, "X"},
-            { Rank.Jack, "J"},
-            { Rank.Queen, "Q"},
-            { Rank.King, "K"},
-        };
-
         private const int Card_Count = 13;
 
         public Showdown(Deck deck, Player[] players) : base(deck, players)
@@ -78,7 +54,7 @@ namespace CardGame.Showdown
 
         private void displayCard(Card card, string targetSymbol = "")
         {
-            Console.Write($" {targetSymbol} {MapRank[card.Rank]}{MapSuit[card.Suit]} ");
+            Console.Write($" {targetSymbol} {card.Rank.Description()}{card.Suit.Description()} ");
         }
 
         private void compareCard(Round[] rounds)
@@ -86,7 +62,7 @@ namespace CardGame.Showdown
             var maxCard = rounds.Max(p => p.Card);
             var round = rounds.FirstOrDefault(p => p.Card == maxCard);
             round.Player.AddPoint();
-            Console.WriteLine($"round winner: {round.Player.Name} {MapRank[maxCard.Rank]}{MapSuit[maxCard.Suit]}");
+            Console.WriteLine($"round winner: {round.Player.Name} {maxCard.Rank.Description()}{maxCard.Suit.Description()}");
         }
 
         private void displayWinner()

@@ -1,5 +1,6 @@
 ﻿
 using CardGame.Base;
+using CardGame.Utils;
 
 namespace CardGame.Uno
 {
@@ -13,28 +14,6 @@ namespace CardGame.Uno
                 { Suit.Red,ConsoleColor.Red },
             };
 
-        static Dictionary<Suit, string> MapSuitString = new Dictionary<Suit, string>
-            {
-                { Suit.Blue, "B" },
-                { Suit.Yellow, "Y" },
-                { Suit.Green, "G" },
-                { Suit.Red, "R" },
-            };
-
-        static Dictionary<Rank, string> MapRank = new Dictionary<Rank, string>
-            {
-                { Rank.One, "1" },
-                { Rank.Two, "2" },
-                { Rank.Three, "3" },
-                { Rank.Four, "4" },
-                { Rank.Five, "5" },
-                { Rank.Six, "6" },
-                { Rank.Seven, "7" },
-                { Rank.Eight, "8" },
-                { Rank.Nine, "9" },
-                { Rank.Ten, "10" }
-            };
-
         internal static void DisplayAllCards(Card[] cards)
         {
             Console.WriteLine();
@@ -43,7 +22,7 @@ namespace CardGame.Uno
             {
                 Console.BackgroundColor = MapSuit[card.Suit];
                 Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write($" {MapRank[card.Rank]} ");
+                Console.Write($" {card.Rank.Description()} ");
                 Console.ResetColor();
             }
             Console.WriteLine();
@@ -87,7 +66,7 @@ namespace CardGame.Uno
             Console.SetCursorPosition(x, y);
             Console.BackgroundColor = MapSuit[card.Suit];
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write($" {MapRank[card.Rank]} ");
+            Console.Write($" {card.Rank.Description()} ");
             Console.ResetColor();
         }
     }

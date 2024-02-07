@@ -1,5 +1,5 @@
-﻿using CardGame.Base;
-using CardGame.Uno;
+﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace CardGame.Showdown
 {
@@ -24,41 +24,47 @@ namespace CardGame.Showdown
             return Suit.CompareTo(other.Suit);
         }
     }
+ 
+
     internal enum Suit
     {
+        [Description("C")]
         Club,
+        [Description("D")]
         Diamond,
+        [Description("H")]
         Heart,
+        [Description("S")]
         Spade
     }
 
     internal enum Rank
     {
+        [Description("2")]
         Two = 2,
+        [Description("3")]
         Three,
+        [Description("4")]
         Four,
+        [Description("5")]
         Five,
+        [Description("6")]
         Six,
+        [Description("7")]
         Seven,
+        [Description("8")]
         Eight,
+        [Description("9")]
         Nine,
+        [Description("10")]
         Ten,
+        [Description("J")]
         Jack,
+        [Description("Q")]
         Queen,
+        [Description("K")]
         King,
+        [Description("A")]
         Ace
-    }
-
-    internal static class CardExtension
-    {
-        internal static bool GreatThan(this Card card, Card anotherCard)
-        {
-            int rankComparison = card.Rank.CompareTo(anotherCard.Rank);
-            if (rankComparison != 0)
-            {
-                return rankComparison == 1;
-            }
-            return card.Suit.CompareTo(anotherCard.Suit) == 1;
-        }
     }
 }
