@@ -1,7 +1,7 @@
 ﻿namespace _9.FacadePattern.PrescribeRules
 {
-    internal abstract class PrescribeBase
+    internal interface IPrescribe
     {
-        public abstract Prescription GetPrescribe(string id, string symptions);
+        public Prescription GetPrescribe(string id, string symptions);
     }
 }

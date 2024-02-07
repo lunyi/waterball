@@ -1,0 +1,36 @@
+[
+    {
+      "Id": "A123456789",
+      "Name": "jack",
+      "Gender": "male",
+      "Age": 45,
+      "Height": 167,
+      "Weight": 88,
+      "Cases": [
+        "cough",
+        "headache"
+      ]
+    },
+    {
+      "Id": "A223456789",
+      "Name": "jasmine",
+      "Gender": "female",
+      "Age": 55,
+      "Height": 167,
+      "Weight": 65,
+      "Cases": [
+        "snore"
+      ]
+    },
+    {
+      "Id": "B123456789",
+      "Name": "bob",
+      "Gender": "male",
+      "Age": 65,
+      "Height": 167,
+      "Weight": 72,
+      "Cases": [
+        "sneeze"
+      ]
+    }
+]

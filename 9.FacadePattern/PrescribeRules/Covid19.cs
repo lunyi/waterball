@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _9.FacadePattern.PrescribeRules
 {
-    internal class Covid19 : PrescribeBase
+    internal class Covid19 : IPrescribe
     {
-        public override Prescription GetPrescribe(string id, string symptions)
+        public Prescription GetPrescribe(string id, string symptions)
         {
             throw new NotImplementedException();
         }

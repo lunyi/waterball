@@ -25,22 +25,14 @@
             while (true)
             {
                 display();
-                
+
                 Console.WriteLine("請輸入兩數字, 中間用空白做間隔");
                 var input = Console.ReadLine();
 
                 try
                 {
-                    var inputs = input.Split(' ');
-                    var source = Convert.ToInt32(inputs[0]);
-                    var target = Convert.ToInt32(inputs[1]);
-                    if (!validate(source, target))
-                    {
-                        continue;
-                    }
-
-                    var start = getStarter(source);
-                    var end = getEnder(target);
+                    Sprite start, end;
+                    (start, end) = getUserInput(input);
                     move(start, end);
                 }
                 catch (Exception ex)
@@ -49,11 +41,24 @@
                 }
                 finally { Console.Clear(); }
             }
+
+            (Sprite, Sprite) getUserInput(string input)
+            {
+                var inputs = input.Split(' ');
+                var source = Convert.ToInt32(inputs[0]);
+                var target = Convert.ToInt32(inputs[1]);
+                if (!validate(source, target))
+                {
+                    throw new Exception("input error");
+                }
+
+                return (getStarter(source), getEnder(target));
+            }
         }
 
         private void move(Sprite start, Sprite end)
         {
-            var hander =  new CollisionSameLifeHandler(Lifes, new CollisionWaterFireHandler(Lifes, new CollisionHeroFireHandler(Lifes, new CollisionHeroWaterHandler(Lifes, null))));
+            var hander =  new CollisionSameSpriteHandler(Lifes, new CollisionWaterFireHandler(Lifes, new CollisionHeroFireHandler(Lifes, new CollisionHeroWaterHandler(Lifes, null))));
             hander.Handle(start, end);
         }
 

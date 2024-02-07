@@ -15,6 +15,9 @@ namespace _9.FacadePattern
         public float Height { get; set; }
         [FloatRange(1, 500)]
         public float Weight { get; set; }
+        public List<string> Cases { get; set; }
+
+
     }
 
     internal enum Gender
