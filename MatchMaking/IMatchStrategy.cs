@@ -1,7 +1,7 @@
 ﻿
 namespace MatchMaking
 {
-    internal interface IMatchMethod
+    internal interface IMatchStrategy
     {
         Individual[] Match<T>(
             Individual ind, 

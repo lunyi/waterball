@@ -2,7 +2,7 @@
 
 namespace MatchMaking
 {
-    internal class MatchHabitsBased : IMatchMethod
+    internal class HabitsBaseStrategy : IMatchStrategy
     {
         public Individual[] Match<T>(Individual person, Individual[] individuals, Func<Dictionary<Individual, T>, IOrderedEnumerable<KeyValuePair<Individual, T>>> orderby) where T : struct
         {

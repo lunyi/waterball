@@ -2,11 +2,11 @@
 {
     internal class CollisionHeroWaterHandler : CollisionHandler
     {
-        public CollisionHeroWaterHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
+        public CollisionHeroWaterHandler(List<Sprite> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 
-        public override void Handle(Base start, Base end)
+        public override void Handle(Sprite start, Sprite end)
         {
             if (start.Key == 'W' && end.Key == 'H')
             {
@@ -25,7 +25,7 @@
             }
         }
 
-        private Hero getHero(Base base_)
+        private Hero getHero(Sprite base_)
         {
             var hero = base_ as Hero;
             hero.Add_HP();

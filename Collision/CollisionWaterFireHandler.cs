@@ -2,11 +2,11 @@
 {
     internal class CollisionWaterFireHandler : CollisionHandler
     {
-        public CollisionWaterFireHandler(List<Base> lifes, CollisionHandler next) : base(lifes, next)
+        public CollisionWaterFireHandler(List<Sprite> lifes, CollisionHandler next) : base(lifes, next)
         {
         }
 
-        public override void Handle(Base start, Base end)
+        public override void Handle(Sprite start, Sprite end)
         {
             if ((start.Key == 'W' && end.Key == 'F') || (start.Key == 'F' && end.Key == 'W'))
             {

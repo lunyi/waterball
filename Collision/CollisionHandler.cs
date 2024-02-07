@@ -3,14 +3,14 @@
     internal abstract class CollisionHandler
     {
 
-        protected List<Base> Lifes;
+        protected List<Sprite> Lifes;
         protected CollisionHandler Next;
-        public CollisionHandler(List<Base> lifes, CollisionHandler next) 
+        public CollisionHandler(List<Sprite> lifes, CollisionHandler next) 
         {
             Next = next;
             Lifes = lifes;
         }
 
-        public abstract void Handle(Base source, Base target);
+        public abstract void Handle(Sprite source, Sprite target);
     }
 }

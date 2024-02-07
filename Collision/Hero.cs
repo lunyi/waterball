@@ -1,6 +1,6 @@
 ﻿namespace _4.Collision
 {
-    internal class Hero : Base
+    internal class Hero : Sprite
     {
         private int default_hp = 30;
         public int HP { get; set; }
