@@ -1,5 +1,4 @@
 ﻿using CardGame.Base;
-using CardGame.Utils;
 
 namespace CardGame.Showdown
 {

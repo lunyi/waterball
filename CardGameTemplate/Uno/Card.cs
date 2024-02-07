@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-
 namespace CardGame.Uno
 {
     internal class Card
@@ -48,5 +47,18 @@ namespace CardGame.Uno
         Nine,
         [Description("10")]
         Ten
+    }
+
+    internal static class EnumExtension
+    {
+        public static string Description(this Suit suit)
+        {
+            return Utils.EnumExtension.GetDescription(suit);
+        }
+
+        public static string Description(this Rank rank)
+        {
+            return Utils.EnumExtension.GetDescription(rank);
+        }
     }
 }

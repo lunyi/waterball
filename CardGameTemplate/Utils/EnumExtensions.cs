@@ -8,27 +8,7 @@ namespace CardGame.Utils
 {
     internal static class EnumExtension
     {
-        public static string Description(this Suit suit)
-        {
-            return GetDescription(suit);
-        }
-
-        public static string Description(this Rank rank)
-        {
-            return GetDescription(rank);
-        }
-
-        public static string Description(this UnoSuit suit)
-        {
-            return GetDescription(suit);
-        }
-
-        public static string Description(this UnoRank rank)
-        {
-            return GetDescription(rank);
-        }
-
-        private static string GetDescription<T>(this T enumValue) where T : Enum
+        public static string GetDescription<T>(this T enumValue) where T : Enum
         {
             Type enumType = typeof(T);
             string name = enumValue.ToString();
