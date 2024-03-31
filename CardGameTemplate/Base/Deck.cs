@@ -1,55 +1,42 @@
 ﻿namespace CardGame.Base
 {
-    internal abstract class Deck<Card>
+    internal abstract class Deck<TCard> where TCard : class
     {
-        const int ShuffleIterations = 1000;
-        private Stack<Card> _cards;
-        static Random random = new Random();
+        private const int ShuffleIterations = 1000;
+        private Stack<TCard> _cards;
+        private static Random random = new Random();
 
         public Deck()
         {
+            var cards = GenerateCards();
             Shuffle();
         }
-
-        protected abstract List<Card> GenerateCards();
+        protected abstract List<TCard> GenerateCards();
 
         public void Shuffle()
         {
             var cards = GenerateCards();
-            Shuffle(cards.ToArray());
+            Shuffle(cards);
         }
 
-        public void Shuffle(Card[] cards)
+        public void Shuffle(List<TCard> cards)
         {
-            for (int times = 0; times < ShuffleIterations; times++)
+            for (int n = cards.Count - 1; n > 0; --n)
             {
-                for (int i = 0; i < cards.Length; i++)
-                {
-                    int secondCardIndex = random.Next(cards.Length);
-                    (cards[i], cards[secondCardIndex]) = (cards[secondCardIndex], cards[i]);
-                }
+                int k = random.Next(n + 1);
+                (cards[n], cards[k]) = (cards[k], cards[n]);
             }
-            _cards = new Stack<Card>(cards);
+        }
+        public TCard DrawCard()
+        {
+            return _cards.Count == 0 ? null : _cards.Pop();
         }
 
-        public Card? DrawCard()
-        {
-            if (_cards.Count == 0)
-            {
-                return default;
-            }
-            return _cards.Pop();
-        }
+        public int Size() => _cards.Count;
 
-        
-        public int Size()
-        {
-            return _cards.Count;
-        }
-
-        public Card[] GetAllCards()
-        {
-            return _cards.ToArray();
-        }
+        //public Card[] GetAllCards()
+        //{
+        //    return _cards.ToArray();
+        //}
     }
 }

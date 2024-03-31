@@ -33,7 +33,7 @@ namespace CardGame.Uno
         private void RunEachRound(Dictionary<string, int> countCalculate)
         {
             var topPosition = DisplayUno.DisplayCardsOfPlayers(_players);
-            DisplayUno.DisplayAllCards(_deck.GetAllCards());
+            //DisplayUno.DisplayAllCards(_deck.GetAllCards());
             var targetCard = GetTargetCard(topPosition);
             topPosition++;
 
@@ -128,7 +128,7 @@ namespace CardGame.Uno
             }
             if (_tmpCards.Count > 0)
             {
-                _deck.Shuffle(_tmpCards.ToArray());
+                _deck.Shuffle(_tmpCards.ToList());
                 _tmpCards.Clear();
                 Console.WriteLine();
                 Console.WriteLine("卡片沒了，重新換卡");
